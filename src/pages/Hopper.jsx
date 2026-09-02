@@ -797,7 +797,6 @@ export default function Hopper() {
                         autoComplete="off"
                       />
                     </div>
-                    <div className="hopper-moves" title="Artículos visitados">{moves}</div>
                   </div>
                   <div className="hopper-counter">
                     {filteredLinks.length} de {links.length} enlaces
@@ -867,6 +866,10 @@ export default function Hopper() {
                 </button>
                 <div className="hopper-timer" title={`Tiempo · ${hintsTotal} pista(s) (+30s c/u)`}>
                   {formatTime(seconds)}
+                </div>
+                <div className="hopper-moves-block">
+                  <div className="hopper-moves" title="Movimientos">{moves}</div>
+                  <span className="hopper-moves-label">Movimientos</span>
                 </div>
                 <button
                   className="cviz-btn hopper-secondary"
