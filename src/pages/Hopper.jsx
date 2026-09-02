@@ -268,6 +268,7 @@ export default function Hopper() {
   const [phase, setPhase] = useState('welcome')
   const [wantTutorial, setWantTutorial] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [articleLoading, setArticleLoading] = useState(false)
   const [startInfo, setStartInfo] = useState(null)
   const [targetInfo, setTargetInfo] = useState(null)
   const [currentInfo, setCurrentInfo] = useState(null)
@@ -277,9 +278,14 @@ export default function Hopper() {
   const [search, setSearch] = useState('')
   const [moves, setMoves] = useState(0)
   const [seconds, setSeconds] = useState(0)
+  const [path, setPath] = useState([])
+  const [hintsTotal, setHintsTotal] = useState(0)
   const [hints, setHints] = useState([])
   const [hintsReady, setHintsReady] = useState(false)
   const [canGoBack, setCanGoBack] = useState(false)
+  const [victory, setVictory] = useState(null)
+  const [surrenderPath, setSurrenderPath] = useState(null)
+  const [surrenderStatus, setSurrenderStatus] = useState('loading')
 
   const stateRef = useRef({
     startArticle: null,
@@ -507,7 +513,10 @@ export default function Hopper() {
         setCurrentInfo(sInfo)
         setMoves(0)
         setSeconds(0)
+        setArticleLoading(false)
         setHints([])
+        setPath(fresh.path ? [...fresh.path] : [fresh.startArticle])
+        setHintsTotal(0)
         setHintsReady(false)
         setSurrenderPath(null)
         setSurrenderStatus('loading')
@@ -534,25 +543,9 @@ export default function Hopper() {
 
   const navigateToArticle = useCallback(
     async (title, state) => {
-      setLoading(true)
+      setArticleLoading(true)
       try {
-        const res = await fetchAPI({
-          action: 'query',
-          prop: 'extracts',
-          exintro: '1',
-          explaintext: '1',
-          titles: title,
-        })
-        const pageId = Object.keys(res.query?.pages || {})[0]
-        const page = res.query?.pages?.[pageId]
-        if (!page || page.missing) throw new Error('Artículo no encontrado')
-        const info = {
-          title: page.title,
-          extract: page.extract || 'No hay extracto disponible para este artículo.',
-          universe: 'Desconocido',
-          planet: 'Desconocido',
-        }
-
+        const info = await loadArticleInfo(title)
         if (state.path.length > 1 && title === state.path[state.path.length - 2]) {
           state.path.pop()
         } else {
@@ -565,6 +558,7 @@ export default function Hopper() {
         state.currentArticle = title
         setCurrentInfo(info)
         setCanGoBack(state.path.length > 1)
+        setPath([...state.path])
         await showAvailableLinks(state)
 
         if (title === state.targetArticle) {
@@ -588,21 +582,16 @@ export default function Hopper() {
         console.error('Error al navegar al artículo:', e)
         alert('Error al cargar el artículo. Por favor, intenta de nuevo.')
       }
-      setLoading(false)
+      setArticleLoading(false)
     },
     [showAvailableLinks, stopTimers],
   )
-
-  const [victory, setVictory] = useState(null)
-  const [surrenderPath, setSurrenderPath] = useState(null)
-  const [surrenderStatus, setSurrenderStatus] = useState('loading')
 
   const showHint = useCallback(async (state) => {
     if (secondsRef.current < 30) {
       alert('Las pistas están disponibles después de 30 segundos de juego.')
       return
     }
-    setLoading(true)
     try {
       const backlinks = await getBacklinks(state.targetArticle)
       if (backlinks.length === 0) {
@@ -612,15 +601,14 @@ export default function Hopper() {
         setHints(random.map((link) => ({ type: 'link', article: link, revealed: null })))
       }
       state.hintsUsed++
+      setHintsTotal(state.hintsUsed + state.secondaryHintsUsed)
     } catch (e) {
       console.error('Error al mostrar la pista:', e)
       alert('Error al mostrar la pista. Por favor, intenta de nuevo.')
     }
-    setLoading(false)
   }, [])
 
   const showSecondaryHint = useCallback(async (selectedArticle, state) => {
-    setLoading(true)
     try {
       const links = await getArticleLinks(selectedArticle)
       let revealed = 'No hay enlaces disponibles'
@@ -636,11 +624,11 @@ export default function Hopper() {
         prev.map((h) => (h.type === 'link' && h.article === selectedArticle ? { ...h, revealed } : h)),
       )
       state.secondaryHintsUsed++
+      setHintsTotal(state.hintsUsed + state.secondaryHintsUsed)
     } catch (e) {
       console.error('Error al mostrar la pista secundaria:', e)
       alert('Error al mostrar la pista secundaria. Por favor, intenta de nuevo.')
     }
-    setLoading(false)
   }, [])
 
   const surrender = useCallback(async (state) => {
@@ -688,7 +676,7 @@ export default function Hopper() {
         </div>
       </header>
 
-      {loading && (
+      {loading && phase !== 'playing' && (
         <div className="hopper-loading">
           <div className="hopper-spinner"></div>
           <p>Cargando CopperHopper…</p>
@@ -766,7 +754,7 @@ export default function Hopper() {
             <div className="hopper-article hopper-article-current">
               <span className="hopper-badge">Inicio · Actual</span>
               <h3 className="hopper-article-title">
-                <span>{currentInfo?.title || stateRef.current.currentArticle}</span>
+                <span>{currentInfo?.title}</span>
                 <a
                   className="hopper-external"
                   href={`${WIKI}${encodeURIComponent(currentInfo?.title || '')}`}
@@ -776,60 +764,69 @@ export default function Hopper() {
                   ⧉
                 </a>
               </h3>
-              {currentInfo && (
-                <div className="hopper-meta">
-                  <span className="hopper-chip">{currentInfo.universe}</span>
-                  <span className="hopper-chip">{currentInfo.planet}</span>
+              {articleLoading ? (
+                <div className="hopper-card-loading">
+                  <div className="hopper-spinner small"></div>
+                  <p>Cargando artículo…</p>
                 </div>
-              )}
-              {currentInfo && (
-                <p className="hopper-extract">
-                  {truncateExtract(currentInfo.extract)}
-                </p>
-              )}
-              <div className="hopper-search">
-                <input
-                  type="text"
-                  placeholder="Buscar enlaces..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  autoComplete="off"
-                />
-              </div>
-              <div className="hopper-counter">
-                {filteredLinks.length} de {links.length} enlaces
-              </div>
-              <div className="hopper-links">
-                {!linksReady && <div className="hopper-spinner small"></div>}
-                {linksReady && linkError && (
-                  <div className="hopper-link-error">Error al cargar los enlaces. Intenta de nuevo.</div>
-                )}
-                {linksReady && !linkError && links.length === 0 && (
-                  <div>
-                    <p className="hopper-link-error">No se encontraron enlaces disponibles.</p>
-                    {canGoBack && (
-                      <button
-                        className="cviz-btn hopper-secondary"
-                        type="button"
-                        onClick={() => goBack(stateRef.current)}
-                      >
-                        ← Volver atrás
-                      </button>
-                    )}
+              ) : (
+                <>
+                  {currentInfo && (
+                    <div className="hopper-meta">
+                      <span className="hopper-chip">{currentInfo.universe}</span>
+                      <span className="hopper-chip">{currentInfo.planet}</span>
+                    </div>
+                  )}
+                  {currentInfo && (
+                    <p className="hopper-extract">
+                      {truncateExtract(currentInfo.extract)}
+                    </p>
+                  )}
+                  <div className="hopper-search">
+                    <input
+                      type="text"
+                      placeholder="Buscar enlaces..."
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)}
+                      autoComplete="off"
+                    />
                   </div>
-                )}
-                {filteredLinks.length > 0 &&
-                  filteredLinks.map((link) => (
-                    <button
-                      key={link}
-                      type="button"
-                      className="hopper-link"
-                      onClick={() => navigateToArticle(link, stateRef.current)}
-                    >
-                      {link}
-                    </button>
-                  ))}
-              </div>
+                  <div className="hopper-counter">
+                    {filteredLinks.length} de {links.length} enlaces
+                  </div>
+                  <div className="hopper-links">
+                    {!linksReady && <div className="hopper-spinner small"></div>}
+                    {linksReady && linkError && (
+                      <div className="hopper-link-error">Error al cargar los enlaces. Intenta de nuevo.</div>
+                    )}
+                    {linksReady && !linkError && links.length === 0 && (
+                      <div>
+                        <p className="hopper-link-error">No se encontraron enlaces disponibles.</p>
+                        {canGoBack && (
+                          <button
+                            className="cviz-btn hopper-secondary"
+                            type="button"
+                            onClick={() => goBack(stateRef.current)}
+                          >
+                            ← Volver atrás
+                          </button>
+                        )}
+                      </div>
+                    )}
+                    {filteredLinks.length > 0 &&
+                      filteredLinks.map((link) => (
+                        <button
+                          key={link}
+                          type="button"
+                          className="hopper-link"
+                          onClick={() => navigateToArticle(link, stateRef.current)}
+                        >
+                          {link}
+                        </button>
+                      ))}
+                  </div>
+                </>
+              )}
             </div>
 
             <div className="hopper-article hopper-article-target">
@@ -862,7 +859,7 @@ export default function Hopper() {
                   {hintsReady ? 'Pista' : `Pista en ${Math.max(0, 30 - seconds)}s`}
                 </button>
                 <div className="hopper-moves" title="Movimientos">{moves}</div>
-                <div className="hopper-timer" title={`Tiempo · ${stateRef.current.hintsUsed + stateRef.current.secondaryHintsUsed} pista(s) (+30s c/u)`}>
+                <div className="hopper-timer" title={`Tiempo · ${hintsTotal} pista(s) (+30s c/u)`}>
                   {formatTime(seconds)}
                 </div>
                 <button
@@ -904,10 +901,10 @@ export default function Hopper() {
             </div>
           </div>
 
-          {(stateRef.current.path || []).length > 0 && (
+          {(path || []).length > 0 && (
             <div className="hopper-path-bar">
-              {stateRef.current.path.map((p, i) => (
-                <span key={`${p}-${i}`} className={`hopper-path-item${stateRef.current.targetArticle === p ? ' target' : ''}`}>
+              {path.map((p, i) => (
+                <span key={`${p}-${i}`} className={`hopper-path-item${targetInfo?.title === p ? ' target' : ''}`}>
                   {p}
                 </span>
               ))}
@@ -920,8 +917,8 @@ export default function Hopper() {
         <div className="hopper-card">
           <h3>Te has rendido</h3>
           <p>
-            No has llegado desde <strong>{stateRef.current.startArticle}</strong> hasta{' '}
-            <strong>{stateRef.current.targetArticle}</strong>.
+            No has llegado desde <strong>{startInfo?.title}</strong> hasta{' '}
+            <strong>{targetInfo?.title}</strong>.
           </p>
           {surrenderStatus === 'loading' && (
             <div className="hopper-loading-inline">

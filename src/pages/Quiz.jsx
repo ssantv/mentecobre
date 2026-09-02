@@ -20,13 +20,22 @@ export default function Quiz() {
   const [selectedOption, setSelectedOption] = useState(null)
   const [timeLeft, setTimeLeft] = useState(TIME_PER_QUESTION)
   const [pointsChange, setPointsChange] = useState({ text: '', type: '' })
-  const [soundEnabled, setSoundEnabled] = useState(true)
   const [highScores, setHighScores] = useState([])
 
   const timeLeftRef = useRef(TIME_PER_QUESTION)
   const timerRef = useRef(null)
   const correctSoundRef = useRef(null)
   const incorrectSoundRef = useRef(null)
+
+  const playSound = (audio) => {
+    if (!audio) return
+    try {
+      audio.currentTime = 0
+      audio.play().catch(() => {})
+    } catch {
+      /* sin audio disponible */
+    }
+  }
 
   useEffect(() => {
     const loadQuestions = async () => {
@@ -80,13 +89,6 @@ export default function Quiz() {
     return () => clearInterval(timerRef.current)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase, currentIndex, selectedOption])
-
-  const playSound = (sound) => {
-    if (soundEnabled && sound) {
-      sound.currentTime = 0
-      sound.play().catch((e) => console.log('Error al reproducir sonido:', e))
-    }
-  }
 
   const advance = (finalScore) => {
     setSelectedOption(null)
@@ -179,9 +181,7 @@ export default function Quiz() {
         <div className="cuiz-card cuiz-center">
           <h2>¡Bienvenidos al CopperQuiz!</h2>
           <p className="cuiz-lead">
-            📚 10 preguntas del Cosmere.
-            <br />
-            ⏳ 15 segundos para responder cada una.
+            10 preguntas del Cosmere. 15 segundos para responder cada una.
             <br />
             Tu conocimiento será puesto a prueba... y tu velocidad, también.
             <br />
@@ -193,9 +193,7 @@ export default function Quiz() {
             <br />
             ⏱️ ¡Pero cuidado! El tiempo es un arma de doble filo.⏱️
             <br />
-            Cuanto más rápido aciertes, más ganas.
-            <br />
-            Cuanto más rápido falles, más pierdes.
+            Cuanto más rápido aciertes, más ganas. Cuanto más rápido falles, más pierdes.
             <br />
             <br />
             ¿Estás listo?
@@ -203,27 +201,6 @@ export default function Quiz() {
             ¡Las cotorras te observan!
           </p>
 
-          <div className="cuiz-cotorra">
-            <img
-              src="https://i.ibb.co/Z1c9Qr2J/Cotorra-bailarina.gif"
-              alt="Cotorra bailarina"
-              className="cotorra-gif"
-            />
-          </div>
-
-          <div className="cuiz-sound-toggle">
-            <span className="cuiz-sound-label">
-              {soundEnabled ? '🔊' : '🔇'} Sonidos
-            </span>
-            <button
-              type="button"
-              className={`cviz-switch${soundEnabled ? ' on' : ''}`}
-              onClick={() => setSoundEnabled((s) => !s)}
-              aria-label="Alternar sonidos"
-            >
-              <span className="cviz-thumb"></span>
-            </button>
-          </div>
 
           <button type="button" className="cviz-btn" onClick={startGame}>
             Comenzar
