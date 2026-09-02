@@ -122,7 +122,9 @@ async function getTranslatedArticles() {
 
     const t = translatedData.query?.categorymembers || []
     const p = inProgressData.query?.categorymembers || []
-    return [...t, ...p].filter((m) => !m.title.startsWith('Categoría:')).map((m) => m.title)
+    return [...t, ...p]
+      .map((m) => m.title)
+      .filter((title) => !isDisallowed(title))
   } catch (e) {
     console.error('Error al obtener artículos:', e)
     return popularArticles
@@ -785,14 +787,17 @@ export default function Hopper() {
                       {truncateExtract(currentInfo.extract)}
                     </p>
                   )}
-                  <div className="hopper-search">
-                    <input
-                      type="text"
-                      placeholder="Buscar enlaces..."
-                      value={search}
-                      onChange={(e) => setSearch(e.target.value)}
-                      autoComplete="off"
-                    />
+                  <div className="hopper-toolbar">
+                    <div className="hopper-search">
+                      <input
+                        type="text"
+                        placeholder="Buscar enlaces..."
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        autoComplete="off"
+                      />
+                    </div>
+                    <div className="hopper-moves" title="Artículos visitados">{moves}</div>
                   </div>
                   <div className="hopper-counter">
                     {filteredLinks.length} de {links.length} enlaces
@@ -845,12 +850,11 @@ export default function Hopper() {
                   ⧉
                 </a>
               </h3>
-              <p className="hopper-extract">{truncateExtract(targetInfo.extract)}</p>
-
               <div className="hopper-meta">
                 <span className="hopper-chip">{targetInfo.universe}</span>
                 <span className="hopper-chip">{targetInfo.planet}</span>
               </div>
+              <p className="hopper-extract">{truncateExtract(targetInfo.extract)}</p>
 
               <div className="hopper-stats">
                 <button
@@ -861,7 +865,6 @@ export default function Hopper() {
                 >
                   {hintsReady ? 'Pista' : `Pista en ${Math.max(0, 30 - seconds)}s`}
                 </button>
-                <div className="hopper-moves" title="Movimientos">{moves}</div>
                 <div className="hopper-timer" title={`Tiempo · ${hintsTotal} pista(s) (+30s c/u)`}>
                   {formatTime(seconds)}
                 </div>

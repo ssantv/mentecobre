@@ -305,12 +305,24 @@
 
 /* --- Stats --- */
 
+.hopper-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.6rem;
+}
+
+.hopper-toolbar .hopper-search {
+  flex: 1;
+  margin-bottom: 0;
+}
+
 .hopper-stats {
-  display: grid;
-  grid-template-columns: auto auto 1fr auto;
+  display: flex;
   align-items: center;
   gap: 0.5rem;
   margin-top: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .hopper-moves,
@@ -331,10 +343,13 @@
   align-items: center;
   justify-content: center;
   font-size: 1.3rem;
+  flex-shrink: 0;
 }
 
 .hopper-timer {
   font-size: 1.2rem;
+  flex: 1;
+  text-align: center;
 }
 
 /* --- Pistas --- */
@@ -439,8 +454,8 @@
     padding: 1.25rem;
   }
 
-  .hopper-stats {
-    grid-template-columns: auto 1fr auto;
+  .hopper-toolbar {
+    flex-wrap: wrap;
   }
 
   .hopper-links {
