@@ -864,12 +864,12 @@ export default function Hopper() {
                 >
                   {hintsReady ? 'Pista' : `Pista en ${Math.max(0, 30 - seconds)}s`}
                 </button>
+                <span className="hopper-moves" title="Movimientos">
+                  <span className="hopper-moves-count">{moves}</span>
+                  <span className="hopper-moves-label">{moves === 1 ? 'movimiento' : 'movimientos'}</span>
+                </span>
                 <div className="hopper-timer" title={`Tiempo · ${hintsTotal} pista(s) (+30s c/u)`}>
                   {formatTime(seconds)}
-                </div>
-                <div className="hopper-moves-block">
-                  <div className="hopper-moves" title="Movimientos">{moves}</div>
-                  <span className="hopper-moves-label">Movimientos</span>
                 </div>
                 <button
                   className="cviz-btn hopper-secondary"

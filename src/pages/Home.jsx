@@ -78,15 +78,15 @@ export default function Home() {
           ></div>
           <div className="games-overlay"></div>
           <div className="games-content">
-            <h3>Nuestros juegos</h3>
+            <h3>Nuestro ocio</h3>
             <p>
-              Pása un buen rato con nuestros juegos interactivos basados en el Cosmere,
-              diseñados para poner a prueba tus conocimientos y descubrir nuevos detalles de los
-              mundos de Brandon Sanderson.
+              Pasa un buen rato con nuestros juegos, secciones y proyectos de la
+              comunidad, pensados para el Cosmere y para los mundos de Brandon
+              Sanderson.
             </p>
             <Link className="btn btn-games" to="/juegos">
               <span className="material-symbols-outlined">sports_esports</span>
-              Jugar ahora
+              Entrar al ocio
             </Link>
           </div>
         </div>

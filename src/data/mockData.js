@@ -136,14 +136,104 @@ export const glossary = [
   },
 ]
 
-const universoColores = {
-  cosmere: '#ffb873',
-  'Archivo de las tormentas': '#76d1ff',
-  'Nacidos de la bruma': '#d66e4b',
-  'Mago Frugal': '#8bc34a',
-}
+export const categoria = [
+  {
+    id: 1,
+    es: 'Category:Administration',
+    en: 'Categoría:Administración',
+  },
+  {
+    id: 2,
+    es: 'Category:Aetherbound',
+    en: 'Categoría:Etervínculo',
+  },
+  {
+    id: 3,
+    es: 'Category:Armies',
+    en: 'Categoría:Ejércitos',
+  },
+  {
+    id: 4,
+    es: 'Isles of the Emberdark',
+    en: 'Islas de la Ascuaoscura',
+  },
+  {
+    id: 5,
+    es: 'Category:Worldhoppers',
+    en: 'Categoría:Saltamundos',
+  },
+  {
+    id: 6,
+    es: 'Category:Yolish events',
+    en: 'Categoría:Eventos de Yolen',
+  },
+  {
+    id: 7,
+    es: 'Category:Veden',
+    en: 'Categoría:De Jah Keved',
+  },
+  {
+    id: 8,
+    es: 'Category:Urithiru',
+    en: 'Categoría:Urithiru',
+  },
+]
 
-export function universoColor(universo) {
-  const key = (universo || '').toLowerCase()
-  return universoColores[key] || '#ffb873'
-}
+export const traduccionArticulos = [
+  {
+    id: 1,
+    tituloEn: 'Hemalurgy',
+    tituloEs: 'Hemalurgia',
+    universo: 'Mistborn',
+    traducido: false,
+  },
+  {
+    id: 2,
+    tituloEn: 'Kelsier',
+    tituloEs: 'Kelsier',
+    universo: 'Cosmere',
+    traducido: false,
+  },
+  {
+    id: 3,
+    tituloEn: 'Cognitive Realm',
+    tituloEs: 'Reino Cognitivo',
+    universo: 'Cosmere',
+    traducido: false,
+  },
+  {
+    id: 4,
+    tituloEn: 'Citoverse',
+    tituloEs: 'Citoverso',
+    universo: 'Citoverso',
+    traducido: false,
+  },
+  {
+    id: 5,
+    tituloEn: 'Ire',
+    tituloEs: 'Ire',
+    universo: 'Cosmere',
+    traducido: false,
+  },
+  {
+    id: 6,
+    tituloEn: 'Alcatraz vs. the Evil Librarians',
+    tituloEs: 'Alcatraz contra los Bibliotecarios Malvados',
+    universo: 'Alcatraz',
+    traducido: false,
+  },
+  {
+    id: 7,
+    tituloEn: 'Marasi Colms',
+    tituloEs: 'Marasi Colms',
+    universo: 'Mistborn',
+    traducido: false,
+  },
+  {
+    id: 8,
+    tituloEn: 'Traps',
+    tituloEs: 'Trampas',
+    universo: 'Mistborn',
+    traducido: false,
+  },
+]

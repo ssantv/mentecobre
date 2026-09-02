@@ -320,9 +320,10 @@
 .hopper-stats {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 0.5rem;
   margin-top: 0.75rem;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 .hopper-moves,
@@ -334,38 +335,36 @@
 }
 
 .hopper-moves {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   background: var(--primary);
   color: var(--on-primary-container);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.3rem;
+  border-radius: 9999px;
+  padding: 0.55rem 1.1rem;
   flex-shrink: 0;
+  white-space: nowrap;
 }
 
-.hopper-moves-block {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.25rem;
-  flex-basis: 100%;
-  margin-top: 0.5rem;
+.hopper-moves-count {
+  font-size: 1.3rem;
+  font-weight: 800;
+  line-height: 1;
 }
 
 .hopper-moves-label {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--on-surface-variant);
-  white-space: nowrap;
+  font-size: 0.95rem;
+  font-weight: 800;
 }
 
 .hopper-timer {
   font-size: 1.2rem;
-  flex: 1;
   text-align: center;
+  min-width: 4.5rem;
+}
+
+.hopper-stats .cviz-btn {
+  flex-shrink: 0;
 }
 
 /* --- Pistas --- */

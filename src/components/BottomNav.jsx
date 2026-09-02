@@ -1,15 +1,21 @@
 import { NavLink, Link } from 'react-router-dom'
 import { useThemeMode } from '../theme/useThemeMode'
+import { useAuth } from '../auth/useAuth'
 
 const ITEMS = [
   { to: '/', icon: 'home', label: 'Inicio', end: true },
   { to: '/avance', icon: 'query_stats', label: 'El avance' },
   { to: '/glosario', icon: 'book', label: 'Glosario' },
-  { to: '/juegos', icon: 'sports_esports', label: 'Juegos' },
+  { to: '/juegos', icon: 'sports_esports', label: 'Ocio' },
 ]
 
 export default function BottomNav() {
   const { mode, toggle } = useThemeMode()
+  const { user } = useAuth()
+
+  const sessionLink = user
+    ? { to: '/perfil', label: 'Mi perfil' }
+    : { to: '/login', label: 'Inicia sesión' }
 
   return (
     <nav className="bottom-nav">
@@ -30,9 +36,9 @@ export default function BottomNav() {
         </span>
         <span>{mode === 'light' ? 'Oscuro' : 'Claro'}</span>
       </button>
-      <Link className="bottom-item" to="/login">
+      <Link className="bottom-item" to={sessionLink.to}>
         <span className="material-symbols-outlined">account_circle</span>
-        <span>Inicia sesión</span>
+        <span>{sessionLink.label}</span>
       </Link>
     </nav>
   )
