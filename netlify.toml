@@ -4,3 +4,15 @@
 
 [build.environment]
   NODE_VERSION = "22"
+
+# HTML y rutas SPA: siempre revalidar para no servir versiones viejas cacheadas
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Assets con hash de Vite: cache largo e inmutable
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
