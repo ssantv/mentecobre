@@ -12,8 +12,19 @@
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 2rem;
-  margin-top: 1.5rem;
+  margin: 1.5rem auto 0;
   max-width: 44rem;
+}
+
+.hopper-card-center {
+  text-align: center;
+}
+
+.hopper-card-center ul,
+.hopper-card-center ol {
+  text-align: left;
+  display: inline-block;
+  max-width: 100%;
 }
 
 .hopper-card h2,
@@ -167,6 +178,9 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
+  align-items: stretch;
+  height: calc(100vh - 15rem);
+  min-height: 380px;
 }
 
 @media (min-width: 900px) {
@@ -184,7 +198,8 @@
   padding: 1.25rem;
   display: flex;
   flex-direction: column;
-  max-height: 620px;
+  min-height: 0;
+  height: 100%;
   overflow: hidden;
 }
 
@@ -256,6 +271,8 @@
   grid-template-columns: 1fr 1fr;
   gap: 0.5rem;
   padding-right: 0.25rem;
+  flex: 1;
+  min-height: 120px;
 }
 
 .hopper-link {
@@ -328,7 +345,9 @@
   padding-top: 0.6rem;
   font-size: 0.9rem;
   overflow-y: auto;
-  max-height: 200px;
+  max-height: 220px;
+  flex: 1;
+  min-height: 0;
 }
 
 .hopper-hints h4 {

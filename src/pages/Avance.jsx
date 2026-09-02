@@ -111,11 +111,12 @@ export default function Avance() {
           <p className="chart-sub">Distribución actual de los artículos del proyecto.</p>
           <PieChart
             height={280}
+            margin={{ top: 12, right: 12, bottom: 12, left: 12 }}
             series={[
               {
                 data: pieData,
-                innerRadius: 60,
-                outerRadius: 110,
+                innerRadius: '58%',
+                outerRadius: '78%',
                 paddingAngle: 2,
                 cornerRadius: 6,
               },

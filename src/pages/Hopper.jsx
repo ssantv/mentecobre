@@ -683,12 +683,15 @@ export default function Hopper() {
         </div>
       )}
 
-      {phase === 'welcome' && (
-        <div className="hopper-card">
+      {phase === 'welcome' && !loading && (
+        <div className="hopper-card hopper-card-center">
           <h2>COPPERHOPPER</h2>
+          <h3>¿Qué es CopperHopper?</h3>
           <p>
-            ¡Bienvenide a la nueva versión de CopperHopper! Un juego creado por las cotorras,
-            basado en el WikiRace, y bautizado por El Club de las Tormentas.
+            CopperHopper es un juego de navegación por la Coppermind en español, inspirado en el
+            WikiRace. Empezarás en un artículo de la wiki y tendrás que llegar, artículo a artículo,
+            hasta el artículo objetivo. Cada salto se hace clicando en uno de los enlaces de la
+            página actual. Creado por las cotorras y bautizado por El Club de las Tormentas.
           </p>
           <h3>Novedades en v2:</h3>
           <ul>
@@ -712,8 +715,8 @@ export default function Hopper() {
         </div>
       )}
 
-      {wantTutorial && (
-        <div className="hopper-card">
+      {wantTutorial && !loading && (
+        <div className="hopper-card hopper-card-center">
           <h3>Cómo jugar a CopperHopper</h3>
           <h4>Objetivo</h4>
           <p>
