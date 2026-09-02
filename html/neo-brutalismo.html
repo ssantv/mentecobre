@@ -1,0 +1,399 @@
+<!doctype html>
+
+<html class="light" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Mentecobre</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800;900&amp;family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#884d00",
+              "on-secondary": "#ffefeb",
+              "surface-container-lowest": "#ffffff",
+              "surface-variant": "#dfdcd9",
+              outline: "#787774",
+              "secondary-dim": "#8d310d",
+              "tertiary-dim": "#5e4f00",
+              "on-primary": "#fff0e6",
+              "surface-bright": "#f9f6f3",
+              "surface-container": "#eae8e4",
+              "on-surface-variant": "#5c5b59",
+              "secondary-fixed-dim": "#ffb198",
+              "on-tertiary-container": "#5a4c00",
+              "on-primary-fixed-variant": "#5d3300",
+              "surface-dim": "#d6d4d0",
+              "surface-tint": "#884d00",
+              "primary-container": "#fea13b",
+              "inverse-on-surface": "#9e9d9a",
+              "inverse-primary": "#fea13b",
+              "outline-variant": "#afadaa",
+              "on-surface": "#2f2f2d",
+              "on-error-container": "#520c00",
+              error: "#b02500",
+              tertiary: "#6b5b00",
+              "secondary-container": "#ffc4b2",
+              "on-secondary-fixed-variant": "#8f320e",
+              "on-secondary-container": "#822905",
+              "on-secondary-fixed": "#631b00",
+              "on-tertiary-fixed": "#453900",
+              "surface-container-high": "#e4e2df",
+              "surface-container-highest": "#dfdcd9",
+              "tertiary-container": "#f9d940",
+              "on-tertiary": "#fff2ca",
+              "surface-container-low": "#f3f0ed",
+              surface: "#f9f6f3",
+              "primary-fixed-dim": "#ee942f",
+              background: "#f9f6f3",
+              "secondary-fixed": "#ffc4b2",
+              "error-container": "#f95630",
+              "error-dim": "#b92902",
+              "tertiary-fixed": "#f9d940",
+              "primary-dim": "#774300",
+              "on-background": "#2f2f2d",
+              secondary: "#9d3c19",
+              "on-tertiary-fixed-variant": "#655500",
+              "on-primary-container": "#512c00",
+              "primary-fixed": "#fea13b",
+              "inverse-surface": "#0e0e0d",
+              "tertiary-fixed-dim": "#eacb32",
+              "on-primary-fixed": "#301800",
+              "on-error": "#ffefec",
+            },
+            borderRadius: {
+              DEFAULT: "0px",
+              lg: "0px",
+              xl: "0px",
+              full: "9999px",
+            },
+            fontFamily: {
+              headline: ["Plus Jakarta Sans"],
+              body: ["Space Grotesk"],
+              label: ["Space Grotesk"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      body {
+        background-color: #f9f6f3;
+        color: #0e0e0d;
+      }
+      .neo-shadow {
+        box-shadow: 4px 4px 0px 0px rgba(14, 14, 13, 1);
+      }
+      .neo-shadow-lg {
+        box-shadow: 8px 8px 0px 0px rgba(14, 14, 13, 1);
+      }
+      .neo-shadow-hover:hover {
+        transform: translate(-4px, -4px);
+        box-shadow: 12px 12px 0px 0px rgba(14, 14, 13, 1);
+      }
+      .neo-shadow-active:active {
+        transform: translate(4px, 4px);
+        box-shadow: 0px 0px 0px 0px rgba(14, 14, 13, 1);
+      }
+    </style>
+  </head>
+  <body
+    class="font-body selection:bg-primary-container selection:text-on-primary-container"
+  >
+    <!-- TopNavBar -->
+    <nav
+      class="bg-[#f9f6f3] dark:bg-[#0e0e0d] border-b-4 border-[#0e0e0d] dark:border-[#f9f6f3] shadow-[4px_4px_0px_0px_rgba(14,14,13,1)] dark:shadow-[4px_4px_0px_0px_rgba(249,246,243,1)] flex justify-between items-center w-full px-6 py-4 sticky top-0 z-[100]"
+    >
+      <div class="flex items-center gap-8">
+        <span
+          class="text-2xl font-black text-[#0e0e0d] dark:text-[#f9f6f3] uppercase italic font-headline"
+          >MENTECOBRE</span
+        >
+        <div class="hidden md:flex gap-6 items-center">
+          <a
+            class="font-headline font-black uppercase tracking-tighter text-[#fea13b] underline decoration-4 underline-offset-4"
+            href="#"
+            >Inicio</a
+          >
+          <a
+            class="font-headline font-black uppercase tracking-tighter text-[#0e0e0d] dark:text-[#f9f6f3] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_rgba(14,14,13,1)] transition-all"
+            href="#"
+            >El avance</a
+          >
+          <a
+            class="font-headline font-black uppercase tracking-tighter text-[#0e0e0d] dark:text-[#f9f6f3] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_rgba(14,14,13,1)] transition-all"
+            href="#"
+            >Glosario</a
+          >
+          
+          <a
+            class="font-headline font-black uppercase tracking-tighter text-[#0e0e0d] dark:text-[#f9f6f3] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_rgba(14,14,13,1)] transition-all"
+            href="#"
+            >Juegos</a
+          >
+        </div>
+      </div>
+      <div class="flex items-center gap-4">
+        <a
+            class="font-headline font-black uppercase tracking-tighter text-[#0e0e0d] dark:text-[#f9f6f3] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_rgba(14,14,13,1)] transition-all"
+            href="#"
+            >Únete al equipo</a
+          >
+        <button
+          class="bg-primary-container text-on-primary-container border-2 border-on-surface px-6 py-2 font-black uppercase tracking-tighter hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(14,14,13,1)] transition-all active:translate-x-1 active:translate-y-1 active:shadow-none"
+        >
+          INICIA SESIÓN
+        </button>
+      </div>
+    </nav>
+    <main class="max-w-7xl mx-auto pt-12 md:pt-24 pb-32">
+      <!-- Hero Section -->
+      <div class="grid grid-cols-1 md:grid-cols-12 items-center justify-center">
+        <!-- Left Column: Content -->
+        <div class="md:col-span-8 flex flex-col gap-6">
+          <div
+            class="max-w-xl bg-surface p-8 border-4 border-on-surface neo-shadow-lg relative"
+          >
+            
+            <p class="text-xl md:text-2xl font-medium leading-relaxed">
+              Reuniendo fragmentos de sabiduría del
+              <span
+                class="bg-tertiary-container px-1 border-b-2 border-on-surface"
+                >Cosmere</span
+              >
+                para quienes leen y sueñan en español
+            </p>
+          </div>
+          <div class="flex gap-4">
+            <button
+              class="bg-primary text-on-primary border-4 border-on-surface px-8 py-4 font-black text-xl uppercase tracking-tighter hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_rgba(14,14,13,1)] transition-all active:translate-x-1 active:translate-y-1 active:shadow-none"
+            >
+              UNETE AL EQUIPO
+            </button>
+            <button
+              class="bg-surface border-4 border-on-surface px-8 py-4 font-black text-xl uppercase tracking-tighter hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_rgba(14,14,13,1)] transition-all active:translate-x-1 active:translate-y-1 active:shadow-none"
+            >
+              NUESTRO GLOSARIO
+            </button>
+          </div>
+        </div>
+        <div class="md:col-span-4 flex flex-col gap-6">
+          <div
+            class="w-75 h-100 p-4 flex items-center justify-center"
+          >
+            <img
+              class="w-56 h-auto object-contain"
+              src="/public/Logo.png"
+            />      
+          </div>
+          <!-- Stats/Brief Card -->
+          <div class="grid grid-cols-2 gap-4">
+            <div
+              class="bg-secondary p-6 border-4 border-on-surface neo-shadow text-on-secondary"
+            >
+              <div class="text-4xl font-black">98.4%</div>
+              <div
+                class="text-xs font-bold uppercase tracking-widest opacity-80"
+              >
+                TRADUCIDO AL ESPAÑOL
+              </div>
+            </div>
+            <div
+              class="bg-tertiary-container p-6 border-4 border-on-surface neo-shadow text-on-tertiary-container"
+            >
+              <div class="text-4xl font-black">70%</div>
+              <div
+                class="text-xs font-bold uppercase tracking-widest opacity-80"
+              >
+                REVISADO
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Progress Chart Section (Asymmetric Layout) -->
+      <div
+        class="mt-32 border-4 border-on-surface bg-surface neo-shadow-lg p-8 md:p-12 relative"
+      >
+        <div
+          class="absolute -top-10 left-8 bg-on-surface text-surface px-6 py-2 font-black uppercase text-xl border-4 border-on-surface"
+        >
+          NUESTRO AVANCE
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+          <div class="lg:col-span-4 flex flex-col justify-center">
+            <h2 class="text-5xl font-headline font-black leading-none mb-6">
+              EVOLUCIÓN <br /><span class="text-secondary italic">MENSUAL</span>
+            </h2>
+            <p class="font-medium text-lg text-on-surface/80">
+              Progreso mensual de traducciones completadas
+            </p>
+            <div class="mt-8 flex flex-col gap-2">
+              <div class="flex items-center gap-3">
+                <div
+                  class="w-4 h-4 bg-primary border-2 border-on-surface"
+                ></div>
+                <span class="text-xs font-black uppercase tracking-tighter"
+                  >TRADUCCIONES</span
+                >
+              </div>
+              <div class="flex items-center gap-3">
+                <div
+                  class="w-4 h-4 bg-secondary border-2 border-on-surface"
+                ></div>
+                <span class="text-xs font-black uppercase tracking-tighter"
+                  >REVISIONES</span
+                >
+              </div>
+            </div>
+          </div>
+          <!-- The High-Contrast Bar Chart -->
+          <div
+            class="lg:col-span-8 h-[400px] flex items-end justify-between gap-4 pt-12 border-b-4 border-l-4 border-on-surface px-4"
+          >
+            <!-- Bar JAN -->
+            <div class="flex-1 flex flex-col items-center group">
+              <div
+                class="w-full bg-secondary border-x-4 border-t-4 border-on-surface transition-all duration-300 group-hover:bg-primary"
+                style="height: 80%"
+              ></div>
+              <span class="mt-4 font-black text-sm">JAN</span>
+            </div>
+            <!-- Bar FEB -->
+            <div class="flex-1 flex flex-col items-center group">
+              <div
+                class="w-full bg-secondary border-x-4 border-t-4 border-on-surface transition-all duration-300 group-hover:bg-primary"
+                style="height: 45%"
+              ></div>
+              <span class="mt-4 font-black text-sm">FEB</span>
+            </div>
+            <!-- Bar MAR -->
+            <div class="flex-1 flex flex-col items-center group">
+              <div
+                class="w-full bg-secondary border-x-4 border-t-4 border-on-surface transition-all duration-300 group-hover:bg-primary"
+                style="height: 40%"
+              ></div>
+              <span class="mt-4 font-black text-sm">MAR</span>
+            </div>
+            <!-- Bar APR -->
+            <div class="flex-1 flex flex-col items-center group">
+              <div
+                class="w-full bg-secondary border-x-4 border-t-4 border-on-surface transition-all duration-300 group-hover:bg-primary"
+                style="height: 65%"
+              ></div>
+              <span class="mt-4 font-black text-sm">APR</span>
+            </div>
+            <!-- Bar MAY -->
+            <div class="flex-1 flex flex-col items-center group">
+              <div
+                class="w-full bg-secondary border-x-4 border-t-4 border-on-surface transition-all duration-300 group-hover:bg-primary"
+                style="height: 80%"
+              ></div>
+              <span class="mt-4 font-black text-sm">MAY</span>
+            </div>
+            <!-- Bar JUN -->
+            <div class="flex-1 flex flex-col items-center group">
+              <div
+                class="w-full bg-primary border-x-4 border-t-4 border-on-surface transition-all duration-300 group-hover:bg-primary-container"
+                style="height: 95%"
+              ></div>
+              <span class="mt-4 font-black text-sm">JUN</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Bento Grid Feature Section -->
+      <div class="mt-32 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div
+          class="md:col-span-2 border-4 border-on-surface p-8 bg-surface-container-low neo-shadow relative overflow-hidden"
+        >
+          
+          <h3 class="text-4xl font-headline font-black uppercase mb-4">
+            SÍGUENOS EN <br />NUESTRAS REDES
+          </h3>
+          <p class="max-w-md font-medium text-lg">
+            Síguenos en nuestras redes sociales para estar al tanto de las últimas actualizaciones, eventos y contenido exclusivo sobre el Cosmere y la comunidad de la mentecobre.
+          </p>
+          <div>
+            <button
+            class="mt-8 text-primary-container font-black flex items-center gap-2 hover:gap-4 transition-all"
+          >
+            ACCESO
+            <span class="material-symbols-outlined">arrow_forward</span>
+          </button>
+            
+          </div>
+        </div>
+        
+        <div
+          class="bg-on-surface text-surface border-4 border-on-surface p-8 neo-shadow"
+        >
+          <h3
+            class="text-3xl font-headline font-black uppercase leading-none mb-4"
+          >
+            NUESTROS <br />JUEGOS
+          </h3>
+          <p class="max-w-md font-medium text-lg">
+            Pása un buen rato con nuestros juegos interactivos basados en el Cosmere, diseñados para poner a prueba tus conocimientos y descubrir nuevos detalles de los mundos de Brandon Sanderson.
+          </p>
+          <button
+            class="mt-8 text-primary-container font-black flex items-center gap-2 hover:gap-4 transition-all"
+          >
+            JUGAR AHORA
+            <span class="material-symbols-outlined">arrow_forward</span>
+          </button>
+        </div>
+      
+      </div>
+    </main>
+    <!-- Footer -->
+    <footer
+      class="bg-on-surface text-surface py-10 px-6 border-t-8 border-primary"
+    >
+      <div
+        class="max-w-7xl mx-auto flex flex-col md:flex-row items-start"
+      >
+        <div>
+          <span
+            class="text-5xl font-headline font-black italic uppercase"
+            >MENTECOBRE</span
+          >
+        </div>
+      </div>
+      <div
+        class="max-w-7xl mx-auto mt-8 pt-8 border-t border-surface/20 text-xs font-bold uppercase tracking-[0.2em] flex justify-between"
+      >
+        <span>© 2021 · 2026 | MENTECOBRE | TODOS LOS DERECHOS RESERVADOS</span>
+        <span class="text-primary-container">SIRAYASTEIN</span>
+      </div>
+    </footer>
+    <!-- Floating Action Button -->
+    <button
+      class="fixed bottom-8 right-8 w-16 h-16 bg-primary text-on-primary border-4 border-on-surface neo-shadow-lg flex items-center justify-center hover:-translate-x-2 hover:-translate-y-2 hover:shadow-[12px_12px_0px_0px_rgba(14,14,13,1)] transition-all z-50"
+    >
+      <span class="material-symbols-outlined text-3xl">chat_bubble</span>
+    </button>
+  </body>
+</html>
