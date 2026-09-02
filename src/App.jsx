@@ -14,6 +14,7 @@ const Quiz = lazy(() => import('./pages/Quiz'))
 const Juegos = lazy(() => import('./pages/Juegos'))
 const Hopper = lazy(() => import('./pages/Hopper'))
 const OcioDetalle = lazy(() => import('./pages/OcioDetalle'))
+const Desolancicos = lazy(() => import('./pages/Desolancicos'))
 
 export default function App() {
   return (
@@ -45,6 +46,7 @@ export default function App() {
           <Route path="/juegos" element={<Juegos />} />
           <Route path="/juegos/quiz" element={<Quiz />} />
           <Route path="/juegos/hopper" element={<Hopper />} />
+          <Route path="/juegos/desolancicos" element={<Desolancicos />} />
           <Route path="/juegos/:slug" element={<OcioDetalle />} />
         </Route>
       </Routes>

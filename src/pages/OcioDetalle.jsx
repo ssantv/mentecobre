@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router-dom'
-import { OCIO } from './Juegos'
+import { OCIO } from '../data/ocio'
 
 export default function OcioDetalle() {
   const { slug } = useParams()
