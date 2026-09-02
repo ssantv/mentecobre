@@ -7,6 +7,9 @@ import Glosario from './pages/Glosario'
 const Avance = lazy(() => import('./pages/Avance'))
 const Proyecto = lazy(() => import('./pages/Proyecto'))
 const Login = lazy(() => import('./pages/Login'))
+const Quiz = lazy(() => import('./pages/Quiz'))
+const Juegos = lazy(() => import('./pages/Juegos'))
+const Hopper = lazy(() => import('./pages/Hopper'))
 
 export default function App() {
   return (
@@ -32,6 +35,9 @@ export default function App() {
           <Route path="/avance" element={<Avance />} />
           <Route path="/proyecto" element={<Proyecto />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/juegos" element={<Juegos />} />
+          <Route path="/juegos/quiz" element={<Quiz />} />
+          <Route path="/juegos/hopper" element={<Hopper />} />
         </Route>
       </Routes>
     </Suspense>

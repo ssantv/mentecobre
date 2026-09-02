@@ -84,10 +84,10 @@ export default function Home() {
               diseñados para poner a prueba tus conocimientos y descubrir nuevos detalles de los
               mundos de Brandon Sanderson.
             </p>
-            <button className="btn btn-games" type="button">
+            <Link className="btn btn-games" to="/juegos">
               <span className="material-symbols-outlined">sports_esports</span>
               Jugar ahora
-            </button>
+            </Link>
           </div>
         </div>
         <div className="games-card">

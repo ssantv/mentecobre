@@ -7,7 +7,7 @@ const NAV_ITEMS = [
   { to: '/glosario', icon: 'book', label: 'Glosario' },
 ]
 
-const AUX_ITEMS = [{ icon: 'sports_esports', label: 'Juegos', href: '#' }]
+const AUX_ITEMS = [{ icon: 'sports_esports', label: 'Juegos', to: '/juegos' }]
 
 const FOOTER_ITEMS = [
   {
@@ -44,12 +44,19 @@ export default function Sidebar() {
             <span>{item.label}</span>
           </NavLink>
         ))}
-        {AUX_ITEMS.map((item) => (
-          <a key={item.label} href={item.href} className="nav-item">
-            <span className="material-symbols-outlined nav-icon">{item.icon}</span>
-            <span>{item.label}</span>
-          </a>
-        ))}
+        {AUX_ITEMS.map((item) =>
+          item.to ? (
+            <Link key={item.label} to={item.to} className="nav-item">
+              <span className="material-symbols-outlined nav-icon">{item.icon}</span>
+              <span>{item.label}</span>
+            </Link>
+          ) : (
+            <a key={item.label} href={item.href} className="nav-item">
+              <span className="material-symbols-outlined nav-icon">{item.icon}</span>
+              <span>{item.label}</span>
+            </a>
+          ),
+        )}
         <img src="/Logo.png" alt="Logo" className="sidebar-logo" />
       </nav>
       <div className="sidebar-footer">
