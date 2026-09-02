@@ -278,6 +278,7 @@ export default function Hopper() {
   const [moves, setMoves] = useState(0)
   const [seconds, setSeconds] = useState(0)
   const [hints, setHints] = useState([])
+  const [hintsReady, setHintsReady] = useState(false)
   const [canGoBack, setCanGoBack] = useState(false)
 
   const stateRef = useRef({
@@ -288,6 +289,8 @@ export default function Hopper() {
     hintsUsed: 0,
     secondaryHintsUsed: 0,
   })
+  const secondsRef = useRef(0)
+  const movesRef = useRef(0)
 
   const linkCache = useRef(new Map())
   const backlinkCache = useRef(new Map())
@@ -442,19 +445,15 @@ export default function Hopper() {
   )
 
   const updateTimer = useCallback(() => {
-    setSeconds((s) => s + 1)
+    secondsRef.current += 1
+    setSeconds(secondsRef.current)
+    if (secondsRef.current >= 30) setHintsReady(true)
   }, [])
 
-  const startTimer = useCallback((state) => {
+  const startTimer = useCallback(() => {
     stopTimers()
-    state.seconds = 0
-    let helpTimeLeft = 30
-    helpTimerRef.current = setInterval(() => {
-      helpTimeLeft--
-      if (helpTimeLeft <= 0) {
-        clearInterval(helpTimerRef.current)
-      }
-    }, 1000)
+    secondsRef.current = 0
+    setSeconds(0)
     timerRef.current = setInterval(() => updateTimer(), 1000)
   }, [stopTimers, updateTimer])
 
@@ -484,7 +483,7 @@ export default function Hopper() {
       linkCache.current.clear()
       backlinkCache.current.clear()
       const fresh = { startArticle: null, targetArticle: null, currentArticle: null, path: [],
-        hintsUsed: 0, secondaryHintsUsed: 0 }
+        hintsUsed: 0, secondaryHintsUsed: 0, optimalPath: null }
       try {
         const translated = await getTranslatedArticles()
         fresh.startArticle = translated[Math.floor(Math.random() * translated.length)]
@@ -501,15 +500,20 @@ export default function Hopper() {
         fresh.path = [fresh.startArticle]
 
         Object.assign(state, fresh)
+        secondsRef.current = 0
+        movesRef.current = 0
         setStartInfo(sInfo)
         setTargetInfo(tInfo)
         setCurrentInfo(sInfo)
         setMoves(0)
         setSeconds(0)
         setHints([])
+        setHintsReady(false)
+        setSurrenderPath(null)
+        setSurrenderStatus('loading')
         setCanGoBack(false)
 
-        startTimer(state)
+        startTimer()
         await showAvailableLinks(state)
         setLoading(false)
         setPhase('playing')
@@ -549,27 +553,32 @@ export default function Hopper() {
           planet: 'Desconocido',
         }
 
+        if (state.path.length > 1 && title === state.path[state.path.length - 2]) {
+          state.path.pop()
+        } else {
+          state.path.push(title)
+        }
+        if (title !== state.currentArticle) {
+          movesRef.current += 1
+          setMoves(movesRef.current)
+        }
         state.currentArticle = title
-        state.path.push(title)
-        state.moves++
-        setMoves(state.moves)
         setCurrentInfo(info)
         setCanGoBack(state.path.length > 1)
         await showAvailableLinks(state)
 
         if (title === state.targetArticle) {
-          const baseTime =
-            state.seconds -
-            (state.hintsUsed + state.secondaryHintsUsed) * 30
-          const penaltyTime = (state.hintsUsed + state.secondaryHintsUsed) * 30
-          const finalTime = state.seconds
+          const hintsUsed = state.hintsUsed + state.secondaryHintsUsed
+          const penaltyTime = hintsUsed * 30
+          const finalTime = secondsRef.current
+          const baseTime = Math.max(0, finalTime - penaltyTime)
           stopTimers()
           setVictory({
             start: state.startArticle,
             target: state.targetArticle,
-            moves: state.moves,
+            moves: movesRef.current,
             baseTime,
-            hints: state.hintsUsed + state.secondaryHintsUsed,
+            hints: hintsUsed,
             penaltyTime,
             finalTime,
           })
@@ -589,6 +598,10 @@ export default function Hopper() {
   const [surrenderStatus, setSurrenderStatus] = useState('loading')
 
   const showHint = useCallback(async (state) => {
+    if (secondsRef.current < 30) {
+      alert('Las pistas están disponibles después de 30 segundos de juego.')
+      return
+    }
     setLoading(true)
     try {
       const backlinks = await getBacklinks(state.targetArticle)
@@ -598,9 +611,7 @@ export default function Hopper() {
         const random = backlinks.sort(() => 0.5 - Math.random()).slice(0, 3)
         setHints(random.map((link) => ({ type: 'link', article: link, revealed: null })))
       }
-      state.seconds += 30
       state.hintsUsed++
-      setSeconds(state.seconds)
     } catch (e) {
       console.error('Error al mostrar la pista:', e)
       alert('Error al mostrar la pista. Por favor, intenta de nuevo.')
@@ -624,9 +635,7 @@ export default function Hopper() {
       setHints((prev) =>
         prev.map((h) => (h.type === 'link' && h.article === selectedArticle ? { ...h, revealed } : h)),
       )
-      state.seconds += 30
       state.secondaryHintsUsed++
-      setSeconds(state.seconds)
     } catch (e) {
       console.error('Error al mostrar la pista secundaria:', e)
       alert('Error al mostrar la pista secundaria. Por favor, intenta de nuevo.')
@@ -657,8 +666,8 @@ export default function Hopper() {
       if (state.path.length > 1) {
         const previous = state.path[state.path.length - 2]
         state.path.pop()
-        state.moves++
-        setMoves(state.moves)
+        movesRef.current += 1
+        setMoves(movesRef.current)
         await navigateToArticle(previous, state)
       }
     },
@@ -754,7 +763,8 @@ export default function Hopper() {
       {phase === 'playing' && startInfo && targetInfo && (
         <div className="hopper-board">
           <div className="hopper-row">
-            <div className="hopper-article">
+            <div className="hopper-article hopper-article-current">
+              <span className="hopper-badge">Inicio · Actual</span>
               <h3 className="hopper-article-title">
                 <span>{currentInfo?.title || stateRef.current.currentArticle}</span>
                 <a
@@ -766,6 +776,12 @@ export default function Hopper() {
                   ⧉
                 </a>
               </h3>
+              {currentInfo && (
+                <div className="hopper-meta">
+                  <span className="hopper-chip">{currentInfo.universe}</span>
+                  <span className="hopper-chip">{currentInfo.planet}</span>
+                </div>
+              )}
               {currentInfo && (
                 <p className="hopper-extract">
                   {truncateExtract(currentInfo.extract)}
@@ -816,7 +832,8 @@ export default function Hopper() {
               </div>
             </div>
 
-            <div className="hopper-article">
+            <div className="hopper-article hopper-article-target">
+              <span className="hopper-badge">Objetivo · Meta</span>
               <h3 className="hopper-article-title">
                 <span>{targetInfo.title}</span>
                 <a
@@ -830,13 +847,24 @@ export default function Hopper() {
               </h3>
               <p className="hopper-extract">{truncateExtract(targetInfo.extract)}</p>
 
+              <div className="hopper-meta">
+                <span className="hopper-chip">{targetInfo.universe}</span>
+                <span className="hopper-chip">{targetInfo.planet}</span>
+              </div>
+
               <div className="hopper-stats">
-                <button className="cviz-btn hopper-secondary" type="button"
-                  onClick={() => showHint(stateRef.current)}>
-                  Pista
+                <button
+                  className="cviz-btn hopper-secondary"
+                  type="button"
+                  disabled={!hintsReady}
+                  onClick={() => showHint(stateRef.current)}
+                >
+                  {hintsReady ? 'Pista' : `Pista en ${Math.max(0, 30 - seconds)}s`}
                 </button>
-                <div className="hopper-moves">{moves}</div>
-                <div className="hopper-timer">{formatTime(seconds)}</div>
+                <div className="hopper-moves" title="Movimientos">{moves}</div>
+                <div className="hopper-timer" title={`Tiempo · ${stateRef.current.hintsUsed + stateRef.current.secondaryHintsUsed} pista(s) (+30s c/u)`}>
+                  {formatTime(seconds)}
+                </div>
                 <button
                   className="cviz-btn hopper-secondary"
                   type="button"
@@ -902,7 +930,17 @@ export default function Hopper() {
             </div>
           )}
           {surrenderStatus === 'path' && surrenderPath && (
-            <div className="hopper-route">{surrenderPath.join(' → ')}</div>
+            <div className="hopper-route">
+              <span className="hopper-route-label">Ruta óptima sugerida</span>
+              {surrenderPath.map((p, i) => (
+                <span key={`${p}-${i}`}>
+                  {i > 0 && <span className="hopper-route-arrow">→</span>}
+                  <a href={`${WIKI}${encodeURIComponent(p)}`} target="_blank" rel="noreferrer">
+                    {p}
+                  </a>
+                </span>
+              ))}
+            </div>
           )}
           {surrenderStatus === 'none' && (
             <p>No hemos podido encontrar una ruta disponible. Pregunta a alguna de las cotorras.</p>
@@ -921,16 +959,34 @@ export default function Hopper() {
       )}
 
       {phase === 'victory' && victory && (
-        <div className="hopper-card">
+        <div className="hopper-card hopper-winning">
+          <div className="hopper-win-icon">🏆</div>
           <h3>¡Felicidades!</h3>
           <p>
             Has llegado desde <strong>{victory.start}</strong> hasta <strong>{victory.target}</strong>{' '}
             en <strong>{victory.moves}</strong> movimientos.
           </p>
-          <p>Tiempo total (sin penalizaciones): <strong>{formatTime(victory.baseTime)}</strong></p>
-          <p>Pistas usadas: <strong>{victory.hints}</strong></p>
-          <p>Penalización por pistas: <strong>{formatTime(victory.penaltyTime)}</strong></p>
-          <p>Tiempo final con penalizaciones: <strong>{formatTime(victory.finalTime)}</strong></p>
+          <div className="hopper-win-grid">
+            <div className="hopper-win-item">
+              <span className="hopper-win-value">{victory.moves}</span>
+              <span className="hopper-win-label">Movimientos</span>
+            </div>
+            <div className="hopper-win-item">
+              <span className="hopper-win-value">{formatTime(victory.baseTime)}</span>
+              <span className="hopper-win-label">Sin pistas</span>
+            </div>
+            <div className="hopper-win-item">
+              <span className="hopper-win-value">{victory.hints}</span>
+              <span className="hopper-win-label">Pistas</span>
+            </div>
+            <div className="hopper-win-item">
+              <span className="hopper-win-value">{formatTime(victory.penaltyTime)}</span>
+              <span className="hopper-win-label">Penalización</span>
+            </div>
+          </div>
+          <p className="hopper-win-final">
+            Tiempo final: <strong>{formatTime(victory.finalTime)}</strong>
+          </p>
           <div className="hopper-actions">
             <button
               className="cviz-btn"
