@@ -17,6 +17,13 @@ const Juegos = lazy(() => import('./pages/Juegos'))
 const Hopper = lazy(() => import('./pages/Hopper'))
 const OcioDetalle = lazy(() => import('./pages/OcioDetalle'))
 const Desolancicos = lazy(() => import('./pages/Desolancicos'))
+const Pasatiempos = lazy(() => import('./pages/Pasatiempos'))
+const Metaldoku = lazy(() => import('./pages/Metaldoku'))
+const OjoDespertante = lazy(() => import('./pages/OjoDespertante'))
+const CopperNews = lazy(() => import('./pages/CopperNews'))
+const CopperRedaccion = lazy(() => import('./pages/CopperRedaccion'))
+const CopperEdiciones = lazy(() => import('./pages/CopperEdiciones'))
+const CopperEdicion = lazy(() => import('./pages/CopperEdicion'))
 
 export default function App() {
   return (
@@ -53,8 +60,16 @@ export default function App() {
           <Route path="/ocio/quiz" element={<Quiz />} />
           <Route path="/ocio/hopper" element={<Hopper />} />
           <Route path="/ocio/desolancicos" element={<Desolancicos />} />
+          <Route path="/ocio/pasatiempos/ojo-despertante" element={<OjoDespertante />} />
+          <Route path="/ocio/pasatiempos/metaldoku" element={<Metaldoku />} />
+          <Route path="/ocio/pasatiempos" element={<Pasatiempos />} />
           <Route path="/ocio/:slug" element={<OcioDetalle />} />
         </Route>
+
+        <Route path="/ocio/coppernews/ediciones/:edicion" element={<CopperEdicion />} />
+        <Route path="/ocio/coppernews/ediciones" element={<CopperEdiciones />} />
+        <Route path="/ocio/coppernews/la-redaccion" element={<CopperRedaccion />} />
+        <Route path="/ocio/coppernews" element={<CopperNews />} />
       </Routes>
     </Suspense>
   )

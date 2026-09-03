@@ -230,6 +230,7 @@ background: var(--surface-container-low);
   padding: 1.5rem 0;
   box-shadow: var(--shadow-sidebar);
   z-index: 50;
+  overflow: hidden;
 }
 
 @media (min-width: 1024px) {
@@ -263,12 +264,18 @@ background: var(--surface-container-low);
 }
 
 .sidebar-logo {
-  width: 25rem;
-  height: 25rem;
+  position: absolute;
+  bottom: 14rem;
+  left: 0;
+  right: 0;
+  width: 15rem;
+  height: 15rem;
   object-fit: contain;
-  margin: 2.5rem auto 0;
+  margin: 0 auto;
   opacity: 0.05;
   filter: brightness(2);
+  pointer-events: none;
+  z-index: -1;
 }
 
 [data-theme='light'] .sidebar-logo {
@@ -496,6 +503,7 @@ background: var(--surface-container-low);
   font-weight: 700;
   font-size: 0.875rem;
   border-radius: 9999px;
+  text-decoration: none;
   transition:
     transform 0.2s,
     background 0.2s,
@@ -1216,6 +1224,12 @@ background: var(--surface-glass-solid);
 .games-content p {
   margin: 0 0 1.5rem;
   color: var(--on-surface-variant);
+}
+
+.games-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }
 
 .social-icon {
@@ -2197,6 +2211,12 @@ body {
 
 .juego-proximamente {
   color: var(--on-surface-variant);
+}
+
+.pasatiempos-back {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
 }
 
 .ocio-detalle {

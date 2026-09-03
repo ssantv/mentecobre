@@ -42,44 +42,44 @@ export default function Sidebar() {
   const roleLabel = user ? ROLES_LABEL[user.role] : null
 
   return (
-    <aside className="sidebar">
-      <div className="sidebar-header">
-        <h1 className="sidebar-title">Mentecobre</h1>
-      </div>
-      <nav className="sidebar-nav">
-        {NAV_ITEMS.map((item) => (
-          <NavLink
-            key={item.to}
-            to={item.to}
-            end={item.end}
-            className={({ isActive }) => `nav-item${isActive ? ' active' : ''}`}
-          >
-            <span className="material-symbols-outlined nav-icon">{item.icon}</span>
-            <span>{item.label}</span>
-          </NavLink>
-        ))}
-        {AUX_ITEMS.map((item) =>
-          item.to ? (
+<aside className="sidebar">
+        <div className="sidebar-header">
+          <h1 className="sidebar-title">Mentecobre</h1>
+        </div>
+        <img src="/Logo.png" alt="" className="sidebar-logo" aria-hidden="true" />
+        <nav className="sidebar-nav">
+          {NAV_ITEMS.map((item) => (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              end={item.end}
+              className={({ isActive }) => `nav-item${isActive ? ' active' : ''}`}
+            >
+              <span className="material-symbols-outlined nav-icon">{item.icon}</span>
+              <span>{item.label}</span>
+            </NavLink>
+          ))}
+          {AUX_ITEMS.map((item) =>
+            item.to ? (
+              <Link key={item.label} to={item.to} className="nav-item">
+                <span className="material-symbols-outlined nav-icon">{item.icon}</span>
+                <span>{item.label}</span>
+              </Link>
+            ) : (
+              <a key={item.label} href={item.href} className="nav-item">
+                <span className="material-symbols-outlined nav-icon">{item.icon}</span>
+                <span>{item.label}</span>
+              </a>
+            ),
+          )}
+          {roleItems.map((item) => (
             <Link key={item.label} to={item.to} className="nav-item">
               <span className="material-symbols-outlined nav-icon">{item.icon}</span>
               <span>{item.label}</span>
             </Link>
-          ) : (
-            <a key={item.label} href={item.href} className="nav-item">
-              <span className="material-symbols-outlined nav-icon">{item.icon}</span>
-              <span>{item.label}</span>
-            </a>
-          ),
-        )}
-        {roleItems.map((item) => (
-          <Link key={item.label} to={item.to} className="nav-item">
-            <span className="material-symbols-outlined nav-icon">{item.icon}</span>
-            <span>{item.label}</span>
-          </Link>
-        ))}
-        <img src="/Logo.png" alt="Logo" className="sidebar-logo" />
-      </nav>
-      <div className="sidebar-footer">
+          ))}
+        </nav>
+        <div className="sidebar-footer">
         {user && roleLabel && (
           <Link to="/perfil" className="sidebar-user">
             <span className="material-symbols-outlined sidebar-user-icon">

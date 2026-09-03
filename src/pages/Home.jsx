@@ -84,10 +84,16 @@ export default function Home() {
               comunidad, pensados para el Cosmere y para los mundos de Brandon
               Sanderson.
             </p>
-            <Link className="btn btn-games" to="/ocio">
-              <span className="material-symbols-outlined">sports_esports</span>
-              Entrar al ocio
-            </Link>
+            <div className="games-actions">
+              <Link className="btn btn-games" to="/ocio">
+                <span className="material-symbols-outlined">group_work</span>
+                Proyectos de ocio
+              </Link>
+              <Link className="btn btn-games" to="/ocio/pasatiempos">
+                <span className="material-symbols-outlined">extension</span>
+                Pasatiempos
+              </Link>
+            </div>
           </div>
         </div>
         <div className="games-card">
