@@ -9,7 +9,7 @@ const NAV_ITEMS = [
   { to: '/glosario', icon: 'book', label: 'Glosario' },
 ]
 
-const AUX_ITEMS = [{ icon: 'sports_esports', label: 'Ocio', to: '/juegos' }]
+const AUX_ITEMS = [{ icon: 'sports_esports', label: 'Ocio', to: '/ocio' }]
 
 const ROLE_ITEMS = {
   traductor: [

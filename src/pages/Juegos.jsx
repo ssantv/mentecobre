@@ -9,12 +9,12 @@ export default function Juegos() {
         <div>
           <h1 className="page-title">Nuestro ocio</h1>
           <p className="page-sub">
-            Pasa un buen rato con los juegos, secciones y proyectos de la comunidad.
+            Pasa un buen rato con las secciones y proyectos de la comunidad.
           </p>
         </div>
       </header>
 
-      <div className="juegos-grid">
+      <div className="ocio-grid">
         {OCIO.map((item) =>
           item.proximamente ? (
             <div key={item.title} className="juego-card glass-panel">

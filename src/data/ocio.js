@@ -1,6 +1,6 @@
 export const OCIO = [
   {
-    to: '/juegos/quiz',
+    to: '/ocio/quiz',
     title: 'CopperQuiz',
     icon: 'quiz',
     description:
@@ -8,7 +8,7 @@ export const OCIO = [
     tag: 'Test de conocimiento',
   },
   {
-    to: '/juegos/hopper',
+    to: '/ocio/hopper',
     title: 'CopperHopper',
     icon: 'travel_explore',
     description:
@@ -16,22 +16,22 @@ export const OCIO = [
     tag: 'Navegación por la wiki',
   },
   {
-    to: '/juegos/desolancicos',
+    to: '/ocio/desolancicos',
     title: 'Desolancicos',
     icon: 'local_fire_department',
   },
   {
-    to: '/juegos/coppernews',
+    to: '/ocio/coppernews',
     title: 'CopperNews',
     icon: 'newsmode',
   },
   {
-    to: '/juegos/cotorraviajes',
+    to: '/ocio/cotorraviajes',
     title: 'CotorraViajes',
     icon: 'flight',
   },
   {
-    to: '/juegos/escuela-monakus',
+    to: '/ocio/escuela-monakus',
     title: 'Escuela Monakus',
     icon: 'school',
   },

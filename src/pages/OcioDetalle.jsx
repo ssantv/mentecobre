@@ -3,7 +3,7 @@ import { OCIO } from '../data/ocio'
 
 export default function OcioDetalle() {
   const { slug } = useParams()
-  const item = OCIO.find((i) => i.to === `/juegos/${slug}`)
+  const item = OCIO.find((i) => i.to === `/ocio/${slug}`)
 
   if (!item) {
     return (
@@ -20,7 +20,7 @@ export default function OcioDetalle() {
           </span>
           <h2 className="login-title">Esta sección no existe</h2>
           <p className="login-text">Vuelve al listado de ocio.</p>
-          <Link className="btn btn-primary btn-lg" to="/juegos">
+          <Link className="btn btn-primary btn-lg" to="/ocio">
             Volver a Ocio
           </Link>
         </div>
@@ -49,7 +49,7 @@ export default function OcioDetalle() {
         <p className="ocio-detalle-aviso">
           Esta sección está en construcción. ¡Vuelve pronto!
         </p>
-        <Link className="btn btn-ghost" to="/juegos">
+        <Link className="btn btn-ghost" to="/ocio">
           Volver a Ocio
         </Link>
       </div>

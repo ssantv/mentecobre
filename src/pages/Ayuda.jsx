@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 export default function Ayuda() {
   return (
     <div>
@@ -5,51 +7,94 @@ export default function Ayuda() {
         <span className="accent-bar"></span>
         <div>
           <h1 className="page-title">Ayuda</h1>
-          <p className="page-sub">
-            Guía rápida de cómo se traduce y cómo se revisa en la Coppermind.
-          </p>
+          <p className="page-sub">Guía de traducción de la Coppermind al español.</p>
         </div>
       </header>
 
-      <div className="proyecto-card glass-panel">
-        <article className="proyecto-body">
-          <p>
-            Toda la traducción y la revisión se hace directamente sobre la
-            propia wiki de la Coppermind. Mentecobre no sustituye ese trabajo:
-            su papel es <strong>organizarlo</strong>. Desde aquí eliges tu
-            artículo, lo marcas y, cuando terminas, avanzas al siguiente paso.
-          </p>
-
-          <h2 className="ayuda-h2">Cómo se traduce</h2>
-          <p>
-            Cada traductor se apunta a uno o varios universos. Con eso,
-            Mentecobre le muestra los artículos que le tocan: primero el que
-            tiene asignado hoy y, debajo, la cola de los siguientes que puede
-            tomar según sus universos.
-          </p>
-          <p>
-            Para traducir un artículo, se edita la página equivalente en la
-            wiki inglesa y se traduce al castellano, siguiendo la
-            <em> terminología y el estilo</em> ya establecidos en el resto de
-            la Coppermind. Cuando está listo, se marca como completado y pasa
-            a la fase de revisión.
-          </p>
-
-          <h2 className="ayuda-h2">Cómo se revisa</h2>
-          <p>
-            Una vez traducido, los revisores dan una segunda pasada al
-            artículo. Revisan el formato y el contenido: que la información sea
-            correcta, que la redacción fluya y que la terminología se mantenga
-            coherente con el resto del proyecto y fiel a la obra de Brandon
-            Sanderson.
-          </p>
-
-          <p className="proyecto-destacado">
-            La clave es siempre la coherencia: un término, una única forma de
-            traducirlo en todo el Cosmere.
-          </p>
-        </article>
+      <div className="advance-note">
+        <span className="material-symbols-outlined">translate</span>
+        <p>
+          Te damos la bienvenida a la guía de traducción de la Coppermind al
+          español. Llevamos ya más de cuatro años traduciendo y trabajando
+          (tanto en artículos como en la web) y, a medida que avanzamos, surgen
+          nuevas necesidades, por lo que nuestros métodos de trabajo también
+          variarán y evolucionarán. Esperamos que esta página sirva como apoyo
+          y herramienta de trabajo y para resolver las dudas más frecuentes que
+          suelen surgir a la hora de llevar a cabo la traducción.
+        </p>
       </div>
+
+      <section className="ayuda-apartados">
+        <h2 className="ayuda-apartados-titulo">Guía del traductor</h2>
+        <p className="ayuda-apartados-sub">
+          Los apartados que te ayudarán a traducir y trabajar en la Coppermind
+          en español.
+        </p>
+
+        <div className="ayuda-grid">
+          <Link to="/ayuda/introduccion" className="ayuda-card glass-panel">
+            <span className="material-symbols-outlined ayuda-card-icon">
+              menu_book
+            </span>
+            <h3 className="ayuda-card-titulo">Introducción</h3>
+            <p className="ayuda-card-texto">
+              Cómo funciona el proyecto, quién lo organiza y cuál es el flujo
+              de trabajo de la traducción.
+            </p>
+          </Link>
+
+          <Link to="/ayuda/como-traducir" className="ayuda-card glass-panel">
+            <span className="material-symbols-outlined ayuda-card-icon">
+              translate
+            </span>
+            <h3 className="ayuda-card-titulo">Cómo traducir</h3>
+            <p className="ayuda-card-texto">
+              Pasos y buenas prácticas para traducir un artículo al castellano.
+            </p>
+          </Link>
+
+          <Link to="/ayuda/como-actualizar" className="ayuda-card glass-panel">
+            <span className="material-symbols-outlined ayuda-card-icon">
+              update
+            </span>
+            <h3 className="ayuda-card-titulo">Cómo actualizar</h3>
+            <p className="ayuda-card-texto">
+              Cómo mantener al día las ediciones y novedades de la Coppermind.
+            </p>
+          </Link>
+
+          <Link to="/ayuda/como-revisar" className="ayuda-card glass-panel">
+            <span className="material-symbols-outlined ayuda-card-icon">
+              fact_check
+            </span>
+            <h3 className="ayuda-card-titulo">Cómo revisar</h3>
+            <p className="ayuda-card-texto">
+              El proceso de revisión para garantizar la coherencia y calidad.
+            </p>
+          </Link>
+
+          <Link to="/ayuda/dudas" className="ayuda-card glass-panel">
+            <span className="material-symbols-outlined ayuda-card-icon">
+              quiz
+            </span>
+            <h3 className="ayuda-card-titulo">Dudas</h3>
+            <p className="ayuda-card-texto">
+              Check de traducción, mayúsculas y minúsculas, formatos de la wiki
+              e imágenes con texto.
+            </p>
+          </Link>
+
+          <Link to="/ayuda/recursos" className="ayuda-card glass-panel">
+            <span className="material-symbols-outlined ayuda-card-icon">
+              star
+            </span>
+            <h3 className="ayuda-card-titulo">Recursos interesantes</h3>
+            <p className="ayuda-card-texto">
+              Periódicos Era 2, Nacidos del metal y Caballeros Radiantes.
+            </p>
+          </Link>
+        </div>
+      </section>
     </div>
   )
 }

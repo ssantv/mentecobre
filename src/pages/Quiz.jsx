@@ -151,9 +151,9 @@ export default function Quiz() {
       <header className="page-header">
         <span className="accent-bar"></span>
         <div>
-          <h1 className="page-title">Nuestros juegos</h1>
+          <h1 className="page-title">Nuestro ocio</h1>
           <p className="page-sub">
-            Pasa un buen rato con nuestros juegos interactivos basados en el
+            Pasa un buen rato con nuestras secciones interactivas basadas en el
             Cosmere.
           </p>
         </div>

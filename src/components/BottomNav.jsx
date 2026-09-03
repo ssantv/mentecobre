@@ -6,7 +6,7 @@ const ITEMS = [
   { to: '/', icon: 'home', label: 'Inicio', end: true },
   { to: '/avance', icon: 'query_stats', label: 'El avance' },
   { to: '/glosario', icon: 'book', label: 'Glosario' },
-  { to: '/juegos', icon: 'sports_esports', label: 'Ocio' },
+  { to: '/ocio', icon: 'sports_esports', label: 'Ocio' },
 ]
 
 export default function BottomNav() {

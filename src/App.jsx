@@ -8,6 +8,8 @@ const Avance = lazy(() => import('./pages/Avance'))
 const Proyecto = lazy(() => import('./pages/Proyecto'))
 const Login = lazy(() => import('./pages/Login'))
 const Ayuda = lazy(() => import('./pages/Ayuda'))
+const AyudaArticulo = lazy(() => import('./pages/AyudaArticulo'))
+const AyudaGrupo = lazy(() => import('./pages/AyudaGrupo'))
 const Perfil = lazy(() => import('./pages/Perfil'))
 const Traduccion = lazy(() => import('./pages/Traduccion'))
 const Quiz = lazy(() => import('./pages/Quiz'))
@@ -41,13 +43,17 @@ export default function App() {
           <Route path="/proyecto" element={<Proyecto />} />
           <Route path="/login" element={<Login />} />
           <Route path="/ayuda" element={<Ayuda />} />
+          <Route path="/ayuda/dudas" element={<AyudaGrupo />} />
+          <Route path="/ayuda/recursos" element={<AyudaGrupo />} />
+          <Route path="/ayuda/:grupo/:slug" element={<AyudaArticulo />} />
+          <Route path="/ayuda/:slug" element={<AyudaArticulo />} />
           <Route path="/perfil" element={<Perfil />} />
           <Route path="/traduccion" element={<Traduccion />} />
-          <Route path="/juegos" element={<Juegos />} />
-          <Route path="/juegos/quiz" element={<Quiz />} />
-          <Route path="/juegos/hopper" element={<Hopper />} />
-          <Route path="/juegos/desolancicos" element={<Desolancicos />} />
-          <Route path="/juegos/:slug" element={<OcioDetalle />} />
+          <Route path="/ocio" element={<Juegos />} />
+          <Route path="/ocio/quiz" element={<Quiz />} />
+          <Route path="/ocio/hopper" element={<Hopper />} />
+          <Route path="/ocio/desolancicos" element={<Desolancicos />} />
+          <Route path="/ocio/:slug" element={<OcioDetalle />} />
         </Route>
       </Routes>
     </Suspense>

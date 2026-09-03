@@ -80,11 +80,11 @@ export default function Home() {
           <div className="games-content">
             <h3>Nuestro ocio</h3>
             <p>
-              Pasa un buen rato con nuestros juegos, secciones y proyectos de la
+              Pasa un buen rato con nuestras secciones y proyectos de la
               comunidad, pensados para el Cosmere y para los mundos de Brandon
               Sanderson.
             </p>
-            <Link className="btn btn-games" to="/juegos">
+            <Link className="btn btn-games" to="/ocio">
               <span className="material-symbols-outlined">sports_esports</span>
               Entrar al ocio
             </Link>
