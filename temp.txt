@@ -1,0 +1,845 @@
+﻿
+// ===== CopperNews â€” datos de las pÃ¡ginas (Inicio, La RedacciÃ³n, Ediciones) =====
+
+import n1_0 from '../assets/images/coppernews/n1-0.png'
+import n1_1 from '../assets/images/coppernews/n1-1.png'
+import n1_2 from '../assets/images/coppernews/n1-2.png'
+import n1_3 from '../assets/images/coppernews/n1-3.jpg'
+import n1_4 from '../assets/images/coppernews/n1-4.png'
+import n2_0 from '../assets/images/coppernews/n2-0.png'
+import n2_1 from '../assets/images/coppernews/n2-1.jpg'
+import n2_2 from '../assets/images/coppernews/n2-2.png'
+import n2_3 from '../assets/images/coppernews/n2-3.jpg'
+import n3_0 from '../assets/images/coppernews/n3-0.png'
+import n3_1 from '../assets/images/coppernews/n3-1.png'
+import n3_2 from '../assets/images/coppernews/n3-2.jpg'
+import n3_3 from '../assets/images/coppernews/n3-3.jpg'
+import n3_4 from '../assets/images/coppernews/n3-4.png'
+import n3_5 from '../assets/images/coppernews/n3-5.png'
+import n3_6 from '../assets/images/coppernews/n3-6.png'
+import n3_7 from '../assets/images/coppernews/n3-7.jpg'
+import n3_8 from '../assets/images/coppernews/n3-8.png'
+
+export const CN_INICIO = [
+  { t: 'p', v: 'Tu fuente confiable de informaciÃ³n a travÃ©s de LOS REINOS', lede: true, center: true },
+  {
+    t: 'p',
+    v: 'En un mundo donde el conocimiento es mÃ¡s valioso que los broam de esmeralda, CopperNews se alza como el faro 
+que ilumina los misterios del Cosmere. Desde los pasillos del Palaneo hasta los rincones mÃ¡s oscuros de Scadrial, 
+nuestros reporteros viajan entre mundos para traerte las Ãºltimas noticias, anÃ¡lisis y descubrimientos sobre la vasta 
+red de historias tejidas por la mismÃsima Investidura.',
+  },
+  {
+    t: 'p',
+    v: 'AquÃ encontrarÃ¡s crÃ³nicas detalladas sobre los avances en Luzdeplata, reportajes exclusivos sobre los 
+movimientos de las diferentes Esquirlas y estudios profundos sobre los ecos del pasado que aÃºn resuenan en el 
+presente.',
+  },
+  {
+    t: 'p',
+    v: 'Desde las tormentas de Roshar hasta las brumas de Scadrial, desde el sol de Taldain hasta las umbras de Treno, 
+CopperNews te mantiene informado con rigor y precisiÃ³n. Porque en un Cosmere en constante cambio, solo hay una verdad 
+inmutable: el conocimiento es poder, y nosotros te lo entregamos en cada ediciÃ³n.',
+  },
+]
+
+export const CN_REDACCION = [
+  {
+    t: 'p',
+    v: 'Desde los rincones mÃ¡s remotos del Cosmere hasta los pasillos mÃ¡s iluminados de Luzdeplata, el equipo de 
+CopperNews trabaja incansablemente para traerte informaciÃ³n veraz, rigurosa y libre de influencias externas (o al 
+menos de aquellas que no podamos sortear).',
+  },
+  {
+    t: 'p',
+    v: 'Cada reportero de nuestra red de corresponsales arriesga mÃ¡s que su reputaciÃ³n al adentrarse en los 
+misterios de la Investidura, los entresijos de la polÃtica interplanetaria y los fenÃ³menos que los propios dioses 
+preferirÃan mantener ocultos. Ya sea descifrando textos antiguos en Sel, investigando tramas de poder en Scadrial o 
+informando desde el mismÃsimo borde de la existencia en Treno, nuestro equipo no descansa en su bÃºsqueda de la 
+verdad.',
+  },
+  {
+    t: 'p',
+    v: 'La redacciÃ³n de CopperNews no solo informa, sino que documenta la historia a medida que se escribe, 
+asegurÃ¡ndose de que el conocimiento no se pierda entre los pliegues de los Reinos.',
+  },
+  {
+    t: 'p',
+    v: 'Porque en un Cosmere donde la informaciÃ³n es poder, nosotros te la entregamos en tinta, metal y luz.',
+  },
+  { t: 'p', v: 'Haz clic para tener mÃ¡s informaciÃ³n sobre cada una de las personas:', center: true },
+]
+
+export const CN_EDICIONES_INTRO = [
+  {
+    t: 'p',
+    v: 'Bienvenidos a la puerta de entrada a todo lo que hemos documentado, investigado y analizado en cada uno de 
+nuestros nÃºmeros. Esta secciÃ³n no solo es el reflejo de nuestro trabajo, sino tambiÃ©n el archivo viviente de un 
+momento en el tiempo, un compendio de los eventos que han marcado los mundos del Cosmere. Cada ediciÃ³n es una 
+cÃ¡psula informativa que captura la esencia de lo que sucede en los reinos y planetas mÃ¡s allÃ¡ de nuestra vista, 
+pero que incide profundamente en el dÃa a dÃa de todos los habitantes del Cosmere.',
+  },
+  {
+    t: 'p',
+    v: 'Las noticias, los reportajes, las investigaciones y las crÃticas son el corazÃ³n de lo que ofrecemos. Cada 
+nÃºmero lleva consigo el trabajo de una redacciÃ³n dedicada a desenterrar la verdad, desterrar los rumores y ofrecer a 
+nuestros lectores un anÃ¡lisis imparcial, pero profundo, de los sucesos que nos afectan.',
+  },
+  {
+    t: 'p',
+    v: 'Es en estas pÃ¡ginas donde se cruza el pensamiento crÃtico con el contexto histÃ³rico, donde las voces de los 
+expertos se mezclan con las experiencias cotidianas de los ciudadanos. El objetivo es uno solo: ofrecer a nuestros 
+lectores las herramientas necesarias para comprender mejor el mundo que les rodea, con sus luces y sombras, y entender 
+los hilos invisibles que conectan a todos los habitantes del Cosmere.',
+  },
+  {
+    t: 'p',
+    v: 'Cada ediciÃ³n es, por tanto, una invitaciÃ³n a reflexionar, a cuestionar, y, sobre todo, a explorar. No solo 
+buscamos contar lo que pasa, sino tambiÃ©n cÃ³mo y por quÃ© pasa. Porque, como siempre decimos en nuestra redacciÃ³n:',
+  },
+]
+
+export const CN_EDICIONES_META = [
+  { slug: 'n1-noviembre-2022', numero: 'EDICIÃ“N NOVIEMBRE 2022' },
+  { slug: 'n2-diciembre-2022', numero: 'EDICIÃ“N DICIEMBRE 2022' },
+  { slug: 'n3-abril-2023', numero: 'EDICIÃ“N ABRIL 2023' },
+]
+
+// ===== Organigrama de La RedacciÃ³n =====
+
+export const CN_ORGANIGRAMA = [
+  {
+    id: 'cansaythos',
+    nivel: 1,
+    cargo: 'Editora Jefe',
+    nombre: 'Cansaythos',
+    descripcion:
+      'Cansaythos, conocida como Sayth, es una dragona de Yolen cuyo deseo de buscar la verdad la ha llevado a ser una 
+de las figuras mÃ¡s influyentes en la redacciÃ³n. Criada entre las antiguas bibliotecas de Yolen, Sayth ha pasado su 
+vida investigando y desentraÃ±ando secretos de los distintos mundos del Cosmere. Su capacidad para identificar la 
+esencia de las historias, separando los hechos de la interpretaciÃ³n, la convirtiÃ³ rÃ¡pidamente en una periodista 
+aclamada. A pesar de su naturaleza imponente como dragona, Sayth es conocida por su imparcialidad y su dedicaciÃ³n a 
+la objetividad, algo que la ha hecho indispensable como editora. Se dice que su longevidad y experiencia le permiten 
+ver las conexiones entre los eventos de manera Ãºnica, lo que la convierte en una de las voces mÃ¡s confiables en el 
+mundo de la informaciÃ³n del Cosmere.',
+  },
+  {
+    id: 'kathrin',
+    nivel: 2,
+    cargo: 'Jefa de RedacciÃ³n',
+    nombre: 'Kathrin Dillard',
+    descripcion:
+      'Kathrin Dillard naciÃ³ en el corazÃ³n de Elendel, la capital de la industria y el comercio en Scadrial. Desde 
+joven, se destacÃ³ por su habilidad para destilar la verdad en medio del ruido de las intrigas polÃticas y los 
+complejos sistemas econÃ³micos que gobernaban la ciudad. Su enfoque meticuloso y su implacable objetividad la llevaron 
+a ascender rÃ¡pidamente dentro del mundo del periodismo. Con una mente afilada como una cuchilla, Kathrin es conocida 
+por su capacidad para mantener la redacciÃ³n en orden, asegurÃ¡ndose de que cada pieza publicada tenga un impacto 
+significativo y estÃ© basada en hechos sÃ³lidos. Su experiencia en Elendel, donde la informaciÃ³n es poder, le ha 
+permitido comprender profundamente las dinÃ¡micas sociales y econÃ³micas, lo que la convierte en una de las editoras 
+mÃ¡s respetadas del Cosmere. DetrÃ¡s de su mirada severa se oculta un gran sentido del humor, aunque pocos logran 
+verlo debido a su enfoque profesional.',
+  },
+  {
+    id: 'shaeli',
+    nivel: 3,
+    cargo: 'Jefa de Reporteros',
+    nombre: 'Shaeli-hija-Alina',
+    descripcion:
+      'Originaria de Shinovar, Shaeli-hija-Alina es conocida por su implacable bÃºsqueda de la verdad y su paciencia 
+infinita. Criada en una cultura que valora la honestidad y la integridad por encima de todo, se ha ganado su puesto 
+como Jefa de Reporteros gracias a su enfoque meticuloso y su habilidad para manejar a los reporteros mÃ¡s testarudos. 
+Su aguda intuiciÃ³n para detectar historias y su capacidad para calmar incluso las situaciones mÃ¡s tensas la 
+convierten en la lÃder ideal de su equipo. A pesar de su reputaciÃ³n como una mujer de pocas palabras, su liderazgo se 
+refleja en el respeto que genera entre su equipo. Shaeli-hija-Alina es incansable en su lucha por asegurar que cada 
+historia se cuente con la mayor precisiÃ³n y claridad posibles, sin importar lo difÃcil que sea descubrirla.',
+    subordinados: [
+      {
+        id: 'tercera',
+        nivel: 4,
+        cargo: 'Comercio Interplanetario',
+        nombre: 'Tercera de la Noche',
+        descripcion:
+          'Originaria de Primero del Sol, Tercera de la Noche proviene de una familia de tramperos, un entorno donde 
+la astucia y el anÃ¡lisis de los movimientos ajenos son clave para sobrevivir. Su experiencia en su hogar con los 
+Venidos de Arriba la convirtiÃ³ en una reportera astuta y perspicaz, capaz de desentraÃ±ar los complejos entresijos 
+del comercio interplanetario. Se convirtiÃ³ en una de las reporteras mÃ¡s confiables y perspicaces en su campo gracias 
+a su habilidad para descifrar acuerdos, identificar intereses ocultos y rastrear el origen de las transacciones. Su 
+mirada aguda para detectar patrones en el comercio entre mundos y su enfoque meticuloso la han llevado a exponer 
+fraudes y acuerdos secretos, siempre con un enfoque inquebrantable en la verdad.',
+      },
+      {
+        id: 'thaddeus',
+        nivel: 4,
+        cargo: 'CrÃ­menes y PolÃ­tica',
+        nombre: 'Thaddeus Gale',
+        descripcion:
+          'Nacido y criado en Puerto Seco, en Scadrial, Thaddeus Gale tiene una comprensiÃ³n profunda de las sombras 
+que se extienden entre la ley y el crimen. CreciÃ³ en una ciudad donde los lÃmites entre ambos a menudo se difuminan, 
+y eso le permitiÃ³ desarrollar una habilidad excepcional para descubrir las historias que muchos prefieren mantener en 
+las sombras. Con un enfoque directo y una voluntad inquebrantable de sacar la verdad a la luz, ha destapado mÃ¡s de un 
+escÃ¡ndalo que ha sacudido las estructuras de poder en Scadrial. Se dice que tiene una red de informantes que se 
+extiende desde las alcantarillas hasta los altos pasillos del gobierno, y que nada se le escapa.',
+      },
+      {
+        id: 'jeremiah',
+        nivel: 4,
+        cargo: 'Experto en el MÃ¡s AllÃ¡',
+        nombre: 'Jeremiah Dulceumbra',
+        descripcion:
+          'Jeremiah Dulceumbra estudiÃ³n en Luzdeplata, donde se especializÃ³ en temas que desafÃan la lÃ³gica humana. 
+Su obsesiÃ³n por lo desconocido lo llevÃ³ a documentar aspectos del MÃ¡s AllÃ¡ que ningÃºn otro corresponsal se 
+atreviÃ³ a tocar. Sin embargo, hace tiempo que su presencia se ha convertido en un enigma, ya que, a pesar de las 
+numerosas peticiones de reportajes y respuestas, Jeremiah nunca ha vuelto a contestar. Hoy en dÃa, su nombre estÃ¡ 
+vinculado a los relatos mÃ¡s extraÃ±os y desconcertantes que jamÃ¡s hayan sido escritos.',
+      },
+      {
+        id: 'amalesh',
+        nivel: 4,
+        cargo: 'Corresponsal de Guerra',
+        nombre: 'Amalesh Gautam',
+        descripcion:
+          'Originario de Alezkar, en Roshar, Amalesh Gautam lleva la guerra en la sangre. Criado en una regiÃ³n famosa 
+por su fervor belicista, donde los conflictos son parte del tejido social, su experiencia en el campo de batalla lo ha 
+hecho un experto en los aspectos mÃ¡s crudos de la guerra. Su enfoque no solo es tÃ¡ctico, sino tambiÃ©n humano: 
+Amalesh no solo cubre los detalles de los enfrentamientos, sino tambiÃ©n las historias de aquellos que viven en las 
+sombras de los campos de batalla. Con una perspectiva Ãºnica sobre la violencia y el sufrimiento, tiene un instinto 
+natural para captar la complejidad de las situaciones bÃ©licas, transmitiendo con precisiÃ³n las emociones y las 
+realidades detrÃ¡s de los conflictos. Aunque su trabajo en el periÃ³dico se centra en la cobertura de las zonas de 
+guerra y las polÃticas militares, su humanidad y la comprensiÃ³n de los costosos sacrificios de la guerra lo 
+convierten en uno de los reporteros mÃ¡s respetados de la redacciÃ³n.',
+      },
+      {
+        id: 'wambleeska',
+        nivel: 4,
+        cargo: 'Investigador RealmÃ¡tico',
+        nombre: 'Wambleeska Ashkii',
+        descripcion:
+          'Wambleeska Ashkii, originario de Luzdeplata, es un experto en la teorÃa realmÃ¡tica, un campo de estudio 
+que explora las interacciones entre los diferentes Reinos del Cosmere. Su capacidad para identificar y analizar anomalÃ
+as realmÃ¡ticas le ha ganado una reputaciÃ³n como uno de los investigadores mÃ¡s astutos y respetados. En su rol 
+dentro del periÃ³dico, Wambleeska realiza investigaciones mensuales sobre fenÃ³menos que descolocan la lÃ³gica comÃºn, 
+arrojando luz sobre misterios que pocos se atreven a tocar. Sus reportajes, aunque profundos, se destacan por su 
+claridad y accesibilidad, logrando captar tanto a expertos como a lectores curiosos.',
+      },
+    ],
+  },
+  {
+    id: 'brillafirme',
+    nivel: 3,
+    cargo: 'Editor de OpiniÃ³n',
+    nombre: 'Brillafirme el Mudo',
+    descripcion:
+      'Originario de Hallandren, en Nalthis, Brillafirme es un Retornado cuya habilidad para comunicar no depende de 
+las palabras. Aunque es mudo, su trabajo como editor de opiniÃ³n se caracteriza por una agudeza sin igual. No solo 
+escribe artÃculos crÃticos y mordaces, sino que tambiÃ©n se encarga de revisar las cartas de los lectores, siempre con 
+el mismo rigor y precisiÃ³n que se espera de Ã©l. Su capacidad para detectar el mÃ¡s mÃnimo error en la lÃ³gica o el 
+tono de las cartas le ha valido una reputaciÃ³n temida y respetada. Su cita mÃ¡s famosa, Â«Como diga lo que pienso, me 
+llevan presoÂ», refleja su estilo sin filtros y su disposiciÃ³n a enfrentarse a cualquier tema con la verdad, por 
+incÃ³moda que sea.',
+  },
+  {
+    id: 'hereman',
+    nivel: 3,
+    cargo: 'Analista de Contenidos',
+    nombre: 'Hereman el Dula',
+    descripcion:
+      'Desde las tierras de Duladel, en Sel, Hereman el Dula es un experto en el anÃ¡lisis de textos y la veracidad de 
+la informaciÃ³n. Su capacidad para contrastar datos y detectar inconsistencias lo convierte en un pilar fundamental 
+dentro del equipo editorial. Con una mente aguda y meticulosa, Hereman asegura que cada palabra publicada sea precisa, 
+contextualizada y fiel a la verdad. Su talento para las traducciones y el anÃ¡lisis profundo de los textos lo ha 
+colocado como una de las figuras mÃ¡s respetadas en la redacciÃ³n. En sus momentos libres, se dedica a escribir 
+proverbios dulas, sabias reflexiones que nunca dejan de sorprender a sus colegas. Â¡Kolo!',
+  },
+  {
+    id: 'siarella',
+    nivel: 3,
+    cargo: 'Ilustradora',
+    nombre: 'Siarella Drahmi',
+    descripcion:
+      'Viranya Â«manosinvestidasÂ» CeldrÃ, es una ilustradora originaria de Hallandren, Nalthis. Su talento para 
+capturar los matices del color y la luz en sus obras la ha convertido en una de las artistas mÃ¡s solicitadas del 
+Cosmere. En su trabajo para el periÃ³dico, Viranya crea ilustraciones vibrantes que no solo ilustran los reportajes, 
+sino que tambiÃ©n transmiten emociones a travÃ©s de una paleta de colores que se ajusta a cada historia. Su habilidad 
+para captar la esencia de los momentos mÃ¡s complejos, utilizando matices que otros artistas no perciben, la hace 
+destacar. Se dice que Viranya tiene una conexiÃ³n profunda con el color, capaz de ver mÃ¡s allÃ¡ de lo visible y dotar 
+a sus creaciones de una vida que cautiva y conmueve.',
+  },
+]
+
+// ===== Ediciones =====
+export const CN_EDICIONES = [
+  {
+    slug: 'n1-noviembre-2022',
+    fecha: '27 NOVIEMBRE 2022 Â· EDICIÃ“N ESPECIAL',
+    bloques: [
+      {
+        t: 'articulo',
+        titulo: 'Intento fallido de hackeo en la cuenta de twitter',
+        lede: 'En la pasada noche hemos sufrido uno de los episodios mÃ¡s terrorÃficos de la historia de la cuenta. 
+Han intentado vender investidura de contrabando utilizando nuestro Twitter como foco para llegar a vosotros. 
+Afortunadamente, la rÃ¡pida intervenciÃ³n de los seguidores y las cotorras ha conseguido evitar que pobres usuarios 
+caigan en la trampa de comprar Investidura de Treno, con los consiguientes problemas que eso trae consigo. Los 
+malhechores han dejado, ademÃ¡s de la angustia en el cuerpo de las cotorras, el mensaje Â«ODIUM REINAÂ» en las paredes 
+de sus oficinas.',
+      },
+      { t: 'img', src: n1_0, caption: 'Captura del mensaje publicado en la cuenta.' },
+      { t: 'img', src: n1_1, caption: 'Mensaje Â«ODIUM REINAÂ» dejado por los malhechores.' },
+      {
+        t: 'cols',
+        cols: [
+          {
+            t: 'box',
+            titulo: 'Estado de las oficinas de la Coppermind',
+            contenido: ['Imagen de Connor Chamberlain, un testigo.', 'Hombre misterioso visto huyendo de la escena.'],
+          },
+          {
+            t: 'box',
+            titulo: 'Numerosos testigos del suceso',
+            contenido: [
+              'Numerosos testigos del suceso han relatado la misma versiÃ³n de los hechos a los agentes encargados de 
+la investigaciÃ³n. Un hombre sospechoso, de numerosas cicatrices en los brazos, fue avistado mientras se alejaba 
+volando de la zona.',
+            ],
+          },
+        ],
+      },
+      {
+        t: 'articulo',
+        titulo: 'Â¿Han sido las cotorras suplantadas por kandra?',
+        p: 'El mayor miedo que existe ahora mismo entre la poblaciÃ³n es si sus queridas cotorras (Kokerlii, Sak y 
+CotÃ³nica) se encuentran en buen estado. Este medio ha conseguido hablar con ellas y, aunque asustadas por lo 
+ocurrido, se muestran confiadas en que las autoridades sean capaces de dar con el culpable. Por el momento, y hasta 
+que la investigaciÃ³n arroje mÃ¡s datos sobre el asunto, planean continuar como hasta ahora, Â«como si nada hubiera 
+pasadoÂ», acciones que, a muchos nos extraÃ±an y que nos hacen plantearnosâ€¦ Â¿SerÃ¡n ellas las originalesâ€¦ o 
+habrÃ¡n sido reemplazadas por Inmortales Sin Rostro?',
+      },
+      {
+        t: 'articulo',
+        titulo: 'Las organizaciones del cosmere se posicionan sobre el suceso',
+        p: 'Debido a la gravedad de lo ocurrido, se han desplegado gran cantidad de recursos, medios y oficiales desde 
+todos los puntos del Cosmere para ponerle nombre al culpable. Mientras tanto, desde nuestro medio hemos conseguido 
+hablar con varias de las organizaciones mÃ¡s importantes de nuestro universo, aunque ninguna de ellas se haya 
+atribuido la autorÃa en las horas que han pasado.',
+        p2: 'La DecimosÃ©ptima Esquirla ha sido la primera que ha querido dar declaraciÃ³n al pÃºblico, dejando muy 
+claro que Â«no se puede permitir que se interfiera de esta manera en los asuntos del Cosmere sin que haya un culpable 
+que pague por elloÂ». SegÃºn sus propias palabras, formarÃ¡n parte activa de la investigaciÃ³n.',
+        p3: 'Los Hijos de Honor parecen ajenos por completo a lo ocurrido, ya que aseguran que la primera noticia de 
+que algo asÃ habÃa pasado fue cuando nosotros mismos nos pusimos en contacto con su cabecilla actual.',
+        p4: 'Por otro lado, los Sangre Espectral se niegan a hacer declaraciones y se cierran aÃºn mÃ¡s en banda 
+cuando se deja caer que el modus operandi utilizado en este crimen suele coincidir bastante con otros casos en los que 
+han reclamado la autorÃa de manera inmediata.',
+        p5: 'El Ãºnico dato a mayores que se nos ha revelado ha sido que en las inmediaciones hay una plaga de 
+alimaÃ±as llamadas cremlinos, aunque desconocemos su procedencia.',
+      },
+      { t: 'img', src: n1_2, caption: 'Las organizaciones del Cosmere se posicionan sobre el suceso.' },
+      {
+        t: 'box',
+        titulo: 'Imagen de archivo',
+        contenido: ['Imagen de archivo de un arcanista de Luzdeplata facilitada por David Palumbo.'],
+      },
+      {
+        t: 'articulo',
+        titulo: 'Alomante Jak, completamente consternado',
+        lede: 'Conseguimos hablar con Jak, que se muestra muy afligido por lo acaecido en las oficinas de la 
+Coppermind,',
+        p: 'Â«Esto es un claro caso de invasiÃ³n de espectros de las brumas. Me encargarÃa yo mismo de la amenaza, 
+como bien saben mis queridos lectores, pero ahora mismo estoy envuelto en un asunto para recuperar los escritos 
+perdidos del Consejero de los Dioses que podrÃ©is disfrutar en el prÃ³ximo pasquÃnÂ».',
+      },
+      { t: 'img', src: n1_3, caption: 'Alomante Jak, completamente consternado.' },
+      {
+        t: 'articulo',
+        titulo: 'Un nuevo investigador llega desde Nalthis',
+        p: 'Parece que ninguno de los planetas conocidos del Cosmere quiere dejar pasar la oportunidad de ayudar a las 
+queridas Cotorras de la Copper, por lo que la propia Edgli manda a un detective que, aunque novato en el campo, ha 
+mostrado muy buenas cifras en la resoluciÃ³n de casos, Sondeluz o, como le conocen sus cercanos, Sondeholmes. Aunque 
+sus mÃ©todos no son siempre tradicionales (recordemos el inconveniente que hubo cuando utilizÃ³ una ardilla despertada 
+que chillaba como una marrana para poder conseguir informaciÃ³n en la Corte de los Dioses), sus logros son mÃ¡s que 
+evidentes, por lo que celebramos su incorporaciÃ³n al equipo de investigaciÃ³n.',
+      },
+      { t: 'img', src: n1_4, caption: 'Un nuevo investigador llega desde Nalthis.' },
+      ],
+  },
+  {
+    slug: 'n2-diciembre-2022',
+    fecha: '28 DICIEMBRE 2022 Â· EDICIÃ“N ESPECIAL',
+    bloques: [
+      {
+        t: 'articulo',
+        titulo: 'ContinÃºa la investigaciÃ³n sobre el asalto a la coppermind',
+        p: 'Pese a haber transcurrido ya un mes desde el suceso, poco se ha podido deducir sobre el ataque que 
+recibieron las oficinas de la coppermind en espaÃ±ol el mes pasado. La falta de pruebas y de testigos fiables 
+ralentiza y dificulta la obtenciÃ³n de pruebas y nuevos sospechosos. Parece que por el momento se ha descartado que la 
+organizaciÃ³n de los Sangre Espectral se encuentre involucrada en lo sucedido y el trabajo de traducciÃ³n se ha 
+reanudado sin ningÃºn tipo de problema.',
+      },
+      { t: 'img', src: n2_0, caption: 'IlustraciÃ³n del asalto a la coppermind.' },
+      { t: 'img', src: n2_1, caption: 'Seguimiento de la investigaciÃ³n.' },
+      {
+        t: 'cols',
+        cols: [
+          {
+            t: 'imagen_texto',
+            titulo: 'Estado de las oficinas de la Coppermind',
+            texto: 'Imagen de Egilde Art tomada en la presentaciÃ³n de la reina.',
+          },
+          {
+            t: 'box',
+            titulo: 'Los interrogantes siguen abiertos',
+            contenido: [
+              'La investigaciÃ³n continÃºa su curso y aÃºn no hay responsables. Mientras tanto, la redacciÃ³n sigue 
+trabajando para ofreceros la informaciÃ³n mÃ¡s fiel en cada nuevo nÃºmero.',
+            ],
+          },
+        ],
+      },
+      {
+        t: 'articulo',
+        titulo: 'La reina sisirinah se tiÃ±e el pelo',
+        p: 'Conseguimos infiltrarnos en la Corte de los Dioses y hablar con las doncellas Pahn Khal que atienden a su 
+majestad la reina. Lo que en un principio parecÃan simples tratamientos para mantener su larga cabellera saludable y 
+con buen aspecto, se han confirmado como mascarillas de color y tintes. Pese a las innumerables pruebas que tenemos en 
+su contra, los sacerdotes del rey-dios sostienen que la dama es la propia descendiente de Vo y, por lo tanto, heredera 
+de los mechones reales.',
+        p2: 'Las diferentes facciones dentro de la Corte se mantienen divididas, ya que, por un lado, estÃ¡n los 
+Retornados que opinan que la reina ha venido para desestabilizar la polÃtica del paÃs y hacer caer la monarquÃa desde 
+dentro. Por otro lado, estÃ¡n los que, segÃºn ellos, conocen de primera mano a la susodicha y aseguran que solo 
+utiliza los colorantes para su cabello para ocasiones especiales en las que quiere combinar diferentes secciones del 
+pelo con sus vestidos, proporcionando una melena llena Â«de luz y de colorÂ».',
+      },
+      {
+        t: 'section',
+        titulo: 'PronÃ³stico del tiempo',
+      },
+      {
+        t: 'p',
+        v: 'Fin de semana en Roshar que se espera gris, con nubes, con gran nÃºmero de precipitaciones en el 
+continente. Triste (meteorolÃ³gicamente hablando). Como ven, no hay palabras bonitas para describir el tiempo que nos 
+deparan los prÃ³ximos dÃas, pero podemos decir que estamos acostumbrados a ello, ya que se acerca el cambio de aÃ±o y, 
+con Ã©l, el Llanto. Afortunadamente, y como el aÃ±o que comienza es impar, tendremos un dÃa de descanso.',
+      },
+      {
+        t: 'p',
+        v: 'En otros planetas del Cosmere tenemos previsiones mÃ¡s esperanzadoras. Si su intenciÃ³n es viajar al Lado 
+Diurno de Taldain estÃ¡ de suerte, porque el sol no le darÃ¡ un minuto de descanso. En Scadrial, tendremos en la 
+Cuenca de Elendel el sÃ¡bado cielos muy cubiertos con precipitaciones moderadas e incluso posibilidad de alguna 
+tormenta. Temperaturas nocturnas sin cambios. SerÃ¡ una oportunidad perfecta para una ceremonia supervivencialista, ya 
+que se esperan las tan ansiadas brumas.',
+      },
+      {
+        t: 'p',
+        v: 'En la zona sur del planeta, el viento soplarÃ¡ con fuerza y el domingo se espera un dÃa muy nuboso, con 
+chubascos dÃ©biles, ocasionalmente con granizo y con tormenta. La cota de nieve se situarÃ¡ en torno a 700 metros y 
+ligero descenso de las temperaturas que dejarÃ¡n heladas dÃ©biles en la cordillera.',
+      },
+      {
+        t: 'img', src: n2_2, caption: 'IlustraciÃ³n para el pronÃ³stico del tiempo.',
+      },
+      {
+        t: 'section',
+        titulo: 'CosmÃ³scopo',
+        sub: '(sin adivinaciÃ³n, aprobado por fervorosos vorin)',
+      },
+      {
+        t: 'horoscopo',
+        items: [
+          ['AAGAL UCH', '(21 marzo â€“ 20 abril)', 'RecibirÃ¡s otra invitaciÃ³n de boda para este aÃ±o, por lo que 
+empezarÃ¡s a trabajar como apoyo en las carreras de los puentes. Hecho que, paradÃ³jicamente, te impedirÃ¡ asistir a 
+las bodas.'],
+          ['RRENDOS', '(21 abril - 20 mayo)', 'VivirÃ¡s una experiencia extracorpÃ³rea. Aunque el viaje astral serÃ¡ 
+solo de ida, y te verÃ¡s obligado a fregar cien veces Elantris hasta poder pagarte la vuelta.'],
+          ['MISHIM', '(21 mayo â€“ 20 junio)', 'No seas tan pesimista: lo que ahora piensas que es tocar fondo, en 
+realidad es lo mÃ¡s alto que llegarÃ¡s en la vida. ConfÃ³rmate, no estÃ¡s en los puentes.'],
+          ['ESTRELLANOCTURNA', '(21 junio â€“ 21 julio)', 'TendrÃ¡s un accidente aÃ©reo por falta de luz tormentosa. 
+AcabarÃ¡s en una isla desierta y, a pesar de que nadie te rescatarÃ¡, los selladores de sangre te encontrarÃ¡n.'],
+          ['NIZH DA', '(22 julio â€“ 22 agosto)', 'EmprenderÃ¡s un negocio durante los primeros meses, generando asÃ 
+Â«chorrocientosmilÂ» de puestos de trabajo en la Cuenca de Elendel y transformando la zona en la primera potencia 
+mundial.'],
+          ['SALAS', '(23 agosto â€“ 22 septiembre)', 'Te encontrarÃ¡s a ti mismo en un tugurio de musgoardiente. El 
+hedor que embriaga el ambiente transformarÃ¡ tu visiÃ³n del mundo para siempre.'],
+          ['NOMON', '(23 septiembre â€“ 22 octubre)', 'EmpezarÃ¡s a ver cosas extraÃ±as en tu casa: puertas que se 
+cierran, objetos que caen misteriosamente de sus repisas, ruidos en la nocheâ€¦ Nosotros sabemos que es tu gato, pero 
+oye, si crees en las umbras no seremos nosotras quienes limiten tus sueÃ±os.'],
+          ['LÃGRIMA', '(23 octubre â€“ 21 noviembre)', 'Momento idÃ³neo para convertirte en saltamundos: emprender un 
+viaje, conocer otro planeta y vivir una apasionante aventura.'],
+          ['PRIMERO DEL PRIMERO', '(22 noviembre â€“ 21 diciembre)', 'En los prÃ³ximos meses tu estado de salud va a 
+ser envidiable. Revisa tu ascendencia, no sea aÃ³nica y en realidad sea que te ha pillado la Shaod.'],
+          ['GUARDIANLEJANO', '(22 diciembre â€“ 21 enero)', 'Dijiste que era la Ãºltima vez que bebÃas blanco 
+comecuernos. SÃ© que disfrutar de la vida es importante, Â¡pero no exageres!'],
+          ['AAGAL NOD', '(22 enero â€“ 18 febrero)', 'En los prÃ³ximos dÃas vas a notar como se despierta en ti el 
+deseo de desarrollar tus habilidades culinarias. Compra el libro de recetas de Kiin y Roca, mÃ©tete en la cocina y 
+explota tus habilidades preparando exquisitos y refinados platos.'],
+          ['OEM', '(19 febrero â€“ 20 marzo)', 'A veces pensarÃ¡s que todo el mundo te odia y que estÃ¡ en tu 
+contraâ€¦ y eso te pasarÃ¡ porque, por desgracia, te pareces fÃsicamente a Moash.'],
+        ],
+      },
+      {
+        t: 'section',
+        titulo: 'ArtÃ­culo de opiniÃ³n',
+      },
+      {
+        t: 'box',
+        titulo: 'Hemalurgia: Cuando la moda de las perforaciones se va de las manos',
+        contenido: [
+          'Vivimos tiempos inciertos, momentos en los que ver a jovenzuelos perforados por todas partes con metal te 
+hace plantearte: Â¿es acaso moda? Â¿O estÃ¡ adquiriendo acceso a los poderes de un nacido del metal de la manera mÃ¡s 
+macabra posible?',
+          'Las autoridades no hacen nada cuando se denuncia a estos malhechores, ya que se escudan en que es Â«modaÂ» 
+o Â«elecciÃ³n en el atuendo que llevanÂ», pero tampoco creo que sea moralmente aceptable permitir que estas nuevas 
+generaciones vayan por la calle con ese aspecto, ya que hace parecer que nuestra sociedad se estÃ¡ convirtiendo en 
+algo de baja clase y descuidado.',
+          'Â¿QuÃ© serÃ¡ lo prÃ³ximo? Â¿Sangre-koloss en los altos mandos de la Cuenca? No se pide que volvamos a los 
+tiempos en los que la ceniza caÃa del cielo y el lÃ¡tigo era la manera de motivar al trabajador, pero lo que vemos hoy 
+en dÃa dista mucho de la sociedad perfecta que ArmonÃa planteÃ³.',
+          'AdemÃ¡s, Â¿cÃ³mo podemos saber que verdaderamente es un mero elemento decorativo? Exigimos un control de 
+estos metales y de la gente que los utiliza, un certificado acreditativo que deban portar siempre para asegurarnos de 
+que no suponen un problema para las gentes decentes y honradas de Elendel.',
+        ],
+        firma: 'Vuestra columnista favorita: Abrigain',
+      },
+      { t: 'img', src: n2_3, caption: 'Hemalurgia: Cuando la moda de las perforaciones se va de las manos.' },
+      {
+        t: 'section',
+        titulo: 'En otras noticias',
+      },
+      {
+        t: 'p',
+        v: 'Saltamundos indignadas ante los pudorosos rosharianos. Aumenta la venta de guantes en las cercanÃas del 
+planeta.',
+      },
+      {
+        t: 'p',
+        v: 'Luzdeplata a la cabeza de la investigaciÃ³n del resfriado comÃºn y una posible cura para los afectados.',
+      },
+      {
+        t: 'section',
+        titulo: 'Espacio publicitario',
+      },
+      {
+        t: 'cols',
+        cols: [
+          { t: 'anuncio', h: 'Sellos para el hogar', t1: 'Â¿Cansado de que tu casa sea simple y sin estilo? Con 
+nuestros sellos conseguirÃ¡s que todo tenga mucho mejor aspecto. Â¡Y SIN CAMBIAR DE MUEBLES!', f: 'Busca a Wan ShaiLu' 
+},
+          { t: 'anuncio', h: 'Hammond y sus violentos', t1: 'Â¿Tiene una mudanza? Â¿EstÃ¡ cansado de reventarse la 
+espalda levantando esas pesadas cajas? Llame a Hammond y sus violentos y en menos de lo que salen las brumas 
+llevaremos sus pertenencias a donde quiera.', f: 'Brazos de Peltre Hammond' },
+          { t: 'anuncio', h: 'Sondeluz, un Detective Divino', t1: 'Â¿Animales que se comportan de forma rara? 
+Â¿ExtraÃ±os pasajes que salen de tu baÃ±o comedor? Â¿AlgÃºn cambio de color en tu hogar no intencionado?', f: 
+'Sondeluz, un Detective Divino' },
+          { t: 'anuncio', h: 'Dahkor a domicilio', t1: 'Contracturas, dolor lumbar o de articulacionesâ€¦ Llame ahora 
+a nuestro servicio Dahkor a domicilio y olvÃdese de sus traumatismos. Le mejoraremos el esqueleto completamente en 
+menos de lo que tarda en quemarse un elantrino.', f: 'Monjes Dahkor' },
+          { t: 'anuncio', h: 'Adrenalina Pura', t1: 'CaÃda libre, rafting en aguas bravas, escalada de murallasâ€¦', 
+f: 'Aventuras Raoden & Karata, Adrenalina Pura' },
+          { t: 'anuncio', h: 'Ardillas que chillan como marranas', t1: 'Â¿Harto de asistir a eventos sociales en los 
+que no te sientes cÃ³modo? Acaba con ellos, tenemos la soluciÃ³n: Â¡ardillas que chillan como marranas!', f: 'Sondeluz 
+el Audaz' },
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'n3-abril-2023',
+    fecha: '23 ABRIL 2023 Â· EDICIÃ“N ESPECIAL ANIVERSARIO',
+    bloques: [
+      {
+        t: 'box',
+        titulo: 'Nota de la direcciÃ³n',
+        contenido: [
+          'Tal dÃa como hoy, hace un aÃ±o, empezaba la aventura visible de la Coppermind. Fue el momento en el que por 
+fin vio la luz la web en espaÃ±ol y el dÃa de su inauguraciÃ³n. Pero el verdadero trabajo se hizo tanto antes como 
+despuÃ©s de ese dÃa, ya que el proyecto se iniciÃ³ en enero de 2021. Cientos de artÃculos por traducir; cientos de artÃ
+culos traducidos que luego necesitaron actualizaciÃ³n y que se convirtieron en cientos de artÃculos que subir a la 
+webâ€¦ Y hoy nos encontramos en mÃ¡s de 1600 artÃculos ya en espaÃ±ol, cuando el anterior 23 de abril eran solo 3: 
+Scadrial, el asesinato de Gavilar y Adonalsium.',
+          'Sabemos que el ritmo al que tenemos disponible los artÃculos no es todo lo veloz que algunos querrÃan, pero 
+recordad lo que os decimos siempre: preferimos calidad en su traducciÃ³n y veracidad en la informaciÃ³n a tener todo 
+Â«legible pero incorrectoÂ».',
+        ],
+      },
+      {
+        t: 'p',
+        v: 'SÃ, lo sabemos. Normalmente, el tono en el que escribimos en Twitter es mÃ¡s distendido y las cotorras 
+hacen de las suyasâ€¦ No os preocupÃ©is, que en este periÃ³dico hay cotorras para rato y unas cuantas ocurrencias 
+absurdas de las que nos caracterizan. Pero hoy, especialmente hoy, nos ponemos la careta de arcanistas para poder 
+comportarnos de una forma mÃ¡s seria y hablaros con sinceridad.',
+      },
+      {
+        t: 'box',
+        titulo: 'Gracias, de corazÃ³n',
+        contenido: [
+          'A todos nuestros increÃbles seguidores, sÃ³lo querÃamos tomarnos un momento para expresar nuestra mÃ¡s 
+sincera gratitud por vuestro apoyo. Vuestros Â«me gustaÂ», comentarios y publicaciones compartidas significan mucho 
+para nosotras y nos inspiran para seguir creando y trabajando en la traducciÃ³n. Gracias por formar parte de este 
+viaje y por creer en el proyecto. Prometemos seguir ofreciÃ©ndoos contenido, risas, informaciÃ³n, locuras y, por 
+supuesto, lore del Cosmere.',
+          'Gracias de nuevo por vuestro apoyo incondicional. Kokerlii, Sak y CotÃ³nica.',
+          'Tras este pequeÃ±o, pero necesario, huequitoâ€¦ Ahora sÃ, vayamos con el periÃ³dico como tal. 
+Â¡Disfrutadlo!',
+        ],
+      },
+      {
+        t: 'articulo',
+        titulo: 'Resuelto el caso del ataque a la coppermind del pasado noviembre',
+        p: 'Han pasado ya cinco meses desde que las oficinas de traducciÃ³n de la Coppermind sufrieran un importante 
+hackeo de sus redes sociales. Los malhechores intentaron vender Investidura de contrabando utilizando su cuenta de 
+Twitter como manera de llegar al mayor nÃºmero posible de gente.',
+        p2: 'HOY, EN PRIMICIA, Kokerlii, Sak y CotÃ³nica, las conocidas como Â«Cotorras de la CopperÂ», rompen su 
+silencio y nos dan todos los detalles de lo sucedido.',
+      },
+      { t: 'img', src: n3_0, caption: 'IlustraciÃ³n del ataque a la coppermind.' },
+      { t: 'img', src: n3_1, caption: 'Detalle de la investigaciÃ³n del hackeo.' },
+      {
+        t: 'articulo',
+        titulo: 'Recetas cosmeriles',
+        lede: 'Han sido varios meses de negociaciones y pruebas, pero al final se ha conseguido. Para todos aquellos 
+de vosotros que disfrutÃ¡is con la comida exÃ³tica, para los saltamundos frustrados que no podrÃ©is ir a su lugar de 
+origen a probarlas y para aquellos que sentÃs temor a viajar por el Reino Cognitivoâ€¦ AquÃ estÃ¡n, finalmente, las 
+Â«Recetas CosmerilesÂ», un espacio en nuestro periÃ³dico en el que os ayudaremos a transportaros a otros lugares 
+gracias a vuestras papilas gustativas.',
+      },
+      { t: 'img', src: n3_2, caption: 'IlustraciÃ³n de supervivencia en tormentas.' },
+      { t: 'img', src: n3_3, caption: 'GuÃ­a de condiciones del Cosmere.' },
+      { t: 'img', src: n3_4, caption: 'Recetas Cosmeriles.' },
+      {
+        t: 'receta',
+        titulo: 'Bocaditos dulces de Pahn Kahl',
+        ingredientes: [
+          '1 sobre de levadura quÃ­mica',
+          '4 huevos talla L (a temperatura ambiente)',
+          '260 gramos de azÃºcar',
+          'Ralladura de media naranja',
+          'Ralladura de medio limÃ³n',
+          '150 ml de leche evaporada',
+          '3 cucharadas de mantequilla derretida',
+          'Media cucharadita de canela',
+          'Un cuarto de cucharadita de sal',
+          'Moldes para magdalenas',
+        ],
+        instrucciones: [
+          'Tamiza la harina en un bol y reserva.',
+          'Ralla la naranja y el limÃ³n. TambiÃ©n puedes pelarlas y picarla despuÃ©s. Ten cuidado de no llegar a la 
+parte blanca de la piel, ya que darÃ¡ amargor a la receta.',
+          'Mezcla con un robot de cocina o una picadora el azÃºcar con la ralladura para crear el azÃºcar cÃtrico. 
+Separa un par de cucharadas de esta mezcla, porque servirÃ¡n para la decoraciÃ³n al final.',
+          'Bate los huevos hasta que estÃ©n esponjosos (a mano es complicado, mejor utiliza varillas manuales o de 
+batidora).',
+          'Mezcla la mantequilla derretida, la leche evaporada, la canela, el azÃºcar y la sal con los huevos 
+batidos.',
+          'AÃ±ade poco a poco la harina tamizada a la mezcla (mezclar bien cuando vayas aÃ±adiendo la harina para 
+evitar grumos). Una vez estÃ© todo integrado, bate hasta que la masa quede suave.',
+          'Precalienta el horno a 180 grados centÃ­grados mientras dejas reposar la mezcla unos 10 minutos.',
+          'Coloca moldes para magdalenas y vete rellenÃ¡ndolos con la masa, pero solo hasta un tercio de su capacidad 
+(ya que con el horneado subirÃ¡n y se desbordarÃ¡n). Espolvorea por encima el azÃºcar que habÃas reservado en un 
+primer momento.',
+          'LlÃ©valos al horno colocando la bandeja a una altura baja.',
+          'Deja que cocinen durante unos 20 minutos. Para comprobar si estÃ¡ listo, utiliza un palillo o cuchillo y 
+pincha uno de los bocaditos. Si el palillo sale limpio, la masa ya estÃ¡ lista. Si sale con masa cruda, necesita estar 
+en el horno mÃ¡s tiempo.',
+          'Una vez haya terminado el horneado, pÃ¡salos a una rejilla para que puedan enfriar tanto por arriba como 
+por abajo. Una vez estÃ©n a temperatura ambiente, estÃ¡n listos para disfrutar.',
+        ],
+      },
+      {
+        t: 'receta',
+        titulo: 'Chouta (adaptaciÃ³n)',
+        ingredientes: [
+          '1 solomillo de cerdo',
+          '1 huevo',
+          'Salsa de soja',
+          'Vinagre de manzana',
+          'Harina de trigo',
+          'Lechuga romana',
+          'Cebolla morada',
+          'Tortilla de trigo o de maÃ­z',
+          '20 gramos de mantequilla',
+          '300 ml de caldo de carne',
+          'Especias al gusto',
+          'Abundante aceite para freÃ­r',
+        ],
+        instrucciones: [
+          'Corta el solomillo en trozos del tamaÃ±o que prefieras (unos 2 o 3 centÃmetros de lado en este caso) y 
+colÃ³calos en un bol.',
+          'AÃ±ade un huevo batido, unas 5 cucharadas de salsa de soja y unas 5 de vinagre de manzana y dale vueltas 
+para que se reparta por la carne y dÃ©jalo reposar.',
+          'Vete calentando una freidora o sartÃ©n con abundante aceite vegetal (el de tu elecciÃ³n).',
+          'En una sartÃ©n, derrite 20 gramos de mantequilla. AÃ±Ã¡dele 1 cucharada colmada de harina y cocÃnala hasta 
+que tueste.',
+          'Una vez haya cambiado el color, aÃ±ade poco a poco, y sin dejar de remover, el caldo de carne.',
+          'Es el momento de aÃ±adir a la salsa las especias que quieras. En este caso se ha aÃ±adido media cucharada 
+de curry, pimienta negra molida. Remueve bien y deja cocinar a fuego lento (dÃ¡ndole una vuelta de vez en cuando) 
+hasta que espese. Si buscas una mayor intensidad en el sabor, puedes aÃ±adir una cucharada de concentrado Bovril.',
+          'OPCIONAL: si quieres que la salsa quede muy fina, puedes pasarla por un colador.',
+          'De nuevo con el bol con el solomillo. Enharina cada pieza de carne y ponla a freÃr hasta que tenga un color 
+dorado y el exterior haya quedado crujiente. ColÃ³calo sobre papel absorbente para eliminar el exceso de aceite que 
+haya podido quedar.',
+          'Corta, en tiras finas, media cebolla morada, lava bien dos o tres hojas de lechuga y prepara el resto de 
+verduras que quieras aÃ±adir.',
+          'Coloca una de las tortillas (de trigo o de maÃ­z, a tu elecciÃ³n) sobre un plato.',
+          'AÃ±ade las verduras que quieras sobre la tortilla y varios trozos de carne en fila.',
+          'Deja caer sobre la carne la salsa que has preparado y cierra la tortilla hasta envolver todos los 
+ingredientes.',
+        ],
+        nota: 'Como podÃ©is ver, la primera receta es un manjar tÃpico y muy conocido dentro de la cultura 
+hallandrense. Unos bocaditos que, pese a ser un plato dulce, son muy refrescantes. Para conseguirlo, utilizamos las 
+frutas cÃtricas que su clima permite recolectar, aprovechando la piel de dos frutas, la naranja y el limÃ³n. Son 
+ideales como tentempiÃ© a cualquier hora del dÃa, pero nada como deleitarse recostado en un divÃ¡n, disfrutando del 
+calor de Hallandren como si fueras un verdadero Retornado en la corte. El plato fuerte que os presentamos es una 
+adaptaciÃ³n de la chouta herdaziana. Es un plato que, en su origen, consiste en un pan plano frito que envuelve carne 
+frita y salsa, y se puede llevar en una mano. El pan plano que se utiliza es muy grueso y la carne utilizada en los 
+campos de guerra suele ser flangria, que se mezcla con lavis molido, se forma en pequeÃ±as bolas, se reboza y se frÃe 
+para, a continuaciÃ³n, introducirlo en el pan frito y cubrir todo con una generosa cantidad de salsa oscura. Hemos 
+optado por hacer una adaptaciÃ³n con ingredientes que son mÃ¡s fÃ¡ciles de conseguir que la lavis, ya que las 
+perpendicularidades rosharianas son un terreno peligroso estos dÃas. En el prÃ³ximo nÃºmero de Â«Recetas CosmerilesÂ», 
+os traeremos una nueva elaboraciÃ³n: pedos de fervoroso.',
+      },
+      {
+        t: 'section',
+        titulo: 'Sucesos',
+      },
+      {
+        t: 'suceso',
+        titulo: 'Desapariciones',
+        p: 'Desaparecen 1700 seguidores de una secta en una taberna. Hay quien los denomina los Â«nuevos irialiÂ», 
+debido a que se desconocen tanto los motivos como el lugar al que han ido a parar.',
+      },
+      {
+        t: 'suceso',
+        titulo: 'Robos',
+        p: 'El Palaneo denuncia la desapariciÃ³n de las cubiertas de numerosos libros de lo que es, a dÃa de hoy, la 
+mayor biblioteca conocida de Roshar, situada en Kharbranth.',
+      },
+      {
+        t: 'suceso',
+        titulo: 'ExpulsiÃ³n',
+        p: 'Destituyen, tras aÃ±os y mÃºltiples quejas, a un profesor de la Universidad de Elendel por tergiversar la 
+historia y enseÃ±ar, de manera deliberada, informaciÃ³n errÃ³nea a sus alumnos. Â«Nadie era consciente de lo 
+equivocado que estabaÂ», dicen fuentes cercanas.',
+      },
+      {
+        t: 'suceso',
+        titulo: 'El gran debate',
+        p: 'Terrible enfrentamiento entre arcanistas. Se reaviva de nuevo el debate sobre el estudio de nuestros 
+mundos. Â¿CÃ³mo es mejor estudiar nuestra historia comÃºn? Â¿En el orden en el que ocurren los sucesos, por orden de 
+importancia, o segÃºn el interÃ©s del estudio?',
+      },
+      {
+        t: 'suceso',
+        titulo: 'Ataque al mercado',
+        p: 'Gran revuelo en el mercado de Celebrant. Una mujer de piel oscura y el pelo largo y negro ha destruido un 
+tapiz que representaba a una mujer de piel oscura y el pelo largo y negro.',
+      },
+      {
+        t: 'suceso',
+        titulo: 'RecaudaciÃ³n',
+        p: 'Se inicia la campaÃ±a de recaudaciÃ³n bajo el lema Â«MÃ¡s pobre que una cotorra de la copperÂ» para poder 
+hacerles llegar, incluso en su cautiverio, algo de pienso para alimentarse.',
+      },
+      {
+        t: 'articulo',
+        titulo: 'Gran reuniÃ³n de eruditos del cosmere en luzdeplata',
+        p: 'Los eruditos que se han reunido para este simposio son expertos en sus respectivos campos, y se han 
+reunido para compartir entre sÃ sus conocimientos y percepciones.',
+        p2: 'Se ha tratado desde la historia del Cosmere, hasta las propiedades Ãºnicas de sus diversos planetas y 
+sistemas.',
+        p3: 'Uno de los principales temas de debate serÃ¡n los sistemas mÃ¡gicos que existen en el Cosmere. Se han 
+explorado las complejidades de estos sistemas y cÃ³mo interactÃºan entre sÃ.',
+        p4: 'Otro tema de debate fueron las distintas razas y culturas que existen en el Cosmere. Desde los belicosos 
+alezi hasta los eruditos elantrinos, ya que de la gran variedad de pueblos que habitan estos mundos, cada uno tiene 
+sus propias costumbres y tradiciones.',
+        p5: 'En general, el simposio ha sido una fascinante exploraciÃ³n del Cosmere y todas sus maravillas. Tanto si 
+eres un erudito experimentado como un curioso reciÃ©n llegado, seguro que ha habido algo para ti en esta gran reuniÃ³n 
+de mentes.',
+      },
+      {
+        t: 'articulo',
+        titulo: 'Â¡Gran iniciativa por parte de los posaderos de Treno!',
+        p: 'Debido a la creciente actividad turÃstica en Treno, los dueÃ±os de posadas de los bosques trenoditas 
+(conocidos comÃºnmente como bosques del infierno) han llegado a un acuerdo regulando el precio de la estancia en sus 
+establecimientos.',
+        p2: 'Es una gran noticia que las agencias de viajes del Cosmere han celebrado, ya que el precio por cada noche 
+habÃa ascendido a la locura de media bolsa de plata sin incluir el seguro anti-umbras en el importe.',
+        p3: 'A partir de ahora, ademÃ¡s de que dicha protecciÃ³n contra las umbras estarÃ¡ siempre vigente, el precio 
+serÃ¡ de media bolsa de plata a la semana. Pero nos preguntamosâ€¦ Â¿DÃ³nde tienen entonces la ganancia?',
+      },
+      {
+        t: 'section',
+        titulo: 'ArtÃ­culo de opiniÃ³n',
+      },
+      {
+        t: 'box',
+        titulo: 'Carreras ilegales: Cuando la diversiÃ³n se convierte en ruina',
+        contenido: [
+          'Como habitante de Roshar, me preocupa profundamente las carreras ilegales con puentes que se han extendido 
+por nuestra sociedad. En lugar de utilizar los puentes para cruzar los abismos de las Llanuras Quebradas, mucha gente 
+ha empezado a correr ilegalmente con ellos, poniÃ©ndose a sÃ mismos y a los demÃ¡s en peligro.',
+          'Esta prÃ¡ctica no sÃ³lo es ilegal, sino tambiÃ©n increÃblemente peligrosa. Correr por los puentes es una 
+tarea fÃsicamente exigente que requiere mucho entrenamiento y resistencia. Quienes intentan cruzar los puentes sin el 
+entrenamiento adecuado se exponen a sufrir lesiones o incluso a morir.',
+          'AdemÃ¡s, estÃ¡ causando daÃ±os a los propios puentes, que son caros de reparar. Ya es hora de que pongamos 
+fin a esta prÃ¡ctica peligrosa e ilegal y empecemos a utilizar los puentes tal como fueron concebidos: esclavizar ojos 
+oscuros y hacernos ricos con las gemas corazÃ³n.',
+        ],
+        firma: 'Vuestra columnista favorita: Abrigain',
+      },
+      {
+        t: 'section',
+        titulo: 'Entrevista en exclusiva con las Â«cotorras de la copperÂ»',
+      },
+      {
+        t: 'modal',
+        titulo: 'Nos encontramos en las oficinas de traducciÃ³n de la Coppermind, lugar en el que el pasado 25 de 
+noviembre se vivieron momentos de suma tensiÃ³n y nerviosismo. Para poder hablar de ello nos hemos reunido con las 
+tres Â«Cotorras de la CopperÂ», las principales afectadas por este hecho.',
+        lineas: [
+          ['Maxil', 'Bienvenidas a nuestro periÃ³dico, Kokerlii (K), Sak (S) y CotÃ³nica (C).'],
+          ['C', 'Gracias por invitarnos.'],
+          ['M', 'Bien, como comentÃ¡bamos antes, atacaron vuestras oficinas hace 5 meses, Â¿verdad?'],
+          ['S', 'AsÃ esâ€¦ Lo pasamosâ€¦ Verdaderamente mal. Mucha angustia, muchos nerviosâ€¦ Los peores dÃas de la 
+Copper sin duda.'],
+          ['M', 'Pero afortunadamente, recibisteis mucha ayuda y apoyo por parte de gran parte del mundo, Â¿no?'],
+          ['C', 'SÃ. Estamos muy agradecidas con todos los que quisieron ayudarnos y se ofrecieron a investigar por su 
+cuenta.'],
+          ['M', 'Sondeluz ha dicho que la investigaciÃ³n ha llegado a su fin. Â¿Quiere decir eso que ya se ha 
+encontrado a los culpables?'],
+          ['S', 'Si buenoâ€¦ Estando todo controlado, Â¿quÃ© importa quiÃ©n tuviera la culpa?'],
+          ['M', 'Â¿Disculpa? EstÃ¡ medio Cosmere pendiente de lo que os pasÃ³ y Sondeluz dice que os corresponde a 
+vosotras decir quiÃ©n hackeÃ³ vuestras redes sociales.'],
+          ['C', 'Pues es queâ€¦'],
+          ['S', 'TenÃ­amos hambreâ€¦ y habÃ­a un anuncio en una web que decÃ­a Â«Pienso gratis para cotorrasÂ» yâ€¦'],
+          ['K', 'Bueno, que la hemos liaâ€™o parda.'],
+          ['C', 'Y no nos quedÃ³ mÃ¡s remedio que intentar disimular. Â¡ImagÃ­nate que se enteran las arcanistas!'],
+          ['S', 'â€¦ pues nos dejan otro mes mÃ¡s sin comer.'],
+          ['K', 'Y estoâ€¦ Â¿CuÃ¡ndo se emite?'],
+          ['C', 'HabrÃ¡ que ir preparando las maletasâ€¦ Â¡Cotorra la Ãºltima!'],
+        ],
+      },
+      {
+        t: 'p',
+        v: 'EN EL PRÃ“XIMO NÃšMERO: Â«GUÃA DE â€œPOLLOSâ€ PARA ROSHARIANOSÂ»',
+        center: true,
+        lede: true,
+      },
+      {
+        t: 'section',
+        titulo: 'Pasatiempos',
+      },
+      {
+        t: 'p',
+        v: 'Este fue el primer nÃºmero en el que introdujimos pasatiempos, un pequeÃ±o toque de diversiÃ³n entre 
+tantas noticias. Sin embargo, como todo en CopperNews, no nos conformamos con lo bÃ¡sico. Hemos dado un paso mÃ¡s, y 
+ahora los pasatiempos que ofrecemos son interactivos, para que podÃ¡is disfrutar de ellos de una forma aÃºn mÃ¡s 
+dinÃ¡mica y entretenida. Ya no solo se trata de resolver acertijos, Â¡sino de vivir la experiencia! AquÃ tenÃ©is los 
+enlaces para adentraros en esta nueva versiÃ³n, Â¡y a divertirse mientras ejercitÃ¡is la mente!',
+      },
+      {
+        t: 'btnrow',
+        texto: 'Accede aquÃ­ a los pasatiempos',
+        to: '/ocio/pasatiempos',
+      },
+    ],
+  },
+]
+
+
