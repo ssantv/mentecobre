@@ -35,14 +35,6 @@ export default function CopperNewsShell({ children }) {
               {s.label}
             </NavLink>
           ))}
-          {isEdicion && (
-            <NavLink
-              to={pathname}
-              className="cn-nav-link active"
-            >
-              Edición
-            </NavLink>
-          )}
         </nav>
 
         <div className="coppernews-inner">{children}</div>
