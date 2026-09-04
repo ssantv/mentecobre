@@ -46,21 +46,33 @@ export const OCIO = [
     to: '/ocio/desolancicos',
     title: 'Desolancicos',
     icon: 'local_fire_department',
+    description:
+      'Conjunto de villancicos ambientados en los eventos de los libros.',
+    tag: 'Villancicos',
   },
   {
     to: '/ocio/coppernews',
     title: 'CopperNews',
     icon: 'newsmode',
+    description:
+      'Descubre los últimos acontecimientos y noticias del Cosmere.',
+    tag: 'Noticias',
   },
   {
     to: '/ocio/cotorraviajes',
     title: 'CotorraViajes',
     icon: 'flight',
+    description:
+      'Explora diferentes destinos y planifica tus viajes junto a las Cotorras de la Copper.',
+    tag: 'Viajes',
   },
   {
     to: '/ocio/escuela-monakus',
     title: 'Escuela Monakus',
     icon: 'school',
+    description:
+      'Aprende y fórmate con los recursos educativos de nuestra escuela.',
+    tag: 'Educación',
   },
   {
     title: 'Crónica de los Forjamundos',

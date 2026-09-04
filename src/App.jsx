@@ -1,5 +1,5 @@
-import { lazy, Suspense } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { lazy, Suspense, useEffect } from 'react'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import Layout from './components/Layout'
 import Home from './pages/Home'
 import Glosario from './pages/Glosario'
@@ -37,6 +37,26 @@ const MonakusMatriculacion = lazy(() => import('./pages/MonakusMatriculacion'))
 const MonakusMaterial = lazy(() => import('./pages/MonakusMaterial'))
 const MonakusContacto = lazy(() => import('./pages/MonakusContacto'))
 
+function ScrollToTop() {
+  const { pathname, search, hash } = useLocation()
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && 'scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual'
+    }
+    if (hash) {
+      const destino = document.getElementById(hash.slice(1))
+      if (destino) {
+        destino.scrollIntoView()
+        return
+      }
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+  }, [pathname, search, hash])
+
+  return null
+}
+
 export default function App() {
   return (
     <Suspense
@@ -54,6 +74,7 @@ export default function App() {
         </div>
       }
     >
+      <ScrollToTop />
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<Home />} />
