@@ -290,7 +290,7 @@ export default function Metaldoku() {
               Ninguna fila, columna ni bloque de 3×3 puede repetir metal.
             </p>
             <div className="metaldoku-toolbar">
-              <Link className="btn btn-ghost" to="/ocio/pasatiempos">
+              <Link className="material-symbols-outlined" to="/ocio/pasatiempos">
                 Volver a Pasatiempos
               </Link>
             </div>
@@ -332,7 +332,7 @@ export default function Metaldoku() {
               <button className="btn btn-primary" onClick={solve}>
                 Resolver
               </button>
-              <Link className="btn btn-ghost" to="/ocio/pasatiempos">
+              <Link className="material-symbols-outlined" to="/ocio/pasatiempos">
                 Volver a Pasatiempos
               </Link>
             </div>
@@ -352,7 +352,7 @@ export default function Metaldoku() {
               <button className="btn btn-primary" onClick={() => setPhase('difficulty')}>
                 Jugar de nuevo
               </button>
-              <Link className="btn btn-ghost" to="/ocio/pasatiempos">
+              <Link className="material-symbols-outlined" to="/ocio/pasatiempos">
                 Volver a Pasatiempos
               </Link>
             </div>

@@ -526,6 +526,7 @@ background: var(--surface-container-low);
   border: 1px solid var(--primary-container);
   color: var(--on-surface);
   font-weight: 600;
+  padding: 15px;
 }
 
 .btn-ghost:hover {
