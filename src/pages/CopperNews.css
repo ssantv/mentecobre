@@ -1,14 +1,48 @@
+/* ===== Variables de tema de CopperNews =====
+   Por defecto (dark) se definen aquí; se anulan bajo [data-theme='light']. */
+:root {
+  --cn-bg: #1f1f1f;
+  --cn-surface: #292929;
+  --cn-surface-soft: #333535;
+  --cn-text: #e2e2e2;
+  --cn-text-strong: #f2f2f2;
+  --cn-muted: #b8b8b8;
+  --cn-faint: #999999;
+  --cn-border: rgba(255, 255, 255, 0.12);
+  --cn-border-strong: rgba(255, 255, 255, 0.2);
+  --cn-accent: #ff5252;
+  --cn-accent-strong: #d3413f;
+  --cn-heading: #e2e2e2;
+  --cn-link-invert: #ffffff;
+}
+
+[data-theme='light'] {
+  --cn-bg: #ffffff;
+  --cn-surface: #f7f7f7;
+  --cn-surface-soft: #fbfbfb;
+  --cn-text: #212121;
+  --cn-text-strong: #1f1f1f;
+  --cn-muted: #5f6368;
+  --cn-faint: #757575;
+  --cn-border: #e0e0e0;
+  --cn-border-strong: #ececec;
+  --cn-accent: #ff5252;
+  --cn-accent-strong: #d3413f;
+  --cn-heading: #1f1f1f;
+  --cn-link-invert: #ffffff;
+}
+
 .coppernews-page {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: #ffffff;
+  background: var(--cn-bg);
 }
 
 /* ===== Container: réplica del aspecto claro de Google Sites ===== */
 .coppernews {
-  background: #ffffff;
-  color: #212121;
+  background: var(--cn-bg);
+  color: var(--cn-text);
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -20,7 +54,13 @@
   max-width: 900px;
   margin: 0 auto;
   padding: 2rem 2.5rem 3rem;
-  background: #ffffff;
+  background: var(--cn-bg);
+}
+
+/* ---- vista de edición: reduce márgenes laterales y amplía ancho ---- */
+.cn-page-edicion {
+  max-width: 1200px;
+  padding: 2rem 1rem 3rem;
 }
 
 /* ---- top bar (header casi transparente de Google Sites) ---- */
@@ -30,8 +70,8 @@
   align-items: center;
   gap: 1rem;
   padding: 0.85rem 1.25rem;
-  border-bottom: 1px solid #ececec;
-  background: #ffffff;
+  border-bottom: 1px solid var(--cn-border-strong);
+  background: var(--cn-bg);
 }
 
 .coppernews-back {
@@ -63,7 +103,7 @@
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: #212121;
+  color: var(--cn-text);
   font-size: 1.35rem;
   margin: 0;
 }
@@ -82,8 +122,8 @@
   align-items: center;
   gap: 0.25rem;
   padding: 0.6rem 2.5rem;
-  border-bottom: 2px solid #ff5252;
-  background: #ffffff;
+  border-bottom: 2px solid var(--cn-accent);
+  background: var(--cn-bg);
   flex-wrap: wrap;
 }
 
@@ -92,20 +132,20 @@
   text-transform: uppercase;
   font-size: 0.95rem;
   font-weight: 500;
-  color: #444444;
+  color: var(--cn-text);
   text-decoration: none;
   padding: 0.3rem 0.9rem;
   border-radius: 999px;
 }
 
 .cn-nav-link:hover {
-  background: #f1f1f1;
-  color: #1f1f1f;
+  background: var(--cn-surface);
+  color: var(--cn-heading);
 }
 
 .cn-nav-link.active {
   color: #ffffff;
-  background: #d3413f;
+  background: var(--cn-accent-strong);
 }
 
 /* ---- masthead principal ---- */
@@ -120,7 +160,7 @@
   font-size: 1.4rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #212121;
+  color: var(--cn-text);
   margin: 0 0 0.4rem;
 }
 
@@ -131,7 +171,7 @@
   text-transform: uppercase;
   letter-spacing: 0.02em;
   line-height: 1.05;
-  color: #1f1f1f;
+  color: var(--cn-heading);
   margin: 0;
 }
 
@@ -140,7 +180,7 @@
   display: block;
   width: 100%;
   height: 3px;
-  background: #ff5252;
+  background: var(--cn-accent);
   margin-top: 1.1rem;
 }
 
@@ -149,7 +189,7 @@
   font-weight: 300;
   font-size: 1.9rem;
   text-transform: uppercase;
-  color: #d3413f;
+  color: var(--cn-accent-strong);
   margin: 1.2rem 0 0;
 }
 
@@ -158,7 +198,7 @@
   font-size: 2.6rem;
   font-weight: 300;
   text-transform: uppercase;
-  color: #1f1f1f;
+  color: var(--cn-heading);
   line-height: 1.15;
   margin: 1rem 0 0.5rem;
   text-align: center;
@@ -169,7 +209,7 @@
   font-family: 'Droid Sans', 'Segoe UI', Roboto, sans-serif;
   font-size: 1.05rem;
   line-height: 1.65;
-  color: #212121;
+  color: var(--cn-text);
   margin-bottom: 1rem;
 }
 
@@ -178,7 +218,7 @@
   font-family: 'Droid Sans', 'Segoe UI', Roboto, sans-serif;
   font-size: 1.05rem;
   line-height: 1.65;
-  color: #212121;
+  color: var(--cn-text);
   margin-bottom: 1rem;
 }
 
@@ -186,16 +226,16 @@
   font-family: 'Oswald', sans-serif;
   font-weight: 300;
   text-transform: uppercase;
-  color: #1f1f1f;
-  border-bottom: 3px solid #ff5252;
+  color: var(--cn-heading);
+  border-bottom: 3px solid var(--cn-accent);
   padding-bottom: 0.4rem;
   margin: 2.5rem 0 1.2rem;
 }
 
 /* ---- boxes (recuadros grises estilo Google Sites) ---- */
 .cn-box {
-  background: #f7f7f7;
-  border: 1px solid #efefef;
+  background: var(--cn-surface);
+  border: 1px solid var(--cn-border-strong);
   padding: 1.5rem 1.75rem;
   margin: 1.5rem 0;
 }
@@ -205,7 +245,7 @@
   font-weight: 500;
   text-transform: uppercase;
   font-size: 1.15rem;
-  color: #d3413f;
+  color: var(--cn-accent-strong);
   margin: 0 0 0.6rem;
 }
 
@@ -218,8 +258,8 @@
 }
 
 .cn-card {
-  background: #f7f7f7;
-  border: 1px solid #efefef;
+  background: var(--cn-surface);
+  border: 1px solid var(--cn-border-strong);
   padding: 1.25rem;
   display: flex;
   flex-direction: column;
@@ -230,7 +270,7 @@
   font-weight: 500;
   text-transform: uppercase;
   font-size: 1.1rem;
-  color: #d3413f;
+  color: var(--cn-accent-strong);
   margin: 0 0 0.5rem;
 }
 
@@ -256,13 +296,13 @@
   max-width: 100%;
   height: auto;
   border-radius: 8px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--cn-border);
 }
 
 .cn-img figcaption {
   font-family: 'Droid Sans', 'Segoe UI', Roboto, sans-serif;
   font-size: 0.85rem;
-  color: #5f6368;
+  color: var(--cn-muted);
   font-style: italic;
   margin-top: 0.4rem;
 }
@@ -273,7 +313,7 @@
   font-weight: 300;
   text-transform: uppercase;
   font-size: 1.9rem;
-  color: #1f1f1f;
+  color: var(--cn-heading);
   margin: 2rem 0 0.5rem;
   text-align: center;
 }
@@ -283,7 +323,7 @@
   font-family: 'Oswald', sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #d3413f;
+  color: var(--cn-accent-strong);
   font-weight: 600;
   font-size: 1.05rem;
   margin: 0.4rem 0 1.2rem;
@@ -294,7 +334,7 @@
   font-family: 'Oswald', sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #757575;
+  color: var(--cn-faint);
   font-size: 0.95rem;
   margin: 0.3rem 0 1.5rem;
 }
@@ -306,8 +346,8 @@
 
 /* ---- listas de ingredientes ---- */
 .cn-recipe {
-  background: #f7f7f7;
-  border: 1px solid #efefef;
+  background: var(--cn-surface);
+  border: 1px solid var(--cn-border-strong);
   padding: 1.5rem 2rem;
   margin: 1.25rem 0;
 }
@@ -316,7 +356,7 @@
   font-family: 'Oswald', sans-serif;
   font-weight: 500;
   text-transform: uppercase;
-  color: #d3413f;
+  color: var(--cn-accent-strong);
   margin: 0 0 0.75rem;
 }
 
@@ -324,7 +364,7 @@
   font-family: 'Oswald', sans-serif;
   font-weight: 500;
   text-transform: uppercase;
-  color: #1f1f1f;
+  color: var(--cn-heading);
   margin: 1rem 0 0.5rem;
 }
 
@@ -334,7 +374,7 @@
   line-height: 1.55;
   padding-left: 1.2rem;
   margin: 0 0 0.75rem;
-  color: #212121;
+  color: var(--cn-text);
 }
 
 .cn-recipe ol {
@@ -343,7 +383,7 @@
   line-height: 1.55;
   padding-left: 1.3rem;
   margin: 0;
-  color: #212121;
+  color: var(--cn-text);
 }
 
 /* ---- enlaces / call to action ---- */
@@ -358,9 +398,9 @@
   gap: 0.5rem;
   padding: 0.85rem 2rem;
   border-radius: 999px;
-  border: 1px solid #d3413f;
-  background: #d3413f;
-  color: #ffffff;
+  border: 1px solid var(--cn-accent-strong);
+  background: var(--cn-accent-strong);
+  color: var(--cn-link-invert);
   font-family: 'Droid Sans', 'Segoe UI', Roboto, sans-serif;
   font-weight: 700;
   font-size: 1rem;
@@ -390,7 +430,7 @@
 .cn-img-caption {
   font-family: 'Droid Sans', 'Segoe UI', Roboto, sans-serif;
   font-size: 0.8rem;
-  color: #666;
+  color: var(--cn-faint);
   margin-top: 0.4rem;
 }
 
@@ -420,7 +460,7 @@
   font-family: 'Oswald', sans-serif;
   font-weight: 400;
   font-size: 15px;
-  color: black;
+  color: var(--cn-text);
   margin: 5px 0;
   transition: all 0.3s ease;
 }
@@ -528,18 +568,18 @@
   font-size: 3rem;
   text-transform: uppercase;
   line-height: 1.1;
-  color: #1f1f1f;
+  color: var(--cn-heading);
   margin: 1.5rem 0;
   text-align: center;
 }
 
 .cn-content .cn-h1-rojo {
-  color: #d3413f;
+  color: var(--cn-accent-strong);
 }
 
 .cn-article .cn-article-title {
   text-align: left;
-  border-bottom: 3px solid #ff5252;
+  border-bottom: 3px solid var(--cn-accent);
   padding-bottom: 0.35rem;
   margin-top: 1.5rem;
 }
@@ -548,7 +588,7 @@
   text-align: right;
   font-family: 'Droid Sans', 'Segoe UI', Roboto, sans-serif;
   font-size: 0.95rem;
-  color: #5f6368;
+  color: var(--cn-muted);
   margin: 0.5rem 0 0;
 }
 
@@ -556,7 +596,7 @@
   font-family: 'Oswald', sans-serif;
   font-weight: 500;
   text-transform: uppercase;
-  color: #d3413f;
+  color: var(--cn-accent-strong);
   font-size: 1.3rem;
   margin: 0 0 0.75rem;
 }
@@ -566,8 +606,8 @@
   font-size: 0.95rem;
   line-height: 1.55;
   font-style: italic;
-  color: #3c4043;
-  border-top: 1px solid #e0e0e0;
+  color: var(--cn-muted);
+  border-top: 1px solid var(--cn-border);
   padding-top: 0.75rem;
   margin: 0.75rem 0 0;
 }
@@ -580,7 +620,7 @@
 }
 
 .cn-signo {
-  border-bottom: 1px dashed #d0d0d0;
+  border-bottom: 1px dashed var(--cn-faint);
   padding-bottom: 0.5rem;
 }
 
@@ -588,14 +628,14 @@
   font-family: 'Oswald', sans-serif;
   font-weight: 600;
   text-transform: uppercase;
-  color: #1f1f1f;
+  color: var(--cn-heading);
   font-size: 1.05rem;
   margin: 0 0 0.25rem;
 }
 
 .cn-signo-fechas {
   font-weight: 300;
-  color: #5f6368;
+  color: var(--cn-muted);
   font-size: 0.9rem;
 }
 
@@ -607,8 +647,8 @@
 }
 
 .cn-modal {
-  background: #f6f6f6;
-  border: 1px solid #ececec;
+  background: var(--cn-surface);
+  border: 1px solid var(--cn-border-strong);
   padding: 1.25rem 1.5rem;
   margin: 1.25rem 0;
 }
@@ -624,7 +664,7 @@
 .cn-quien {
   font-family: 'Oswald', sans-serif;
   font-weight: 600;
-  color: #d3413f;
+  color: var(--cn-accent-strong);
 }
 
 .cn-suceso {
@@ -635,14 +675,14 @@
   font-family: 'Oswald', sans-serif;
   font-weight: 600;
   text-transform: uppercase;
-  color: #d3413f;
+  color: var(--cn-accent-strong);
   font-size: 1.1rem;
   margin: 0 0 0.2rem;
 }
 
 .cn-anuncio {
-  border: 2px dashed #b0b0b0;
-  background: #fbfbfb;
+  border: 2px dashed var(--cn-faint);
+  background: var(--cn-surface-soft);
   padding: 1rem 1.1rem;
   text-align: center;
 }
@@ -651,7 +691,7 @@
   font-family: 'Oswald', sans-serif;
   font-weight: 600;
   text-transform: uppercase;
-  color: #1f1f1f;
+  color: var(--cn-heading);
   font-size: 1rem;
   margin: 0 0 0.4rem;
 }
@@ -667,7 +707,7 @@
   font-family: 'Oswald', sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.03em;
-  color: #d3413f;
+  color: var(--cn-accent-strong);
   font-size: 0.9rem;
   font-weight: 600;
   margin: 0;
@@ -691,8 +731,8 @@
 }
 
 .cn-edicion-card {
-  border: 1px solid #ececec;
-  background: #f7f7f7;
+  border: 1px solid var(--cn-border-strong);
+  background: var(--cn-surface);
   padding: 1.25rem 1.5rem;
   display: flex;
   align-items: center;
@@ -705,7 +745,7 @@
   font-family: 'Oswald', sans-serif;
   font-weight: 500;
   text-transform: uppercase;
-  color: #1f1f1f;
+  color: var(--cn-heading);
   font-size: 1.2rem;
   margin: 0;
 }
@@ -718,6 +758,6 @@
 .cn-edicion-nav {
   margin-top: 1.75rem;
   text-align: center;
-  border-top: 1px solid #eeeeee;
+  border-top: 1px solid var(--cn-border-strong);
   padding-top: 1.5rem;
 }

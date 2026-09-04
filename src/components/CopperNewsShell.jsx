@@ -3,7 +3,7 @@ import { Link, NavLink, useLocation } from 'react-router-dom'
 const SUBS = [
   { to: '/ocio/coppernews', label: 'Inicio', end: true },
   { to: '/ocio/coppernews/la-redaccion', label: 'La Redacción' },
-  { to: '/ocio/coppernews/ediciones', label: 'Ediciones' },
+  { to: '/ocio/coppernews/ediciones', label: 'Nuestras ediciones' },
 ]
 
 export default function CopperNewsShell({ children }) {
@@ -37,7 +37,7 @@ export default function CopperNewsShell({ children }) {
           ))}
         </nav>
 
-        <div className="coppernews-inner">{children}</div>
+        <div className={isEdicion ? 'coppernews-inner cn-page-edicion' : 'coppernews-inner'}>{children}</div>
       </div>
     </div>
   )
