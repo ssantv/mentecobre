@@ -24,6 +24,9 @@ const CopperNews = lazy(() => import('./pages/CopperNews'))
 const CopperRedaccion = lazy(() => import('./pages/CopperRedaccion'))
 const CopperEdiciones = lazy(() => import('./pages/CopperEdiciones'))
 const CopperEdicion = lazy(() => import('./pages/CopperEdicion'))
+const CotorraViajes = lazy(() => import('./pages/CotorraViajes'))
+const CotorraViajesDestinos = lazy(() => import('./pages/CotorraViajesDestinos'))
+const CotorraViajesCatalogo = lazy(() => import('./pages/CotorraViajesCatalogo'))
 
 export default function App() {
   return (
@@ -70,6 +73,9 @@ export default function App() {
         <Route path="/ocio/coppernews/ediciones" element={<CopperEdiciones />} />
         <Route path="/ocio/coppernews/la-redaccion" element={<CopperRedaccion />} />
         <Route path="/ocio/coppernews" element={<CopperNews />} />
+        <Route path="/ocio/cotorraviajes/catalogo" element={<CotorraViajesCatalogo />} />
+        <Route path="/ocio/cotorraviajes/destinos" element={<CotorraViajesDestinos />} />
+        <Route path="/ocio/cotorraviajes" element={<CotorraViajes />} />
       </Routes>
     </Suspense>
   )

@@ -2,20 +2,13 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import './OjoDespertante.css'
 
-const COLORS = [
-  '#FF0000',
-  '#00FF00',
-  '#0000FF',
-  '#FFFF00',
-  '#FF00FF',
-  '#00FFFF',
-  '#FFA500',
-  '#800080',
-  '#008000',
-  '#FFC0CB',
-  '#A52A2A',
-  '#DDA0DD',
-]
+function getRandomHexColor() {
+  const rand = () => Math.floor(30 + Math.random() * 196) // evita extremos 0-30 y 225-255
+  const r = rand()
+  const g = rand()
+  const b = rand()
+  return `#${[r, g, b].map((v) => v.toString(16).padStart(2, '0')).join('')}`
+}
 
 const STAGE_NAMES = [
   'Apagado',
@@ -31,24 +24,10 @@ const STAGE_NAMES = [
   'Décima Elevación',
 ]
 
-function getDifficultyLevel(level) {
-  const baseDifference = 250
-  const levelsPerStage = 10
-  const differenceReduction = 20
-
-  const mainStage = Math.floor((level - 1) / levelsPerStage)
-  const subLevel = ((level - 1) % levelsPerStage) + 1
-
-  const difference =
-    mainStage === 9
-      ? Math.max(5, baseDifference - mainStage * differenceReduction - subLevel * 2)
-      : Math.max(5, baseDifference - mainStage * differenceReduction)
-
-  return {
-    name: STAGE_NAMES[Math.min(mainStage, STAGE_NAMES.length - 1)],
-    difference,
-    subLevel,
-  }
+// Nombre de la etapa (solo cosmético, no afecta a la dificultad real)
+function getStageName(level) {
+  const mainStage = Math.floor((level - 1) / 10)
+  return STAGE_NAMES[Math.min(mainStage, STAGE_NAMES.length - 1)]
 }
 
 function hexToRgb(hex) {
@@ -58,38 +37,28 @@ function hexToRgb(hex) {
     : [0, 0, 0]
 }
 
-const LEVEL_RANGES = [
-  { min: 230, max: 255 }, // Niveles 1-10
-  { min: 205, max: 230 }, // Niveles 11-20
-  { min: 180, max: 205 }, // Niveles 21-30
-  { min: 155, max: 180 }, // Niveles 31-40
-  { min: 130, max: 155 }, // Niveles 41-50
-  { min: 105, max: 130 }, // Niveles 51-60
-  { min: 80, max: 105 }, // Niveles 61-70
-  { min: 55, max: 80 }, // Niveles 71-80
-  { min: 30, max: 55 }, // Niveles 81-90
-  { min: 10, max: 30 }, // Niveles 91-100
-]
+// Curva de dificultad continua (sin escalones): decae exponencialmente
+// con el nivel, así que cada nivel es un pelín más difícil que el anterior,
+// sin saltos bruscos cada 10 niveles.
+const MAX_DIFF = 240 // diferencia de color en el nivel 1
+const MIN_DIFF = 4 // diferencia de color mínima (asíntota en niveles muy altos)
+const DECAY_RATE = 0.045 // cuanto más alto, más rápido baja la dificultad
+
+function getBaseDifference(level) {
+  return MIN_DIFF + (MAX_DIFF - MIN_DIFF) * Math.exp(-DECAY_RATE * (level - 1))
+}
 
 function getSimilarColor(baseColor, level) {
   const rgb = hexToRgb(baseColor)
+  const baseDiff = getBaseDifference(level)
 
-  // Si el nivel es 101 o superior, usar una diferencia fija de 5
-  if (level >= 101) {
-    const newRgb = rgb.map((value) =>
-      value > 127 ? Math.max(0, value - 5) : Math.min(255, value + 5),
-    )
-    return `rgb(${newRgb[0]}, ${newRgb[1]}, ${newRgb[2]})`
-  }
-
-  const mainStage = Math.floor((level - 1) / 10)
-  const range = LEVEL_RANGES[Math.min(mainStage, LEVEL_RANGES.length - 1)]
-
-  // Generar una diferencia aleatoria dentro del rango de la etapa actual
-  const randomDifference = Math.floor(Math.random() * (range.max - range.min)) + range.min
+  // Un poco de variación (±15%) para que no sea idéntico cada partida,
+  // pero sin generar saltos grandes de un nivel a otro.
+  const jitter = 0.85 + Math.random() * 0.3
+  const diff = Math.max(2, Math.round(baseDiff * jitter))
 
   const newRgb = rgb.map((value) =>
-    value > 127 ? Math.max(0, value - randomDifference) : Math.min(255, value + randomDifference),
+    value > 127 ? Math.max(0, value - diff) : Math.min(255, value + diff),
   )
   return `rgb(${newRgb[0]}, ${newRgb[1]}, ${newRgb[2]})`
 }
@@ -101,15 +70,15 @@ const DIFFICULTIES = {
 }
 
 function createRound(currentLevel, size) {
-  const baseColor = COLORS[Math.floor(Math.random() * COLORS.length)]
+  const baseColor = getRandomHexColor()
   const differentIndex = Math.floor(Math.random() * size)
   const differentColor = getSimilarColor(baseColor, currentLevel)
-  const difficulty = getDifficultyLevel(currentLevel)
+  const stageName = getStageName(currentLevel)
   const squares = []
   for (let i = 0; i < size; i++) {
     squares.push(i === differentIndex ? differentColor : baseColor)
   }
-  return { squares, differentIndex, difficultyName: difficulty.name }
+  return { squares, differentIndex, difficultyName: stageName }
 }
 
 export default function OjoDespertante() {
