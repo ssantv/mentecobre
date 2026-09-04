@@ -231,19 +231,42 @@
   list-style: none;
   padding: 0;
   margin: 0 0 1.25rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.9rem;
 }
 
-.cv-puntos li {
-  background: var(--cv-surface);
+.cv-punto-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  background: var(--cv-destino-bg);
   border: 1px solid var(--cv-border-strong);
-  border-radius: 999px;
-  padding: 0.5rem 1rem;
-  font-size: 0.9rem;
+  border-radius: 16px;
+  padding: 1rem 1.1rem;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.cv-punto-icono {
+  font-size: 1.5rem;
+  color: var(--cv-gold);
+}
+
+.cv-punto-titulo {
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  font-size: 0.95rem;
+  color: var(--cv-heading);
+  margin: 0;
+}
+
+.cv-punto-texto {
+  font-size: 0.85rem;
+  line-height: 1.5;
   color: var(--cv-text);
+  margin: 0;
 }
 
 .cv-cierre {
@@ -548,6 +571,10 @@
 
   .cv-hero-titulo {
     font-size: 2rem;
+  }
+
+  .cv-puntos {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .cv-destino {

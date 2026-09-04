@@ -27,6 +27,15 @@ const CopperEdicion = lazy(() => import('./pages/CopperEdicion'))
 const CotorraViajes = lazy(() => import('./pages/CotorraViajes'))
 const CotorraViajesDestinos = lazy(() => import('./pages/CotorraViajesDestinos'))
 const CotorraViajesCatalogo = lazy(() => import('./pages/CotorraViajesCatalogo'))
+const MonakusInicio = lazy(() => import('./pages/MonakusInicio'))
+const MonakusPresentacion = lazy(() => import('./pages/MonakusPresentacion'))
+const MonakusInstalaciones = lazy(() => import('./pages/MonakusInstalaciones'))
+const MonakusBasica = lazy(() => import('./pages/MonakusBasica'))
+const MonakusAvanzada = lazy(() => import('./pages/MonakusAvanzada'))
+const MonakusMastrell = lazy(() => import('./pages/MonakusMastrell'))
+const MonakusMatriculacion = lazy(() => import('./pages/MonakusMatriculacion'))
+const MonakusMaterial = lazy(() => import('./pages/MonakusMaterial'))
+const MonakusContacto = lazy(() => import('./pages/MonakusContacto'))
 
 export default function App() {
   return (
@@ -76,6 +85,15 @@ export default function App() {
         <Route path="/ocio/cotorraviajes/catalogo" element={<CotorraViajesCatalogo />} />
         <Route path="/ocio/cotorraviajes/destinos" element={<CotorraViajesDestinos />} />
         <Route path="/ocio/cotorraviajes" element={<CotorraViajes />} />
+        <Route path="/ocio/escuela-monakus/oferta/basica" element={<MonakusBasica />} />
+        <Route path="/ocio/escuela-monakus/oferta/avanzada" element={<MonakusAvanzada />} />
+        <Route path="/ocio/escuela-monakus/oferta/mastrell" element={<MonakusMastrell />} />
+        <Route path="/ocio/escuela-monakus/presentacion" element={<MonakusPresentacion />} />
+        <Route path="/ocio/escuela-monakus/instalaciones" element={<MonakusInstalaciones />} />
+        <Route path="/ocio/escuela-monakus/matriculacion" element={<MonakusMatriculacion />} />
+        <Route path="/ocio/escuela-monakus/material" element={<MonakusMaterial />} />
+        <Route path="/ocio/escuela-monakus/contacto" element={<MonakusContacto />} />
+        <Route path="/ocio/escuela-monakus" element={<MonakusInicio />} />
       </Routes>
     </Suspense>
   )

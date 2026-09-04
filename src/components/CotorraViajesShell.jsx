@@ -25,7 +25,7 @@ export default function CotorraViajesShell({ children, fondo, fondoOpacidad }) {
         </Link>
 
         <p className="cv-brand">Cotorra Viajes</p>
-        <p className="cv-slogan">Viaja por el Cosmere</p>
+
 
         <nav className="cv-nav">
           {SUBS.map((s) => (

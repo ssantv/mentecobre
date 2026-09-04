@@ -18,11 +18,17 @@ export default function CotorraViajes() {
               {p}
             </p>
           ))}
-          <ul className="cv-puntos">
+          <div className="cv-puntos">
             {CV_INICIO.hero.puntos.map((p, i) => (
-              <li key={i}>{p}</li>
+              <div key={i} className="cv-punto-card">
+                <span className="cv-punto-icono material-symbols-outlined" aria-hidden="true">
+                  {p.icono}
+                </span>
+                <h3 className="cv-punto-titulo">{p.titulo}</h3>
+                <p className="cv-punto-texto">{p.texto}</p>
+              </div>
             ))}
-          </ul>
+          </div>
           <p className="cv-parrafo cv-cierre">{CV_INICIO.hero.cierre}</p>
 
           <div className="cv-btn-row">

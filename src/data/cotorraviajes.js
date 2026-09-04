@@ -1,6 +1,6 @@
 export const CV_INICIO = {
   marca: 'Cotorra Viajes',
-  slogan: 'Viaja por el Cosmere',
+  slogan: '',
   hero: {
     titulo: 'COTORRA VIAJES',
     parrafos: [
@@ -8,10 +8,26 @@ export const CV_INICIO = {
       'Somos la primera y única agencia de viajes especializada en el Cosmere, ofreciendo paquetes turísticos para aventureros de todos los niveles. Desde recorridos históricos por Elendel hasta excursiones extremas cerca de la Perpendicularidad de Patji, tenemos la experiencia que necesitas para que tu travesía sea inolvidable.',
     ],
     puntos: [
-      'Destinos exclusivos: Roshar, Scadrial, Nalthis, Taldain y más.',
-      'Guías expertos que te llevarán por los mejores rincones del Cosmere.',
-      'Recomendaciones de seguridad (No garantizamos que sobrevivas en Braize).',
-      'Viajes personalizados según tus intereses: historia, naturaleza, alomancia aplicada…',
+      {
+        icono: 'explore',
+        titulo: 'Destinos exclusivos',
+        texto: 'Roshar, Scadrial, Nalthis, Taldain y más.',
+      },
+      {
+        icono: 'tour',
+        titulo: 'Guías expertos',
+        texto: 'Te llevarán por los mejores rincones del Cosmere.',
+      },
+      {
+        icono: 'health_and_safety',
+        titulo: 'Recomendaciones de seguridad',
+        texto: 'No garantizamos que sobrevivas en Braize.',
+      },
+      {
+        icono: 'star',
+        titulo: 'Viajes personalizados',
+        texto: 'Según tus intereses: historia, naturaleza, alomancia aplicada…',
+      },
     ],
     cierre: '¿Listo para la aventura? Explora nuestras rutas y empieza a planificar tu próximo viaje.',
   },
