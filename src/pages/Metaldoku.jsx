@@ -352,7 +352,7 @@ export default function Metaldoku() {
               <button className="btn btn-primary" onClick={() => setPhase('difficulty')}>
                 Jugar de nuevo
               </button>
-              <Link className="material-symbols-outlined" to="/ocio/pasatiempos">
+              <Link className="btn btn-ghost" to="/ocio/pasatiempos">
                 Volver a Pasatiempos
               </Link>
             </div>
