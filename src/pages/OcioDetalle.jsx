@@ -20,7 +20,7 @@ export default function OcioDetalle() {
           </span>
           <h2 className="login-title">Esta sección no existe</h2>
           <p className="login-text">Vuelve al listado de ocio.</p>
-          <Link className="material-symbols-outlined" to="/ocio">
+          <Link className="btn btn-ghost" to="/ocio">
             Volver a Ocio
           </Link>
         </div>
@@ -49,7 +49,7 @@ export default function OcioDetalle() {
         <p className="ocio-detalle-aviso">
           Esta sección está en construcción. ¡Vuelve pronto!
         </p>
-        <Link className="material-symbols-outlined" to="/ocio">
+        <Link className="btn btn-ghost" to="/ocio">
           Volver a Ocio
         </Link>
       </div>
