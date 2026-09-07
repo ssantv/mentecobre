@@ -1,7 +1,9 @@
-import { NavLink, Link } from 'react-router-dom'
+import { NavLink, Link, useLocation } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 import { useThemeMode } from '../theme/useThemeMode'
 import { useAuth } from '../auth/useAuth'
 import { ROLES_LABEL } from '../auth/mockUsers'
+import { notificationsSv } from '../api'
 
 const NAV_ITEMS = [
   { to: '/', icon: 'home', label: 'Inicio', end: true },
@@ -15,11 +17,42 @@ const ROLE_ITEMS = {
   traductor: [
     { icon: 'translate', label: 'Traducción', to: '/traduccion' },
   ],
+  revisor: [
+    { icon: 'translate', label: 'Traducción', to: '/traduccion' },
+    { icon: 'admin_panel_settings', label: 'Administración', to: '/admin', badge: true },
+  ],
+  admin: [
+    { icon: 'translate', label: 'Traducción', to: '/traduccion' },
+    { icon: 'admin_panel_settings', label: 'Administración', to: '/admin', badge: true },
+  ],
 }
 
 export default function Sidebar() {
   const { mode, toggle } = useThemeMode()
   const { user } = useAuth()
+  const location = useLocation()
+  const [pendientes, setPendientes] = useState(0)
+
+  // Para revisor/admin: notificaciones sin resolver (p. ej. «imagen con
+  // texto») que se atienden desde el panel de administración.
+  useEffect(() => {
+    if (!user || (user.role !== 'revisor' && user.role !== 'admin')) return
+    let vivo = true
+    ;(async () => {
+      try {
+        const lista = await notificationsSv.listar()
+        const sinResolver = lista.filter(
+          (n) => n.estado !== 'resuelta' && n.estado !== 'completado',
+        ).length
+        if (vivo) setPendientes(sinResolver)
+      } catch {
+        /* silencio: el badge se omite si no hay datos */
+      }
+    })()
+    return () => {
+      vivo = false
+    }
+  }, [user, location.pathname])
 
   const footerItems = user
     ? [{ icon: 'live_help', label: 'Ayuda', to: '/ayuda' }]
@@ -27,8 +60,7 @@ export default function Sidebar() {
         {
           icon: 'group',
           label: 'Únete al equipo',
-          href: 'https://docs.google.com/forms/d/e/1FAIpQLSeax7cmRbKdXJLqqC8N68LZ2ike1OvyTzIT316972gz3FFLWA/viewform',
-          external: true,
+          to: '/union',
         },
         {
           icon: 'account_circle',
@@ -76,6 +108,11 @@ export default function Sidebar() {
             <Link key={item.label} to={item.to} className="nav-item">
               <span className="material-symbols-outlined nav-icon">{item.icon}</span>
               <span>{item.label}</span>
+              {item.badge && pendientes > 0 && (
+                <span className="nav-badge" title="Notificaciones pendientes">
+                  {pendientes}
+                </span>
+              )}
             </Link>
           ))}
         </nav>

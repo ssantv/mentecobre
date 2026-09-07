@@ -3,6 +3,7 @@ import { Routes, Route, useLocation } from 'react-router-dom'
 import Layout from './components/Layout'
 import Home from './pages/Home'
 import Glosario from './pages/Glosario'
+import RequireAuth from './auth/RequireAuth'
 
 const Avance = lazy(() => import('./pages/Avance'))
 const Proyecto = lazy(() => import('./pages/Proyecto'))
@@ -12,11 +13,14 @@ const AyudaArticulo = lazy(() => import('./pages/AyudaArticulo'))
 const AyudaGrupo = lazy(() => import('./pages/AyudaGrupo'))
 const Perfil = lazy(() => import('./pages/Perfil'))
 const Traduccion = lazy(() => import('./pages/Traduccion'))
+const Admin = lazy(() => import('./pages/Admin'))
 const Quiz = lazy(() => import('./pages/Quiz'))
 const Juegos = lazy(() => import('./pages/Juegos'))
 const Hopper = lazy(() => import('./pages/Hopper'))
 const OcioDetalle = lazy(() => import('./pages/OcioDetalle'))
 const Desolancicos = lazy(() => import('./pages/Desolancicos'))
+const Union = lazy(() => import('./pages/Union'))
+const Erratas = lazy(() => import('./pages/Erratas'))
 const Pasatiempos = lazy(() => import('./pages/Pasatiempos'))
 const Metaldoku = lazy(() => import('./pages/Metaldoku'))
 const OjoDespertante = lazy(() => import('./pages/OjoDespertante'))
@@ -87,9 +91,25 @@ export default function App() {
           <Route path="/ayuda/recursos" element={<AyudaGrupo />} />
           <Route path="/ayuda/:grupo/:slug" element={<AyudaArticulo />} />
           <Route path="/ayuda/:slug" element={<AyudaArticulo />} />
-          <Route path="/perfil" element={<Perfil />} />
-          <Route path="/traduccion" element={<Traduccion />} />
+          <Route
+            path="/perfil"
+            element={
+              <RequireAuth>
+                <Perfil />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/traduccion"
+            element={
+              <RequireAuth>
+                <Traduccion />
+              </RequireAuth>
+            }
+          />
           <Route path="/ocio" element={<Juegos />} />
+          <Route path="/union" element={<Union />} />
+          <Route path="/erratas" element={<Erratas />} />
           <Route path="/ocio/quiz" element={<Quiz />} />
           <Route path="/ocio/hopper" element={<Hopper />} />
           <Route path="/ocio/desolancicos" element={<Desolancicos />} />
@@ -115,6 +135,15 @@ export default function App() {
         <Route path="/ocio/escuela-monakus/material" element={<MonakusMaterial />} />
         <Route path="/ocio/escuela-monakus/contacto" element={<MonakusContacto />} />
         <Route path="/ocio/escuela-monakus" element={<MonakusInicio />} />
+
+        <Route
+          path="/admin"
+          element={
+            <RequireAuth>
+              <Admin />
+            </RequireAuth>
+          }
+        />
       </Routes>
     </Suspense>
   )

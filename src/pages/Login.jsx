@@ -1,14 +1,34 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/useAuth'
-import { MOCK_USERS, ROLES_LABEL } from '../auth/mockUsers'
+import { ROLES_LABEL } from '../auth/mockUsers'
 
 export default function Login() {
-  const { user, loginAs } = useAuth()
+  const { user, login } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState(null)
+  const [cargando, setCargando] = useState(false)
 
-  function handleLogin(userId) {
-    if (loginAs(userId)) {
-      navigate('/')
+  const desde = location.state?.from?.pathname ?? '/perfil'
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    setError(null)
+    if (!username.trim() || !password) {
+      setError('Introduce tu usuario y contraseña.')
+      return
+    }
+    setCargando(true)
+    try {
+      await login(username.trim(), password)
+      navigate(desde, { replace: true })
+    } catch (err) {
+      setError(err.message || 'No se pudo iniciar sesión.')
+    } finally {
+      setCargando(false)
     }
   }
 
@@ -19,7 +39,8 @@ export default function Login() {
         <div>
           <h1 className="page-title">Iniciar sesión</h1>
           <p className="page-sub">
-            Entra con una cuenta de prueba para ver las opciones según tu rol.
+            Entra con tu usuario y contraseña para ver las opciones según tu
+            rol.
           </p>
         </div>
       </header>
@@ -42,23 +63,47 @@ export default function Login() {
           </>
         ) : (
           <>
-            <h2 className="login-title">Elige una cuenta de prueba</h2>
-            <p className="login-text">
-              Esto es una maqueta: cada botón inicia sesión con un rol.
+            <h2 className="login-title">Bienvenida de nuevo</h2>
+            <form className="login-form" onSubmit={handleSubmit}>
+              <div className="login-campo">
+                <label className="login-label" htmlFor="login-usuario">
+                  Usuario
+                </label>
+                <input
+                  id="login-usuario"
+                  className="login-input"
+                  type="text"
+                  autoComplete="username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </div>
+              <div className="login-campo">
+                <label className="login-label" htmlFor="login-password">
+                  Contraseña
+                </label>
+                <input
+                  id="login-password"
+                  className="login-input"
+                  type="password"
+                  autoComplete="current-password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+              {error && <p className="login-error">{error}</p>}
+              <button
+                type="submit"
+                className="btn btn-primary btn-lg login-btn"
+                disabled={cargando}
+              >
+                {cargando ? 'Entrando…' : 'Entrar'}
+              </button>
+            </form>
+            <p className="login-hint">
+              Maqueta: traductor / traductor123 · revisor / revisor123 · admin
+              / admin123
             </p>
-            <div className="login-options">
-              {MOCK_USERS.map((u) => (
-                <button
-                  key={u.id}
-                  type="button"
-                  className="btn btn-primary btn-lg"
-                  onClick={() => handleLogin(u.id)}
-                >
-                  <span className="login-role">{ROLES_LABEL[u.role]}</span>
-                  <span className="login-username">{u.name}</span>
-                </button>
-              ))}
-            </div>
           </>
         )}
       </div>

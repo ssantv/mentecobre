@@ -1,0 +1,79 @@
+[
+  {
+    "id": 1,
+    "username": "traductor",
+    "first_name": "Traductora",
+    "last_name": "",
+    "email": "traductora@mentecobre.dev",
+    "groups": [
+      "traductor"
+    ],
+    "rol": "colaborador",
+    "universe": [
+      5,
+      6,
+      4
+    ],
+    "status": "activo",
+    "status_changed_at": null,
+    "copper_username": "Traductora",
+    "date_joined": "2021-03-15",
+    "is_active": true,
+    "is_staff": false,
+    "is_resting": false,
+    "timeoff_date": null,
+    "out_date": null,
+    "notes": ""
+  },
+  {
+    "id": 10,
+    "username": "revisor",
+    "first_name": "Revisor",
+    "last_name": "",
+    "email": "revisor@mentecobre.dev",
+    "groups": [
+      "revisor"
+    ],
+    "rol": "colaborador",
+    "universe": [
+      5,
+      6
+    ],
+    "status": "activo",
+    "status_changed_at": null,
+    "copper_username": "Revisor",
+    "date_joined": "2022-08-02",
+    "is_active": true,
+    "is_staff": false,
+    "is_resting": false,
+    "timeoff_date": null,
+    "out_date": null,
+    "notes": ""
+  },
+  {
+    "id": 3,
+    "username": "admin",
+    "first_name": "Admin",
+    "last_name": "",
+    "email": "admin@mentecobre.dev",
+    "groups": [
+      "admin"
+    ],
+    "rol": "admin",
+    "universe": [
+      5,
+      6,
+      4
+    ],
+    "status": "activo",
+    "status_changed_at": null,
+    "copper_username": "Admin",
+    "date_joined": "2021-01-10",
+    "is_active": true,
+    "is_staff": true,
+    "is_resting": false,
+    "timeoff_date": null,
+    "out_date": null,
+    "notes": ""
+  }
+]

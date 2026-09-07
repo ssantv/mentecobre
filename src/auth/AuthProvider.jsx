@@ -1,44 +1,80 @@
-import { useState, useCallback, useEffect, useMemo } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { AuthContext } from './authContext'
-import { MOCK_USERS } from './mockUsers'
+import { login as apiLogin, me as apiMe } from '../api/auth'
+import { usersSv } from '../api'
+import { ROLES } from './mockUsers'
 
 const STORAGE_KEY = 'mentecobre.session'
 
-function readStoredUser() {
+function leerSesion() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
     if (!raw) return null
-    return JSON.parse(raw)
+    const sesion = JSON.parse(raw)
+    if (!sesion || !sesion.access || !sesion.user) return null
+    return sesion
   } catch {
     return null
   }
 }
 
-export default function AuthProvider({ children }) {
-  const [user, setUser] = useState(() => readStoredUser())
+const ROLES_POR_GRUPO = [ROLES.admin, ROLES.revisor, ROLES.traductor]
 
-  const loginAs = useCallback((userId) => {
-    const found = MOCK_USERS.find((u) => u.id === userId)
-    if (!found) return false
-    setUser(found)
-    return true
+function rolDesdeGrupos(groups = []) {
+  return ROLES_POR_GRUPO.find((g) => groups.includes(g)) ?? ROLES.traductor
+}
+
+function armarUsuario(me) {
+  const rol = rolDesdeGrupos(me.groups)
+  const nombre =
+    [me.first_name, me.last_name].filter(Boolean).join(' ') || me.username
+  return { ...me, name: nombre, role: rol }
+}
+
+export default function AuthProvider({ children }) {
+  const [sesion, setSesion] = useState(leerSesion)
+
+  const login = useCallback(async (username, password) => {
+    const tokens = await apiLogin(username, password)
+    const me = await apiMe(tokens.access)
+    const user = armarUsuario(me)
+    setSesion({ ...tokens, user })
+    return user
   }, [])
 
   const logout = useCallback(() => {
-    setUser(null)
+    setSesion(null)
   }, [])
 
+  const actualizarUser = useCallback(
+    async (patch) => {
+      const usuario = sesion?.user
+      if (!usuario) return null
+      try {
+        await usersSv.modificar(usuario.id, { ...usuario, ...patch })
+      } catch {
+        // En modo real el usuario podría no tener permiso para PATCH /users/<id>/
+        // (lo gestiona el backend vía rol); la sesión se actualiza igualmente.
+      }
+      setSesion((prev) =>
+        prev ? { ...prev, user: { ...prev.user, ...patch } } : prev,
+      )
+      return { ...sesion?.user, ...patch }
+    },
+    [sesion],
+  )
+
   useEffect(() => {
-    if (user) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(user))
+    if (sesion) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(sesion))
     } else {
       localStorage.removeItem(STORAGE_KEY)
     }
-  }, [user])
+  }, [sesion])
 
   const value = useMemo(
-    () => ({ user, loginAs, logout }),
-    [user, loginAs, logout],
+    () => ({ user: sesion?.user ?? null, login, logout, actualizarUser }),
+    [sesion, login, logout, actualizarUser],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

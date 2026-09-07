@@ -1,12 +1,26 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import ProgressDonut from '../components/ProgressDonut'
-import { projectStats } from '../data/mockData'
-
-const porcentaje = Math.round(
-  (projectStats.traducidos / projectStats.totalArticulos) * 100,
-)
+import { obtenerStats } from '../api'
 
 export default function Home() {
+  const [stats, setStats] = useState(null)
+
+  useEffect(() => {
+    let vivo = true
+    obtenerStats().then((s) => {
+      if (vivo) setStats(s)
+    })
+    return () => {
+      vivo = false
+    }
+  }, [])
+
+  const totalArticulos = stats?.projectStats.totalArticulos ?? 0
+  const traducidos = stats?.projectStats.traducidos ?? 0
+  const pendientes = stats?.projectStats.pendientes ?? 0
+  const porcentaje =
+    totalArticulos === 0 ? 0 : Math.round((traducidos / totalArticulos) * 100)
   return (
     <div>
       <section className="home-hero">
@@ -21,14 +35,9 @@ export default function Home() {
               personajes y secretos de Brandon Sanderson de manera clara y accesible.
             </p>
             <div className="hero-actions">
-              <a
-                className="btn btn-primary btn-lg"
-                href="https://docs.google.com/forms/d/e/1FAIpQLSeax7cmRbKdXJLqqC8N68LZ2ike1OvyTzIT316972gz3FFLWA/viewform"
-                target="_blank"
-                rel="noreferrer"
-              >
+              <Link className="btn btn-primary btn-lg" to="/union">
                 Únete al equipo
-              </a>
+              </Link>
               <Link className="btn btn-ghost btn-lg" to="/glosario">
                 Nuestro glosario
               </Link>
@@ -50,11 +59,11 @@ export default function Home() {
               <div className="metric-legend">
                 <span className="m-legend-item">
                   <span className="dot" style={{ background: '#ffb873' }}></span>
-                  Traducido · {projectStats.traducidos}
+                  Traducido · {traducidos}
                 </span>
                 <span className="m-legend-item">
                   <span className="dot" style={{ background: '#7e402b' }}></span>
-                  Pendiente · {projectStats.pendientes}
+                  Pendiente · {pendientes}
                 </span>
               </div>
             </div>
@@ -139,15 +148,10 @@ export default function Home() {
                 </svg>
                 Bluesky
               </a>
-              <a
-                className="social-link"
-                href="https://es.coppermind.net/wiki/Notificaci%C3%B3n_de_erratas"
-                target="_blank"
-                rel="noreferrer"
-              >
+              <Link className="social-link" to="/erratas">
                 <span className="material-symbols-outlined">flag</span>
                 Erratas
-              </a>
+              </Link>
             </div>
           </div>
         </div>

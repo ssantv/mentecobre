@@ -1,13 +1,52 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/useAuth'
 import { ROLES_LABEL } from '../auth/mockUsers'
+import { articles, universesSv } from '../api'
 
 export default function Perfil() {
-  const { user, logout } = useAuth()
+  const { user, logout, actualizarUser } = useAuth()
   const navigate = useNavigate()
   const [mostrarPw, setMostrarPw] = useState(false)
   const [tab, setTab] = useState('traducido')
+  const [modalAccion, setModalAccion] = useState(null)
+  const [mensaje, setMensaje] = useState(null)
+  const [cargado, setCargado] = useState(null)
+
+  // Los artículos y universos del perfil son vistas calculadas de las tablas
+  // de artículos y universos: sin estado duplicado en el usuario.
+  useEffect(() => {
+    if (!user) return
+    let vivo = true
+    ;(async () => {
+      const [arts, universos] = await Promise.all([
+        articles.listar(),
+        universesSv.listar(),
+      ])
+      if (!vivo) return
+      const porId = new Map(universos.map((u) => [Number(u.id), u.nombre]))
+      const display = (a) => ({
+        id: a.id,
+        tituloEs: a.titleEs,
+        tituloEn: a.titleEn,
+        universo: porId.get(Number(a.universe)) ?? 'Otro',
+      })
+      setCargado({
+        traducidos: arts
+          .filter((a) => Number(a.translator) === user.id && a.translated)
+          .map(display),
+        revisados: arts
+          .filter((a) => Number(a.reviewer) === user.id && a.reviewed)
+          .map(display),
+        universos: (user.universe ?? []).map(
+          (id) => porId.get(Number(id)) ?? 'Otro',
+        ),
+      })
+    })()
+    return () => {
+      vivo = false
+    }
+  }, [user])
 
   if (!user) {
     return (
@@ -37,11 +76,30 @@ export default function Perfil() {
     navigate('/')
   }
 
-  const articulos = user.articulos ?? []
   const esTraductor = user.role === 'traductor'
   const estadoActivo = esTraductor ? 'traducido' : tab
-  const visibles = articulos.filter((a) => a.estado === estadoActivo)
+  const visibles = cargado
+    ? estadoActivo === 'traducido'
+      ? cargado.traducidos
+      : cargado.revisados
+    : []
   const total = visibles.length
+  const activo = user.status === 'activo'
+
+  async function confirmarAccion() {
+    if (!modalAccion) return
+    const descanso = modalAccion === 'descanso'
+    await actualizarUser({
+      status: descanso ? 'descanso' : 'inactivo',
+      status_changed_at: new Date().toISOString().slice(0, 10),
+    })
+    setMensaje(
+      descanso
+        ? 'Todo el mundo necesita parar de vez en cuando, aquí te esperamos.'
+        : 'Sentimos que quieras dejarlo.',
+    )
+    setModalAccion(null)
+  }
 
   return (
     <div>
@@ -65,14 +123,30 @@ export default function Perfil() {
             </div>
           </div>
 
-          {user.fechaAlta && (
+          {user.date_joined && (
             <dl className="perfil-list">
               <div className="perfil-row">
                 <dt>Colaborando desde</dt>
-                <dd>{formatearFecha(user.fechaAlta)}</dd>
+                <dd>{formatearFecha(user.date_joined)}</dd>
               </div>
+              {user.copper_username && (
+                <div className="perfil-row">
+                  <dt>Usuario de la Coppermind</dt>
+                  <dd>{user.copper_username}</dd>
+                </div>
+              )}
             </dl>
           )}
+
+          {!activo && (
+            <p className={`perfil-aviso${user.status === 'descanso' ? '' : ' perfil-aviso-inactivo'}`}>
+              {user.status === 'descanso'
+                ? 'Estás de descanso. Solo un admin puede reactivarte; avísale y aquí te esperamos.'
+                : 'Has dejado de colaborar. Solo un admin puede volver a darte de alta.'}
+            </p>
+          )}
+
+          {mensaje && <p className="perfil-mensaje">{mensaje}</p>}
 
           <div className="perfil-acciones">
             <button
@@ -90,6 +164,18 @@ export default function Perfil() {
               Cerrar sesión
             </button>
           </div>
+
+          {activo && (
+            <div className="perfil-estado">
+              <button
+                type="button"
+                className="btn btn-ghost"
+                onClick={() => setModalAccion('elegir')}
+              >
+                Quiero bajarme del carro
+              </button>
+            </div>
+          )}
 
           {mostrarPw && <CambiarPassword />}
         </section>
@@ -124,11 +210,102 @@ export default function Perfil() {
             </span>
           </div>
 
-          <UniversosAsignados universos={user.universos} />
-
-          <ArticulosPorUniverso articulos={visibles} />
+          {cargado ? (
+            <>
+              <UniversosAsignados universos={cargado.universos} />
+              <ArticulosPorUniverso articulos={visibles} />
+            </>
+          ) : (
+            <p className="perfil-empty">Cargando tus artículos…</p>
+          )}
         </section>
       </div>
+
+      {modalAccion === 'elegir' && (
+        <div className="modal-backdrop" onClick={() => setModalAccion(null)}>
+          <div
+            className="modal-card"
+            role="dialog"
+            aria-modal="true"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className="modal-title">¿Cómo quieres hacerlo?</h3>
+            <div className="modal-opciones">
+              <button
+                type="button"
+                className="btn btn-ghost modal-opcion"
+                onClick={() => setModalAccion('descanso')}
+              >
+                <span className="modal-opcion-titulo">Por un tiempo</span>
+                <span className="modal-opcion-desc">
+                  Me gustaría tomarme un tiempo del proyecto
+                </span>
+              </button>
+              <button
+                type="button"
+                className="btn btn-ghost modal-opcion"
+                onClick={() => setModalAccion('dejar')}
+              >
+                <span className="modal-opcion-titulo">Para siempre</span>
+                <span className="modal-opcion-desc">
+                  No quiero seguir colaborando en el proyecto
+                </span>
+              </button>
+            </div>
+            <div className="modal-actions">
+              <button
+                type="button"
+                className="btn btn-ghost btn-lg"
+                onClick={() => setModalAccion(null)}
+              >
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {(modalAccion === 'descanso' || modalAccion === 'dejar') && (
+        <div
+          className="modal-backdrop"
+          onClick={() => setModalAccion(null)}
+        >
+          <div
+            className="modal-card"
+            role="dialog"
+            aria-modal="true"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className="modal-title">
+              {modalAccion === 'descanso'
+                ? 'Tomarte un tiempo'
+                : 'Dejar de colaborar'}
+            </h3>
+            <p className="modal-text">
+              ¿Estás seguro de que quieres{' '}
+              {modalAccion === 'descanso'
+                ? 'tomarte un tiempo?'
+                : 'dejar de colaborar?'}
+            </p>
+            <div className="modal-actions">
+              <button
+                type="button"
+                className="btn btn-ghost btn-lg"
+                onClick={() => setModalAccion(null)}
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary btn-lg"
+                onClick={confirmarAccion}
+              >
+                Aceptar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
@@ -191,7 +368,7 @@ function ArticulosPorUniverso({ articulos }) {
           </summary>
           <ul className="perfil-articulo-lista">
             {u.articulos.map((a) => (
-              <li key={a.tituloEn} className="perfil-articulo-item">
+              <li key={a.id ?? a.tituloEn} className="perfil-articulo-item">
                 <span className="perfil-articulo-titulo">{a.tituloEs}</span>
                 <span className="perfil-articulo-en">{a.tituloEn}</span>
               </li>

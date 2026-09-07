@@ -1,6 +1,5 @@
-import { useState } from 'react'
-import { glossary, categoria } from '../data/mockData'
-import { imagenesConTexto } from '../data/imagenesConTexto'
+import { useEffect, useState } from 'react'
+import { glossarySv, categoriesSv, imagesWithTextSv, notificationsSv } from '../api'
 import { useAuth } from '../auth/useAuth'
 
 const IMG_NO_ENC = 'https://media.tenor.com/a-niVX8qPEkAAAAj/rei-john-travolta.gif'
@@ -12,9 +11,77 @@ export default function Glosario() {
   const [preview, setPreview] = useState(null)
   const [previewPos, setPreviewPos] = useState({ top: 0 })
   const [imgState, setImgState] = useState({})
+  const [terminos, setTerminos] = useState([])
+  const [categorias, setCategorias] = useState([])
+  const [imagenes, setImagenes] = useState([])
+  const [cargado, setCargado] = useState(false)
+  const [notifyAbierto, setNotifyAbierto] = useState(false)
+  const [notifyUrl, setNotifyUrl] = useState('')
+  const [notifyContexto, setNotifyContexto] = useState('')
+  const [notifyOk, setNotifyOk] = useState(false)
+  const [notifyError, setNotifyError] = useState('')
+
+  // Glosario, categorías e imágenes viven en la capa de servicios: el front
+  // solo consume la misma forma que servirá la API.
+  useEffect(() => {
+    let vivo = true
+    Promise.all([
+      glossarySv.listar(),
+      categoriesSv.listar(),
+      imagesWithTextSv.listar(),
+    ]).then(([g, c, i]) => {
+      if (vivo) {
+        setTerminos(g)
+        setCategorias(c)
+        setImagenes(i)
+        setCargado(true)
+      }
+    })
+    return () => {
+      vivo = false
+    }
+  }, [])
 
   const setImgStateFor = (url, status) =>
     setImgState((prev) => ({ ...prev, [url]: status }))
+
+  async function notificarImagen(e) {
+    e.preventDefault()
+    setNotifyError('')
+    const url = notifyUrl.trim()
+    if (!url) return
+    try {
+      let en = 'Imagen con texto'
+      try {
+        en = decodeURIComponent(url.split('/').pop() || 'Imagen con texto')
+      } catch {
+        /* dejamos el nombre por defecto */
+      }
+      const img = await imagesWithTextSv.crear({
+        nombre: notifyContexto.trim() || en,
+        en,
+        es: '',
+        urlEn: url,
+        urlEs: '',
+        pendienteEs: true,
+      })
+      await notificationsSv.crear({
+        tipo: 'imagen_con_texto',
+        enUrl: url,
+        contexto: notifyContexto.trim() || '',
+        estado: 'pendiente',
+        creado_en: new Date().toISOString().slice(0, 10),
+        imageId: img.id,
+      })
+      setImagenes(await imagesWithTextSv.listar())
+      setNotifyUrl('')
+      setNotifyContexto('')
+      setNotifyAbierto(false)
+      setNotifyOk(true)
+    } catch {
+      setNotifyError('No se pudo notificar la imagen. Inténtalo de nuevo.')
+    }
+  }
 
   const q = query.trim().toLowerCase()
 
@@ -24,7 +91,7 @@ export default function Glosario() {
     ...(user ? [{ id: 'imagenes', label: 'Imágenes con texto' }] : []),
   ]
 
-  const articulosFiltrados = glossary.filter((entry) => {
+  const articulosFiltrados = terminos.filter((entry) => {
     if (!q) return true
     return (
       entry.term.toLowerCase().includes(q) ||
@@ -32,7 +99,7 @@ export default function Glosario() {
     )
   })
 
-  const categoriasFiltradas = categoria.filter((c) => {
+  const categoriasFiltradas = categorias.filter((c) => {
     if (!q) return true
     return (
       c.es.toLowerCase().includes(q) ||
@@ -40,7 +107,7 @@ export default function Glosario() {
     )
   })
 
-  const imagenesFiltradas = imagenesConTexto.filter((i) => {
+  const imagenesFiltradas = imagenes.filter((i) => {
     if (!q) return true
     return (
       i.nombre.toLowerCase().includes(q) ||
@@ -89,7 +156,11 @@ export default function Glosario() {
         onChange={(e) => setQuery(e.target.value)}
       />
 
-      {tab === 'articulos' && (
+      {!cargado && (
+        <p className="traduccion-empty">Cargando glosario…</p>
+      )}
+
+      {cargado && tab === 'articulos' && (
         <div className="glossary-grid">
           {articulosFiltrados.map((entry) => (
             <article key={entry.term} className="glossary-card">
@@ -120,7 +191,7 @@ export default function Glosario() {
         </div>
       )}
 
-      {tab === 'categorias' && (
+      {cargado && tab === 'categorias' && (
         <div className="glossary-grid">
           {categoriasFiltradas.map((c) => (
             <article key={c.id} className="glossary-card">
@@ -134,13 +205,68 @@ export default function Glosario() {
         </div>
       )}
 
-      {tab === 'imagenes' && (
+      {cargado && tab === 'imagenes' && (
         <div className="imgtexto">
-          <p className="imgtexto-desc">
-            Las imágenes que llevan texto en inglés tienen una versión en español
-            subida a la Coppermind. Pasa el ratón sobre una fila para ver la
-            miniatura de ambas versiones.
-          </p>
+          <div className="imgtexto-head">
+            <p className="imgtexto-desc">
+              Las imágenes que llevan texto en inglés tienen una versión en español
+              subida a la Coppermind. Pasa el ratón sobre una fila para ver la
+              miniatura de ambas versiones.
+            </p>
+            <button
+              type="button"
+              className="btn btn-ghost imgtexto-notify-btn"
+              onClick={() => setNotifyAbierto((v) => !v)}
+            >
+              <span className="material-symbols-outlined">campaign</span>
+              Notificar imagen con texto
+            </button>
+          </div>
+
+          {notifyAbierto && (
+            <form className="site-form" onSubmit={notificarImagen}>
+              <header className="site-form-head">
+                <h3 className="site-form-title">Notificar imagen con texto</h3>
+                <p className="site-form-desc">
+                  Si una imagen con texto en inglés aún no tiene versión en español,
+                  avísanos para añadirla.
+                </p>
+              </header>
+              <label className="site-field">
+                <span className="site-label">URL de la imagen en inglés (Coppermind)</span>
+                <input
+                  className="site-input"
+                  type="url"
+                  placeholder="https://coppermind.net/wiki/Special:FilePath/Imagen.jpg"
+                  value={notifyUrl}
+                  onChange={(e) => setNotifyUrl(e.target.value)}
+                  required
+                />
+              </label>
+              <label className="site-field">
+                <span className="site-label">¿En qué artículo aparece?</span>
+                <input
+                  className="site-input"
+                  type="text"
+                  placeholder="Nombre del artículo (opcional)"
+                  value={notifyContexto}
+                  onChange={(e) => setNotifyContexto(e.target.value)}
+                />
+              </label>
+              {notifyError && <p className="site-error">{notifyError}</p>}
+              <div className="site-actions">
+                <button type="submit" className="btn btn-primary">
+                  Notificar
+                </button>
+              </div>
+            </form>
+          )}
+
+          {notifyOk && (
+            <p className="site-ok">
+              Imagen notificada. El equipo la revisará y subirá su versión en español.
+            </p>
+          )}
           <div className="table-scroll imgtexto-table-scroll">
             <table className="imgtexto-table">
               <thead>

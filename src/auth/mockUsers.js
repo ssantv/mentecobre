@@ -4,110 +4,14 @@ export const ROLES = {
   admin: 'admin',
 }
 
-export const MOCK_USERS = [
-  {
-    id: '1',
-    name: 'Traductora',
-    username: 'supertraductora',
-    role: ROLES.traductor,
-    universos: ['Cosmere', 'Citoverso', 'Alcatraz'],
-    fechaAlta: '2021-03-15',
-    articulos: [
-      {
-        tituloEs: 'La Cicatriz',
-        tituloEn: 'The Scar',
-        universo: 'Cosmere',
-        estado: 'traducido',
-      },
-      {
-        tituloEs: 'El ritmo de la guerra',
-        tituloEn: 'Rhythm of War',
-        universo: 'Cosmere',
-        estado: 'traducido',
-      },
-      {
-        tituloEs: 'Nacidos de la bruma',
-        tituloEn: 'Mistborn',
-        universo: 'Cosmere',
-        estado: 'traducido',
-      },
-      {
-        tituloEs: 'Citoverso',
-        tituloEn: 'Citoverse',
-        universo: 'Citoverso',
-        estado: 'traducido',
-      },
-      {
-        tituloEs: 'El Aliento de los Dioses',
-        tituloEn: 'Warbreaker',
-        universo: 'Aliento',
-        estado: 'traducido',
-      },
-    ],
-  },
-  {
-    id: '2',
-    name: 'Revisor',
-    username: 'superrevisor',
-    role: ROLES.revisor,
-    universos: ['Cosmere', 'Citoverso'],
-    fechaAlta: '2022-08-02',
-    articulos: [
-      {
-        tituloEs: 'La Cicatriz',
-        tituloEn: 'The Scar',
-        universo: 'Cosmere',
-        estado: 'revisado',
-      },
-      {
-        tituloEs: 'El ritmo de la guerra',
-        tituloEn: 'Rhythm of War',
-        universo: 'Cosmere',
-        estado: 'traducido',
-      },
-      {
-        tituloEs: 'Nacidos de la bruma',
-        tituloEn: 'Mistborn',
-        universo: 'Cosmere',
-        estado: 'revisado',
-      },
-      {
-        tituloEs: 'Citoverso',
-        tituloEn: 'Citoverse',
-        universo: 'Citoverso',
-        estado: 'traducido',
-      },
-    ],
-  },
-  {
-    id: '3',
-    name: 'Admin',
-    username: 'admin',
-    role: ROLES.admin,
-    universos: ['Cosmere', 'Citoverso', 'Alcatraz'],
-    fechaAlta: '2021-01-10',
-    articulos: [
-      {
-        tituloEs: 'La Cicatriz',
-        tituloEn: 'The Scar',
-        universo: 'Cosmere',
-        estado: 'revisado',
-      },
-      {
-        tituloEs: 'El ritmo de la guerra',
-        tituloEn: 'Rhythm of War',
-        universo: 'Cosmere',
-        estado: 'traducido',
-      },
-      {
-        tituloEs: 'Citoverso',
-        tituloEn: 'Citoverse',
-        universo: 'Citoverso',
-        estado: 'revisado',
-      },
-    ],
-  },
-]
+// Contraseñas provisionales de la maqueta, separadas del resto de datos de
+// usuario: la DDBD jamás sirve contraseñas, solo el backend autentica. Se
+// usa únicamente en el modo mock de src/api/auth.js mientras no haya backend.
+export const MOCK_CREDENCIALES = {
+  traductor: 'traductor123',
+  revisor: 'revisor123',
+  admin: 'admin123',
+}
 
 export const ROLES_LABEL = {
   [ROLES.traductor]: 'Traductor',

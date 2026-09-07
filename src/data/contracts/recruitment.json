@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "nombre": "Ejemplo",
+    "email": "ejemplo@mentecobre.dev",
+    "motivacion": "Solicitud de ejemplo recibida por el formulario.",
+    "libros": [],
+    "prueba": "",
+    "estado": "nuevo",
+    "creado_en": "2026-09-01"
+  }
+]
