@@ -3082,6 +3082,133 @@ a.traduccion-titulo-en:hover {
   color: var(--on-surface-variant);
 }
 
+.traduccion-h2 .admin-chip {
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+
+.traduccion-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.traduccion-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+}
+
+.traduccion-pendientes {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.traduccion-acordeon {
+  margin-bottom: 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-glass);
+  overflow: hidden;
+}
+
+.traduccion-acordeon > summary {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 1.25rem;
+  cursor: pointer;
+  list-style: none;
+}
+
+.traduccion-acordeon > summary::-webkit-details-marker {
+  display: none;
+}
+
+.traduccion-acordeon-icon {
+  color: var(--on-surface-variant);
+  transition: transform 0.18s ease;
+}
+
+.traduccion-acordeon[open] > summary .traduccion-acordeon-icon {
+  transform: rotate(180deg);
+}
+
+.traduccion-acordeon-titulo {
+  font-weight: 800;
+  font-size: 1rem;
+}
+
+.traduccion-acordeon-body {
+  padding: 0.25rem 1.25rem 1.25rem;
+  border-top: 1px solid var(--border);
+}
+
+.traduccion-acordeon-body .admin-count {
+  padding: 0.75rem 0;
+}
+
+.traduccion-fila {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 0.9rem 0;
+  flex-wrap: wrap;
+}
+
+.traduccion-fila + .traduccion-fila {
+  border-top: 1px dashed var(--border);
+}
+
+.traduccion-fila-info {
+  flex: 1 1 16rem;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.traduccion-fila-info .admin-count {
+  margin-top: 0;
+}
+
+.traduccion-fila .traduccion-acciones {
+  flex: 0 0 auto;
+}
+
+.traduccion-check {
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-top: 0.25rem;
+  accent-color: var(--text-amber);
+}
+
+.traduccion-fila-control {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.3rem;
+  min-width: 9rem;
+}
+
+.traduccion-fila-control .btn {
+  text-align: left;
+}
+
+.traduccion-fila-control + .traduccion-fila-info {
+  flex: 1 1 14rem;
+}
+
+.traduccion-trad-input {
+  max-width: 22rem;
+  margin-top: 0.3rem;
+}
+
 /* ---------- Modal ---------- */
 
 .modal-backdrop {
@@ -3882,6 +4009,125 @@ a.traduccion-titulo-en:hover {
 .btn-sm {
   padding: 0.45rem 0.9rem;
   font-size: 0.78rem;
+}
+
+/* CRUD del panel: acciones por fila, detalle y formulario */
+.adm-row-actions {
+  display: inline-flex;
+  gap: 0.55rem;
+  white-space: nowrap;
+}
+
+.adm-row-link {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--adm-accent);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.adm-row-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.adm-row-link-danger {
+  color: var(--adm-danger);
+}
+
+.adm-detail {
+  padding: 1.1rem;
+}
+
+.adm-detail-row {
+  display: grid;
+  grid-template-columns: minmax(9rem, 14rem) 1fr;
+  gap: 1rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--adm-line-soft);
+  font-size: 0.87rem;
+  align-items: baseline;
+}
+
+.adm-detail-row:last-child {
+  border-bottom: none;
+}
+
+.adm-detail-label {
+  color: var(--adm-muted);
+  font-weight: 700;
+}
+
+.adm-detail-value {
+  color: var(--adm-text);
+  overflow-wrap: anywhere;
+}
+
+.adm-form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: 1rem 1.1rem;
+  padding: 1.1rem;
+}
+
+.adm-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.adm-field-check {
+  justify-content: flex-end;
+}
+
+.adm-field-label {
+  color: var(--adm-muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.adm-field .admin-input,
+.adm-field .admin-textarea,
+.adm-field .adm-select {
+  width: 100%;
+}
+
+.adm-check-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--adm-text);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.adm-check-group {
+  list-style: none;
+  margin: 0;
+  padding: 0.35rem 0 0;
+  display: grid;
+  gap: 0.3rem;
+}
+
+.adm-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  padding: 0 1.1rem 1.1rem;
+}
+
+.admin-btn-danger {
+  border-color: rgba(255, 138, 128, 0.4);
+  color: var(--adm-danger);
+}
+
+.admin-btn-danger:hover {
+  border-color: var(--adm-danger);
+  color: var(--adm-danger);
 }
 
 /* Sidebar: contador de notificaciones pendientes */

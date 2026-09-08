@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../auth/useAuth'
 import { ROLES_LABEL } from '../auth/mockUsers'
 import {
+  articles,
   usersSv,
   universesSv,
   glossarySv,
@@ -16,9 +17,10 @@ import {
 // M3 · Panel de administración: consola independiente. Aspecto propio
 //   (tabs laterales + contenido en tablas), página fuera del layout de la
 //   Mentecobre. Cada sección tiene su pestaña: glosario, categorías,
-//   imágenes con texto, artículos, usuarios, universos, erratas,
-//   reclutamiento y notificaciones (la única con contador).
-//   El revisor gestiona todo excepto usuarios, universos y reclutamiento.
+//   imágenes con texto, artículos, usuarios, universos y notificaciones
+//   (la única con contador). Erratas y reclutamiento no tienen tab
+//   propia: entran dentro de notificaciones. El revisor gestiona todo
+//   excepto usuarios y universos.
 
 const SINO = (v) => (v ? 'Sí' : '—')
 
@@ -38,7 +40,13 @@ function fmtFecha(fecha) {
 const ESTADOS_ERRATA = ['nuevo', 'en_proceso', 'resuelto', 'descartado']
 const ESTADOS_RECLUTAMIENTO = ['nuevo', 'entrevista', 'aceptado', 'rechazado']
 
-function Volver() {
+function esPendienteNotificaciones(tipo, estado) {
+  if (tipo === 'errata') return estado === 'nuevo'
+  if (tipo === 'reclutamiento') return estado === 'nuevo'
+  return estado !== 'resuelta' && estado !== 'completado'
+}
+
+export function Volver() {
   return (
     <Link to="/" className="admin-back-btn">
       <span className="material-symbols-outlined">arrow_back</span>
@@ -47,7 +55,7 @@ function Volver() {
   )
 }
 
-function AdminHead({ user }) {
+export function AdminHead({ user }) {
   return (
     <header className="admin-topbar">
       <Volver />
@@ -77,6 +85,40 @@ function AdminHead({ user }) {
   )
 }
 
+// ---------- CRUD ----------
+
+function NuevoBtn({ seccion }) {
+  return (
+    <Link className="admin-btn btn-sm" to={`/admin/${seccion}/nuevo`}>
+      <span className="material-symbols-outlined">add</span>
+      Nuevo
+    </Link>
+  )
+}
+
+function AccionesFila({ seccion, fila, svc, recargar, etiqueta }) {
+  async function eliminar() {
+    if (!window.confirm(`¿Eliminar «${etiqueta(fila)}»?`)) return
+    await svc.borrar(fila.id)
+    await recargar()
+  }
+
+  return (
+    <div className="adm-row-actions">
+      <Link className="adm-row-link" to={`/admin/${seccion}/${fila.id}`}>
+        Ver
+      </Link>
+      <button
+        type="button"
+        className="adm-row-link adm-row-link-danger"
+        onClick={eliminar}
+      >
+        Eliminar
+      </button>
+    </div>
+  )
+}
+
 export default function Admin() {
   const { user } = useAuth()
   const esAdmin = user?.role === 'admin'
@@ -90,11 +132,9 @@ export default function Admin() {
     { id: 'articulos', label: 'Artículos', icon: 'article' },
     { id: 'usuarios', label: 'Usuarios', icon: 'group' },
     { id: 'universos', label: 'Universos', icon: 'public' },
-    { id: 'erratas', label: 'Erratas', icon: 'edit_note' },
-    { id: 'reclutamiento', label: 'Reclutamiento', icon: 'person_add' },
     { id: 'notificaciones', label: 'Notificaciones', icon: 'notifications' },
   ]
-  const SIN_ACCESO_REVISOR = new Set(['usuarios', 'universos', 'reclutamiento'])
+  const SIN_ACCESO_REVISOR = new Set(['usuarios', 'universos'])
   const TABS = esRevisor
     ? TODAS.filter((t) => !SIN_ACCESO_REVISOR.has(t.id))
     : TODAS
@@ -112,7 +152,7 @@ export default function Admin() {
       notificationsSv.listar().then((r) => (data.notificaciones = r)),
       usersSv.listar().then((r) => (data.usuarios = r)),
       universesSv.listar().then((r) => (data.universos = r)),
-      articlesList().then((r) => (data.articulos = r)),
+      articles.listar().then((r) => (data.articulos = r)),
     ]
     if (!esRevisor) {
       tareas.push(recruitmentSv.listar().then((r) => (data.solicitudes = r)))
@@ -153,9 +193,19 @@ export default function Admin() {
   }
 
   const conteos = {
-    notificaciones: dato?.notificaciones?.filter(
-      (n) => n.estado !== 'resuelta' && n.estado !== 'completado',
-    ).length,
+    notificaciones: dato
+      ? dato.notificaciones.filter((n) =>
+          esPendienteNotificaciones('notificacion', n.estado),
+        ).length +
+        dato.erratas.filter((e) =>
+          esPendienteNotificaciones('errata', e.estado),
+        ).length +
+        (esRevisor
+          ? 0
+          : (dato.solicitudes ?? []).filter((s) =>
+              esPendienteNotificaciones('reclutamiento', s.estado),
+            ).length)
+      : undefined,
   }
 
   return (
@@ -191,19 +241,20 @@ export default function Admin() {
           {!dato && <p className="admin-empty">Cargando datos…</p>}
 
           {dato && tab === 'glosario' && (
-            <SeccionGlosario glosario={dato.glosario} />
+            <SeccionGlosario glosario={dato.glosario} recargar={() => cargarTodo()} />
           )}
           {dato && tab === 'categorias' && (
-            <SeccionCategorias categorias={dato.categorias} />
+            <SeccionCategorias categorias={dato.categorias} recargar={() => cargarTodo()} />
           )}
           {dato && tab === 'imagenes' && (
-            <SeccionImagenes imagenes={dato.imagenes} />
+            <SeccionImagenes imagenes={dato.imagenes} recargar={() => cargarTodo()} />
           )}
           {dato && tab === 'articulos' && (
             <SeccionArticulos
               articulos={dato.articulos}
               universos={dato.universos}
               usuarios={dato.usuarios}
+              recargar={() => cargarTodo()}
             />
           )}
           {dato && tab === 'usuarios' && (
@@ -217,23 +268,15 @@ export default function Admin() {
               universos={dato.universos}
               articulos={dato.articulos}
               usuarios={dato.usuarios}
-            />
-          )}
-          {dato && tab === 'erratas' && (
-            <SeccionErratas
-              erratas={dato.erratas}
-              recargar={() => cargarTodo()}
-            />
-          )}
-          {dato && tab === 'reclutamiento' && (
-            <SeccionReclutamiento
-              solicitudes={dato.solicitudes}
               recargar={() => cargarTodo()}
             />
           )}
           {dato && tab === 'notificaciones' && (
             <SeccionNotificaciones
               notificaciones={dato.notificaciones}
+              erratas={dato.erratas}
+              solicitudes={dato.solicitudes}
+              esRevisor={esRevisor}
               recargar={() => cargarTodo()}
             />
           )}
@@ -245,13 +288,16 @@ export default function Admin() {
 
 // ---------- Secciones ----------
 
-function SeccionGlosario({ glosario }) {
+function SeccionGlosario({ glosario, recargar }) {
   return (
     <div className="admin-panel">
       <header className="admin-panel-head">
         <div>
           <h2 className="admin-panel-title">Términos del glosario</h2>
           <span className="admin-panel-sub">{glosario.length} términos</span>
+        </div>
+        <div className="admin-head-actions">
+          <NuevoBtn seccion="glosario" />
         </div>
       </header>
       <div className="table-scroll">
@@ -261,6 +307,7 @@ function SeccionGlosario({ glosario }) {
               <th>Término</th>
               <th>Traducción</th>
               <th>Universo</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -273,6 +320,15 @@ function SeccionGlosario({ glosario }) {
                     {g.universo}
                   </span>
                 </td>
+                <td>
+                  <AccionesFila
+                    seccion="glosario"
+                    fila={g}
+                    svc={glossarySv}
+                    recargar={recargar}
+                    etiqueta={(f) => f.term}
+                  />
+                </td>
               </tr>
             ))}
           </tbody>
@@ -282,13 +338,16 @@ function SeccionGlosario({ glosario }) {
   )
 }
 
-function SeccionCategorias({ categorias }) {
+function SeccionCategorias({ categorias, recargar }) {
   return (
     <div className="admin-panel">
       <header className="admin-panel-head">
         <div>
           <h2 className="admin-panel-title">Categorías</h2>
           <span className="admin-panel-sub">{categorias.length} categorías</span>
+        </div>
+        <div className="admin-head-actions">
+          <NuevoBtn seccion="categorias" />
         </div>
       </header>
       <div className="table-scroll">
@@ -297,6 +356,7 @@ function SeccionCategorias({ categorias }) {
             <tr>
               <th>En inglés</th>
               <th>En español</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -304,6 +364,15 @@ function SeccionCategorias({ categorias }) {
               <tr key={c.id}>
                 <td className="adm-link">{c.en}</td>
                 <td>{c.es}</td>
+                <td>
+                  <AccionesFila
+                    seccion="categorias"
+                    fila={c}
+                    svc={categoriesSv}
+                    recargar={recargar}
+                    etiqueta={(f) => f.en}
+                  />
+                </td>
               </tr>
             ))}
           </tbody>
@@ -320,7 +389,7 @@ const ESTADOS_ARTICULO = [
   { id: 'revisado', label: 'Revisados' },
 ]
 
-function SeccionArticulos({ articulos, universos, usuarios }) {
+function SeccionArticulos({ articulos, universos, usuarios, recargar }) {
   const nombreUni = useMemo(
     () => new Map((universos ?? []).map((u) => [u.id, u.nombre])),
     [universos],
@@ -383,6 +452,7 @@ function SeccionArticulos({ articulos, universos, usuarios }) {
               </option>
             ))}
           </select>
+          <NuevoBtn seccion="articulos" />
         </div>
       </header>
 
@@ -395,21 +465,14 @@ function SeccionArticulos({ articulos, universos, usuarios }) {
               <th>Traductor</th>
               <th>Revisor</th>
               <th>Estado</th>
-              <th>ES</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
             {filtrados.map((a) => (
               <tr key={a.id}>
                 <td>
-                  <a
-                    className="adm-link"
-                    href={a.urlEn ?? '#'}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {a.titleEn}
-                  </a>
+                  <span className="adm-link">{a.titleEn}</span>
                   <div className="adm-en">{a.titleEs || '—'}</div>
                 </td>
                 <td>
@@ -437,18 +500,13 @@ function SeccionArticulos({ articulos, universos, usuarios }) {
                   </span>
                 </td>
                 <td>
-                  {a.urlEs ? (
-                    <a
-                      className="adm-link"
-                      href={a.urlEs}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Ver
-                    </a>
-                  ) : (
-                    '—'
-                  )}
+                  <AccionesFila
+                    seccion="articulos"
+                    fila={a}
+                    svc={articles}
+                    recargar={recargar}
+                    etiqueta={(f) => f.titleEn ?? f.titleEs ?? f.id}
+                  />
                 </td>
               </tr>
             ))}
@@ -466,7 +524,7 @@ function SeccionArticulos({ articulos, universos, usuarios }) {
   )
 }
 
-function SeccionImagenes({ imagenes }) {
+function SeccionImagenes({ imagenes, recargar }) {
   const pendientes = imagenes.filter((i) => i.pendienteEs)
 
   return (
@@ -480,6 +538,9 @@ function SeccionImagenes({ imagenes }) {
               ` · ${pendientes.length} sin versión ES (ver Notificaciones)`}
           </span>
         </div>
+        <div className="admin-head-actions">
+          <NuevoBtn seccion="imagenes" />
+        </div>
       </header>
 
       <div className="table-scroll">
@@ -489,32 +550,28 @@ function SeccionImagenes({ imagenes }) {
               <th>Si pone…</th>
               <th>…sustituir por</th>
               <th>Falta versión ES</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
             {imagenes.map((img) => (
               <tr key={img.id}>
                 <td>
-                  <a
-                    className="adm-link"
-                    href={img.urlEn}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {img.en}
-                  </a>
+                  <span className="adm-link">{img.en}</span>
                 </td>
                 <td>
-                  <a
-                    className="adm-link"
-                    href={img.urlEs}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {img.es || '—'}
-                  </a>
+                  <span className="adm-link">{img.es || '—'}</span>
                 </td>
                 <td>{SINO(img.pendienteEs)}</td>
+                <td>
+                  <AccionesFila
+                    seccion="imagenes"
+                    fila={img}
+                    svc={imagesWithTextSv}
+                    recargar={recargar}
+                    etiqueta={(f) => f.nombre}
+                  />
+                </td>
               </tr>
             ))}
           </tbody>
@@ -553,6 +610,9 @@ function SeccionUsuarios({ usuarios, recargar }) {
             {usuarios.length} personas en el equipo
           </span>
         </div>
+        <div className="admin-head-actions">
+          <NuevoBtn seccion="usuarios" />
+        </div>
       </header>
       <div className="table-scroll">
         <table className="adm-table">
@@ -562,6 +622,7 @@ function SeccionUsuarios({ usuarios, recargar }) {
               <th>Perfil</th>
               <th>Estado</th>
               <th>Desde</th>
+              <th></th>
               <th></th>
             </tr>
           </thead>
@@ -617,6 +678,18 @@ function SeccionUsuarios({ usuarios, recargar }) {
                     </>
                   )}
                 </td>
+                <td>
+                  <AccionesFila
+                    seccion="usuarios"
+                    fila={u}
+                    svc={usersSv}
+                    recargar={recargar}
+                    etiqueta={(f) =>
+                      [f.first_name, f.last_name].filter(Boolean).join(' ') ||
+                      f.username
+                    }
+                  />
+                </td>
               </tr>
             ))}
           </tbody>
@@ -626,7 +699,7 @@ function SeccionUsuarios({ usuarios, recargar }) {
   )
 }
 
-function SeccionUniversos({ universos, articulos, usuarios }) {
+function SeccionUniversos({ universos, articulos, usuarios, recargar }) {
   const conteo = useMemo(() => {
     const porUni = new Map()
     articulos.forEach((a) => {
@@ -655,6 +728,9 @@ function SeccionUniversos({ universos, articulos, usuarios }) {
             {universos.length} universos del Cosmere
           </span>
         </div>
+        <div className="admin-head-actions">
+          <NuevoBtn seccion="universos" />
+        </div>
       </header>
       <div className="table-scroll">
         <table className="adm-table">
@@ -665,6 +741,7 @@ function SeccionUniversos({ universos, articulos, usuarios }) {
               <th>Traducidos</th>
               <th>Revisados</th>
               <th>Colaboradores</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -687,6 +764,15 @@ function SeccionUniversos({ universos, articulos, usuarios }) {
                   </td>
                   <td>{e.revisados}</td>
                   <td>{conteo.colaboradores.get(uni.id) ?? 0}</td>
+                  <td>
+                    <AccionesFila
+                      seccion="universos"
+                      fila={uni}
+                      svc={universesSv}
+                      recargar={recargar}
+                      etiqueta={(f) => f.nombre}
+                    />
+                  </td>
                 </tr>
               )
             })}
@@ -697,141 +783,53 @@ function SeccionUniversos({ universos, articulos, usuarios }) {
   )
 }
 
-function SeccionErratas({ erratas, recargar }) {
-  async function cambiarEstado(e, estado) {
-    await erratasSv.modificar(e.id, { estado })
-    await recargar()
+function SeccionNotificaciones({
+  notificaciones,
+  erratas,
+  solicitudes,
+  esRevisor,
+  recargar,
+}) {
+  const TIPO_LABEL = {
+    notificacion: 'imagen_con_texto',
+    errata: 'errata',
+    reclutamiento: 'reclutamiento',
+  }
+  const TIPO_CHIP = {
+    notificacion: 'adm-chip-neutro',
+    errata: 'adm-chip-pend',
+    reclutamiento: 'adm-chip-enrev',
   }
 
-  return (
-    <div className="admin-panel">
-      <header className="admin-panel-head">
-        <div>
-          <h2 className="admin-panel-title">Erratas</h2>
-          <span className="admin-panel-sub">
-            {erratas.length} comunicadas (
-            {erratas.filter((e) => e.estado === 'nuevo').length} nuevas) · se reciben
-            desde el formulario de la portada
-          </span>
-        </div>
-      </header>
-
-      <div className="table-scroll">
-        <table className="adm-table">
-          <thead>
-            <tr>
-              <th>Artículo</th>
-              <th>Texto</th>
-              <th>Remitente</th>
-              <th>Estado</th>
-              <th>Recibida</th>
-            </tr>
-          </thead>
-          <tbody>
-            {erratas.map((e) => (
-              <tr key={e.id}>
-                <td>
-                  <span className="adm-link">{e.articulo}</span>
-                </td>
-                <td className="adm-limit">{e.texto}</td>
-                <td>
-                  <span className="adm-link">{e.usuario ?? 'anónimo'}</span>
-                  {e.email && <div className="adm-en">{e.email}</div>}
-                </td>
-                <td>
-                  <select
-                    className="adm-select"
-                    value={e.estado}
-                    onChange={(ev) => cambiarEstado(e, ev.target.value)}
-                    aria-label="Estado de la errata"
-                  >
-                    {ESTADOS_ERRATA.map((s) => (
-                      <option key={s} value={s}>
-                        {s}
-                      </option>
-                    ))}
-                  </select>
-                </td>
-                <td>{fmtFecha(e.creado_en)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
+  const items = [
+    ...notificaciones.map((n) => ({ tipo: 'notificacion', registro: n })),
+    ...erratas.map((e) => ({ tipo: 'errata', registro: e })),
+    ...(esRevisor
+      ? []
+      : (solicitudes ?? []).map((s) => ({
+          tipo: 'reclutamiento',
+          registro: s,
+        }))),
+  ].sort(
+    (a, b) =>
+      Number(esPendienteNotificaciones(b.tipo, b.registro.estado)) -
+        Number(esPendienteNotificaciones(a.tipo, a.registro.estado)) ||
+      String(b.registro.creado_en ?? '').localeCompare(
+        String(a.registro.creado_en ?? ''),
+      ),
   )
-}
-
-function SeccionReclutamiento({ solicitudes, recargar }) {
-  async function cambiarEstado(s, estado) {
-    await recruitmentSv.modificar(s.id, { estado })
-    await recargar()
-  }
-
-  return (
-    <div className="admin-panel">
-      <header className="admin-panel-head">
-        <div>
-          <h2 className="admin-panel-title">Reclutamiento</h2>
-          <span className="admin-panel-sub">
-            {solicitudes.length} solicitadas (
-            {solicitudes.filter((s) => s.estado === 'nuevo').length} nuevas) · se
-            reciben desde el formulario de la portada
-          </span>
-        </div>
-      </header>
-
-      <div className="table-scroll">
-        <table className="adm-table">
-          <thead>
-            <tr>
-              <th>Candidato</th>
-              <th>Motivación</th>
-              <th>Obras leídas</th>
-              <th>Estado</th>
-              <th>Recibida</th>
-            </tr>
-          </thead>
-          <tbody>
-            {solicitudes.map((s) => (
-              <tr key={s.id}>
-                <td>
-                  <span className="adm-link">{s.nombre}</span>
-                  <div className="adm-en">{s.email}</div>
-                </td>
-                <td className="adm-limit">{s.motivacion}</td>
-                <td className="adm-limit">{s.libros?.length ?? 0} obras</td>
-                <td>
-                  <select
-                    className="adm-select"
-                    value={s.estado}
-                    onChange={(ev) => cambiarEstado(s, ev.target.value)}
-                    aria-label="Estado de la solicitud"
-                  >
-                    {ESTADOS_RECLUTAMIENTO.map((st) => (
-                      <option key={st} value={st}>
-                        {st}
-                      </option>
-                    ))}
-                  </select>
-                </td>
-                <td>{fmtFecha(s.creado_en)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  )
-}
-
-function SeccionNotificaciones({ notificaciones, recargar }) {
-  const pendientes = notificaciones.filter(
-    (n) => n.estado !== 'resuelta' && n.estado !== 'completado',
+  const pendientes = items.filter((it) =>
+    esPendienteNotificaciones(it.tipo, it.registro.estado),
   )
 
   async function resolver(n) {
     await notificationsSv.modificar(n.id, { estado: 'resuelta' })
+    await recargar()
+  }
+
+  async function cambiarEstado(tipo, registro, estado) {
+    if (tipo === 'errata') await erratasSv.modificar(registro.id, { estado })
+    else await recruitmentSv.modificar(registro.id, { estado })
     await recargar()
   }
 
@@ -841,8 +839,12 @@ function SeccionNotificaciones({ notificaciones, recargar }) {
         <div>
           <h2 className="admin-panel-title">Notificaciones</h2>
           <span className="admin-panel-sub">
-            {pendientes.length} pendientes · {notificaciones.length} en total
+            {pendientes.length} pendientes · {items.length} en total ·
+            erratas y solicitudes entran aquí desde la portada
           </span>
+        </div>
+        <div className="admin-head-actions">
+          <NuevoBtn seccion="notificaciones" />
         </div>
       </header>
       <div className="table-scroll">
@@ -854,59 +856,121 @@ function SeccionNotificaciones({ notificaciones, recargar }) {
               <th>Estado</th>
               <th>Creada</th>
               <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
-            {notificaciones.map((n) => (
-              <tr key={n.id}>
-                <td>
-                  <span className="adm-chip adm-chip-neutro">{n.tipo}</span>
-                </td>
-                <td>
-                  <a
-                    className="adm-link"
-                    href={n.enUrl ?? '#'}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {n.contexto ?? n.enUrl}
-                  </a>
-                </td>
-                <td>
-                  <span
-                    className={`adm-chip ${
-                      n.estado === 'resuelta'
-                        ? 'adm-chip-rev'
-                        : 'adm-chip-enrev'
-                    }`}
-                  >
-                    {n.estado}
-                  </span>
-                </td>
-                <td>{fmtFecha(n.creado_en)}</td>
-                <td>
-                  {n.estado !== 'resuelta' && (
-                    <button
-                      type="button"
-                      className="admin-btn admin-btn-ghost"
-                      onClick={() => resolver(n)}
-                    >
-                      Marcar resuelta
-                    </button>
-                  )}
+            {items.map(({ tipo, registro }) => {
+              const contexto =
+                tipo === 'notificacion'
+                  ? registro.contexto ?? registro.enUrl
+                  : tipo === 'errata'
+                    ? registro.articulo
+                    : registro.nombre
+              const detalle =
+                tipo === 'notificacion'
+                  ? registro.enUrl
+                  : tipo === 'errata'
+                    ? (registro.usuario ?? 'anónimo') +
+                      (registro.email ? ` · ${registro.email}` : '')
+                    : `${registro.libros?.length ?? 0} obras`
+              const seccion =
+                tipo === 'errata'
+                  ? 'erratas'
+                  : tipo === 'reclutamiento'
+                    ? 'reclutamiento'
+                    : 'notificaciones'
+              const svc =
+                tipo === 'errata'
+                  ? erratasSv
+                  : tipo === 'reclutamiento'
+                    ? recruitmentSv
+                    : notificationsSv
+              const pendiente = esPendienteNotificaciones(tipo, registro.estado)
+              return (
+                <tr key={`${tipo}-${registro.id}`}>
+                  <td>
+                    <span className={`adm-chip ${TIPO_CHIP[tipo]}`}>
+                      {TIPO_LABEL[tipo]}
+                    </span>
+                  </td>
+                  <td>
+                    <span className="adm-link">{contexto}</span>
+                    {detalle && <div className="adm-en">{detalle}</div>}
+                    {tipo === 'errata' && registro.texto && (
+                      <div className="adm-en adm-limit">{registro.texto}</div>
+                    )}
+                    {tipo === 'reclutamiento' && (
+                      <div className="adm-en adm-limit">
+                        {registro.motivacion}
+                      </div>
+                    )}
+                  </td>
+                  <td>
+                    {tipo === 'notificacion' ? (
+                      <span
+                        className={`adm-chip ${
+                          pendiente ? 'adm-chip-enrev' : 'adm-chip-rev'
+                        }`}
+                      >
+                        {registro.estado}
+                      </span>
+                    ) : (
+                      <select
+                        className="adm-select"
+                        value={registro.estado}
+                        onChange={(ev) =>
+                          cambiarEstado(tipo, registro, ev.target.value)
+                        }
+                        aria-label="Estado de la solicitud"
+                      >
+                        {(tipo === 'errata'
+                          ? ESTADOS_ERRATA
+                          : ESTADOS_RECLUTAMIENTO
+                        ).map((st) => (
+                          <option key={st} value={st}>
+                            {st}
+                          </option>
+                        ))}
+                      </select>
+                    )}
+                  </td>
+                  <td>{fmtFecha(registro.creado_en)}</td>
+                  <td>
+                    {tipo === 'notificacion' && pendiente && (
+                      <button
+                        type="button"
+                        className="admin-btn admin-btn-ghost"
+                        onClick={() => resolver(registro)}
+                      >
+                        Marcar resuelta
+                      </button>
+                    )}
+                  </td>
+                  <td>
+                    <AccionesFila
+                      seccion={seccion}
+                      fila={registro}
+                      svc={svc}
+                      recargar={recargar}
+                      etiqueta={(f) =>
+                        f.contexto ?? f.articulo ?? f.nombre ?? f.tipo
+                      }
+                    />
+                  </td>
+                </tr>
+              )
+            })}
+            {items.length === 0 && (
+              <tr>
+                <td colSpan={6} className="admin-empty">
+                  Nada pendiente
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>
     </div>
   )
-}
-
-// Articles solo hace falta para el conteo de Universos; se importa on-demand
-// para no cargar la semilla hasta que se abra esa sección.
-async function articlesList() {
-  const { articles } = await import('../api')
-  return articles.listar()
 }

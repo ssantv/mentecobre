@@ -12,15 +12,6 @@ function hoy() {
   return `${d.getFullYear()}-${m}-${dia}`
 }
 
-const LABEL_VEREDICTO = {
-  revisar_diff: 'Revisar diff',
-  crear_pagina: 'Crear página',
-  no_requiere: 'No requiere',
-  pendiente: 'Pendiente',
-}
-
-const SINO = (v) => (v ? 'Sí' : '—')
-
 export default function Traduccion() {
   const { user } = useAuth()
   const esRevisor = user?.role === 'revisor' || user?.role === 'admin'
@@ -108,7 +99,7 @@ export default function Traduccion() {
     tab === 'revision'
       ? 'Revisa los artículos ya traducidos y pendientes de verificación.'
       : tab === 'actualizacion'
-        ? 'Artículos que cambiaron recientemente en la Coppermind y deben reseñarse.'
+        ? 'Cambios que detecta la API en la Coppermind en inglés, agrupados por tipo de trabajo.'
         : 'Tu artículo actual y el siguiente por asignar de cada uno de tus universos.'
 
   const datos = estado.tab === tab ? estado.datos : null
@@ -148,7 +139,13 @@ export default function Traduccion() {
         <SeccionRevision user={user} datos={datos} recargar={recargar} />
       )}
 
-      {tab === 'actualizacion' && <TabActualizacion cambios={cambios} recargar={recargar} />}
+      {tab === 'actualizacion' && (
+        <TabActualizacion
+          cambios={cambios}
+          recargar={recargar}
+          esRevisor={esRevisor}
+        />
+      )}
     </div>
   )
 }
@@ -525,86 +522,506 @@ function SeccionRevision({ user, datos, recargar }) {
 
 // ---------- Tab: Actualización ----------
 
-function TabActualizacion({ cambios, recargar }) {
+function slugUrl(t) {
+  return (t ?? '').trim().replace(/\s+/g, '_')
+}
+
+function copperEn(t) {
+  return `https://coppermind.net/edit/${slugUrl(t)}`
+}
+
+function copperEs(t) {
+  return `https://es.coppermind.net/edit/${slugUrl(t)}`
+}
+
+function tipoDeCambio(c, porId) {
+  if (c.tipo === 'htup') return 'htup'
+  const a = c.articleId != null ? porId.get(Number(c.articleId)) : null
+  if (!a) return 'crear'
+  return a.translated ? 'traducido' : 'sin_traducir'
+}
+
+function nombreCambio(c, porId) {
+  const a = c.articleId != null ? porId.get(Number(c.articleId)) : null
+  return a ? a.titleEs || a.titleEn : `#${c.articleId}`
+}
+
+function mesCambio(mesInicio) {
+  if (!mesInicio) return '—'
+  const d = new Date(mesInicio)
+  if (Number.isNaN(d.getTime())) return mesInicio
+  return d.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' })
+}
+
+async function marcarHecho(c, recargar) {
+  await monthlyChangesSv.modificar(c.id, { hecho: true })
+  await recargar()
+}
+
+async function marcarGrandes(c, valor, recargar) {
+  await monthlyChangesSv.modificar(c.id, { cambiosGrandes: valor })
+  await recargar()
+}
+
+function Acordeon({ titulo, chip, pendientes, children }) {
+  return (
+    <details className="traduccion-acordeon">
+      <summary>
+        <span className="material-symbols-outlined traduccion-acordeon-icon">
+          expand_more
+        </span>
+        <span className="traduccion-acordeon-titulo">{titulo}</span>
+        <span className={`admin-chip ${chip}`}>{pendientes}</span>
+      </summary>
+      <div className="traduccion-acordeon-body">
+        {pendientes === 0 ? (
+          <p className="traduccion-empty">Sin cambios pendientes en este grupo.</p>
+        ) : (
+          children
+        )}
+      </div>
+    </details>
+  )
+}
+
+function CheckHecho({ c, modoSel, seleccion, toggleSel, recargar }) {
+  if (modoSel) {
+    return (
+      <input
+        type="checkbox"
+        className="traduccion-check"
+        checked={seleccion.has(c.id)}
+        onChange={() => toggleSel(c.id)}
+        aria-label={`Marcar la entrada de actualización #${c.id} como hecha`}
+      />
+    )
+  }
+  return (
+    <button
+      type="button"
+      className="btn btn-ghost btn-sm"
+      onClick={() => marcarHecho(c, recargar)}
+    >
+      Marcar como hecho
+    </button>
+  )
+}
+
+function FilaHTUP({ c, porId, modoSel, seleccion, toggleSel, recargar }) {
+  const a = c.articleId != null ? porId.get(Number(c.articleId)) : null
+  const desc = a
+    ? 'Los datos no coinciden entre la base de datos y la web: posible ID incorrecto o enlace roto.'
+    : `No disponible en nuestra base de datos (artículo #${c.articleId}).`
+  return (
+    <div className="traduccion-fila">
+      <CheckHecho
+        c={c}
+        modoSel={modoSel}
+        seleccion={seleccion}
+        toggleSel={toggleSel}
+        recargar={recargar}
+      />
+      <div className="traduccion-fila-info">
+        <span className="admin-link">{nombreCambio(c, porId)}</span>
+        <div className="admin-count">{desc}</div>
+      </div>
+      <div className="traduccion-acciones">
+        <Link
+          to={a ? `/admin/articulos/${a.id}` : '/admin/articulos'}
+          className="btn btn-primary btn-sm"
+        >
+          Solucionarlo
+        </Link>
+      </div>
+    </div>
+  )
+}
+
+function FilaCrear({ c, porId, modoSel, seleccion, toggleSel, recargar }) {
+  const [trad, setTrad] = useState('')
+  return (
+    <div className="traduccion-fila">
+      <CheckHecho
+        c={c}
+        modoSel={modoSel}
+        seleccion={seleccion}
+        toggleSel={toggleSel}
+        recargar={recargar}
+      />
+      <div className="traduccion-fila-info">
+        <a
+          className="admin-link"
+          href={copperEn(c.tituloEn ?? nombreCambio(c, porId))}
+          target="_blank"
+          rel="noreferrer"
+        >
+          {c.tituloEn ?? nombreCambio(c, porId)}
+        </a>
+        <input
+          className="admin-input traduccion-trad-input"
+          value={trad}
+          onChange={(ev) => setTrad(ev.target.value)}
+          placeholder="Traducción al español"
+        />
+      </div>
+      <div className="traduccion-acciones">
+        <a
+          className="btn btn-primary btn-sm"
+          href={copperEs(trad)}
+          target="_blank"
+          rel="noreferrer"
+          aria-disabled={!trad.trim()}
+          onClick={(ev) => {
+            if (!trad.trim()) ev.preventDefault()
+          }}
+        >
+          Crear en la Copper
+        </a>
+        <Link to="/admin/articulos/nuevo" className="btn btn-primary btn-sm">
+          Crear en la DDBB
+        </Link>
+      </div>
+    </div>
+  )
+}
+
+function FilaSinTraducir({ c, porId, modoSel, seleccion, toggleSel, recargar }) {
+  const a = c.articleId != null ? porId.get(Number(c.articleId)) : null
+  return (
+    <div className="traduccion-fila">
+      <CheckHecho
+        c={c}
+        modoSel={modoSel}
+        seleccion={seleccion}
+        toggleSel={toggleSel}
+        recargar={recargar}
+      />
+      <div className="traduccion-fila-info">
+        <span className="admin-link">{nombreCambio(c, porId)}</span>
+      </div>
+      <div className="traduccion-acciones">
+        <a
+          className="btn btn-ghost btn-sm"
+          href={a ? copperEn(a.titleEn) : '#'}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Copper EN
+        </a>
+        <a
+          className="btn btn-ghost btn-sm"
+          href={a ? copperEs(a.titleEs || a.titleEn) : '#'}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Copper ES
+        </a>
+      </div>
+    </div>
+  )
+}
+
+function FilaTraducido({ c, porId, modoSel, seleccion, toggleSel, recargar }) {
+  const a = c.articleId != null ? porId.get(Number(c.articleId)) : null
+  return (
+    <div className="traduccion-fila">
+      <div className="traduccion-fila-control">
+        <CheckHecho
+          c={c}
+          modoSel={modoSel}
+          seleccion={seleccion}
+          toggleSel={toggleSel}
+          recargar={recargar}
+        />
+        <button
+          type="button"
+          className="btn btn-ghost btn-sm"
+          onClick={() => marcarGrandes(c, true, recargar)}
+        >
+          Cambios grandes
+        </button>
+      </div>
+      <div className="traduccion-fila-info">
+        <span className="admin-link">{nombreCambio(c, porId)}</span>
+        <div className="admin-count">
+          Cambios desde: <strong>{mesCambio(c.mesInicio)}</strong>
+        </div>
+      </div>
+      <div className="traduccion-acciones">
+        <a
+          className="btn btn-ghost btn-sm"
+          href={a ? copperEn(a.titleEn) : '#'}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Copper EN
+        </a>
+        <a
+          className="btn btn-ghost btn-sm"
+          href={a ? copperEs(a.titleEs || a.titleEn) : '#'}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Copper ES
+        </a>
+      </div>
+    </div>
+  )
+}
+
+function FilaGrandes({ c, porId, modoSel, seleccion, toggleSel, recargar }) {
+  const a = c.articleId != null ? porId.get(Number(c.articleId)) : null
+  return (
+    <div className="traduccion-fila">
+      <div className="traduccion-fila-control">
+        <CheckHecho
+          c={c}
+          modoSel={modoSel}
+          seleccion={seleccion}
+          toggleSel={toggleSel}
+          recargar={recargar}
+        />
+        <button
+          type="button"
+          className="btn btn-ghost btn-sm"
+          onClick={() => marcarGrandes(c, false, recargar)}
+        >
+          Quitar de grandes
+        </button>
+      </div>
+      <div className="traduccion-fila-info">
+        <span className="admin-link">{nombreCambio(c, porId)}</span>
+        <div className="admin-count">
+          Cambios desde: <strong>{mesCambio(c.mesInicio)}</strong>
+        </div>
+      </div>
+      <div className="traduccion-acciones">
+        <a
+          className="btn btn-ghost btn-sm"
+          href={a ? copperEn(a.titleEn) : '#'}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Copper EN
+        </a>
+        <a
+          className="btn btn-ghost btn-sm"
+          href={a ? copperEs(a.titleEs || a.titleEn) : '#'}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Copper ES
+        </a>
+      </div>
+    </div>
+  )
+}
+
+function TabActualizacion({ cambios, recargar, esRevisor }) {
+  const [modoSel, setModoSel] = useState(false)
+  const [seleccion, setSeleccion] = useState(() => new Set())
+
   const porId = useMemo(
-    () => new Map((cambios?.articulos ?? []).map((a) => [a.id, a])),
+    () => new Map((cambios?.articulos ?? []).map((a) => [Number(a.id), a])),
     [cambios],
   )
+
+  const grupos = useMemo(() => {
+    const acc = {
+      htup: [],
+      crear: [],
+      sin_traducir: [],
+      traducido: [],
+      cambios_grandes: [],
+    }
+    for (const c of cambios?.cambios ?? []) {
+      const tipo = tipoDeCambio(c, porId)
+      const destino =
+        tipo === 'traducido' && c.cambiosGrandes ? 'cambios_grandes' : tipo
+      acc[destino].push(c)
+    }
+    const cmp = (a, b) =>
+      nombreCambio(a, porId).localeCompare(nombreCambio(b, porId), 'es')
+    for (const k of Object.keys(acc)) acc[k].sort(cmp)
+    return acc
+  }, [cambios, porId])
 
   if (!cambios) {
     return <p className="traduccion-empty">Cargando cambios…</p>
   }
 
-  function veredicto(c) {
-    return LABEL_VEREDICTO[c.veredicto] ?? c.veredicto ?? '—'
-  }
+  const visibles = esRevisor
+    ? ['htup', 'crear', 'sin_traducir', 'traducido', 'cambios_grandes']
+    : ['sin_traducir', 'traducido', 'cambios_grandes']
+  const pendientes = visibles.reduce(
+    (n, k) => n + grupos[k].filter((c) => !c.hecho).length,
+    0,
+  )
 
-  async function marcarSinPasar(c, valor) {
-    await monthlyChangesSv.modificar(c.id, { sinPasar: valor })
-    await recargar()
-  }
-
-  function fmtFecha(fecha) {
-    if (!fecha) return '—'
-    const d = new Date(fecha)
-    if (Number.isNaN(d.getTime())) return fecha
-    return d.toLocaleDateString('es-ES', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
+  function toggleSel(id) {
+    setSeleccion((prev) => {
+      const s = new Set(prev)
+      if (s.has(id)) s.delete(id)
+      else s.add(id)
+      return s
     })
   }
 
+  async function aplicarSeleccion(datos) {
+    const ids = [...seleccion]
+    for (const id of ids) {
+      await monthlyChangesSv.modificar(id, datos)
+    }
+    setSeleccion(new Set())
+    await recargar()
+  }
+
+  const selCambios = [...seleccion]
+    .map((id) => cambios.cambios.find((c) => c.id === id))
+    .filter(Boolean)
+  const todasTraducidas =
+    selCambios.length > 0 &&
+    selCambios.every((c) => tipoDeCambio(c, porId) === 'traducido')
+  const hayPorGrandes = selCambios.some((c) => !c.cambiosGrandes)
+  const hayGrandes = selCambios.some((c) => c.cambiosGrandes)
+
+  if ((cambios.cambios ?? []).length === 0) {
+    return (
+      <p className="traduccion-empty">
+        No hay cambios detectados este mes por la API.
+      </p>
+    )
+  }
+
+  const propsFila = { modoSel, seleccion, toggleSel, recargar }
+
   return (
     <div>
-      <div className="table-scroll">
-        <table className="admin-table">
-          <thead>
-            <tr>
-              <th>Artículo</th>
-              <th>Mes</th>
-              <th>Veredicto</th>
-              <th>Fecha del cambio</th>
-              <th>Sin pasar</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {cambios.cambios.map((c) => {
-              const a =
-                c.articleId != null ? porId.get(Number(c.articleId)) : null
-              return (
-                <tr key={c.id} className="imgtexto-row">
-                  <td>
-                    <span className="admin-link">
-                      {a ? a.titleEs || a.titleEn : `#${c.articleId}`}
-                    </span>
-                  </td>
-                  <td>
-                    {fmtFecha(c.mesInicio)} – {fmtFecha(c.mesFin)}
-                  </td>
-                  <td>
-                    <span className="admin-chip admin-chip-pend">
-                      {veredicto(c)}
-                    </span>
-                  </td>
-                  <td>{fmtFecha(c.fechaCambioEn)}</td>
-                  <td>{SINO(c.sinPasar)}</td>
-                  <td>
-                    <button
-                      type="button"
-                      className="btn btn-ghost btn-sm"
-                      onClick={() => marcarSinPasar(c, !c.sinPasar)}
-                    >
-                      {c.sinPasar ? 'Marcar pasada' : 'Marcar sin pasar'}
-                    </button>
-                  </td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
+      <div className="traduccion-toolbar">
+        <p className="traduccion-pendientes">
+          <strong>{pendientes}</strong>{' '}
+          {pendientes === 1
+            ? 'pendiente de actualizar'
+            : 'pendientes de actualizar'}
+        </p>
+        <div className="traduccion-acciones">
+          {modoSel ? (
+            <>
+              {seleccion.size > 0 && (
+              <>
+                <button
+                  type="button"
+                  className="btn btn-primary btn-sm"
+                  onClick={() => aplicarSeleccion({ hecho: true })}
+                >
+                  Marcar como hechas ({seleccion.size})
+                </button>
+                {todasTraducidas && hayPorGrandes && (
+                  <button
+                    type="button"
+                    className="btn btn-ghost btn-sm"
+                    onClick={() => aplicarSeleccion({ cambiosGrandes: true })}
+                  >
+                    Marcar como cambios grandes ({seleccion.size})
+                  </button>
+                )}
+                {todasTraducidas && hayGrandes && (
+                  <button
+                    type="button"
+                    className="btn btn-ghost btn-sm"
+                    onClick={() => aplicarSeleccion({ cambiosGrandes: false })}
+                  >
+                    Quitar de grandes ({seleccion.size})
+                  </button>
+                )}
+              </>
+            )}
+              <button
+                type="button"
+                className="btn btn-ghost btn-sm"
+                onClick={() => {
+                  setModoSel(false)
+                  setSeleccion(new Set())
+                }}
+              >
+                Cancelar
+              </button>
+            </>
+          ) : (
+            <button
+              type="button"
+              className="btn btn-ghost btn-sm"
+              onClick={() => setModoSel(true)}
+            >
+              Seleccionar varios
+            </button>
+          )}
+        </div>
       </div>
+
+      {esRevisor && (
+        <Acordeon
+          titulo="Houston, tenemos un problema"
+          chip="admin-chip-pend"
+          pendientes={grupos.htup.filter((c) => !c.hecho).length}
+        >
+          {grupos.htup
+            .filter((c) => !c.hecho)
+            .map((c) => (
+              <FilaHTUP key={c.id} c={c} porId={porId} {...propsFila} />
+            ))}
+        </Acordeon>
+      )}
+
+      {esRevisor && (
+        <Acordeon
+          titulo="Crear"
+          chip="admin-chip-neutro"
+          pendientes={grupos.crear.filter((c) => !c.hecho).length}
+        >
+          {grupos.crear
+            .filter((c) => !c.hecho)
+            .map((c) => (
+              <FilaCrear key={c.id} c={c} porId={porId} {...propsFila} />
+            ))}
+        </Acordeon>
+      )}
+
+      <Acordeon
+        titulo="Sin traducir"
+        chip="admin-chip-enrev"
+        pendientes={grupos.sin_traducir.filter((c) => !c.hecho).length}
+      >
+        {grupos.sin_traducir
+          .filter((c) => !c.hecho)
+          .map((c) => (
+            <FilaSinTraducir key={c.id} c={c} porId={porId} {...propsFila} />
+          ))}
+      </Acordeon>
+
+      <Acordeon
+        titulo="Traducido"
+        chip="admin-chip-rev"
+        pendientes={grupos.traducido.filter((c) => !c.hecho).length}
+      >
+        {grupos.traducido
+          .filter((c) => !c.hecho)
+          .map((c) => (
+            <FilaTraducido key={c.id} c={c} porId={porId} {...propsFila} />
+          ))}
+      </Acordeon>
+
+      <Acordeon
+        titulo="Cambios grandes"
+        chip="admin-chip-alta"
+        pendientes={grupos.cambios_grandes.filter((c) => !c.hecho).length}
+      >
+        {grupos.cambios_grandes
+          .filter((c) => !c.hecho)
+          .map((c) => (
+            <FilaGrandes key={c.id} c={c} porId={porId} {...propsFila} />
+          ))}
+      </Acordeon>
     </div>
   )
 }

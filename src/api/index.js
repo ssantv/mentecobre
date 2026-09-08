@@ -41,6 +41,7 @@ export const monthlyChangesSv = crearServicio({
   clave: 'monthly-changes',
   recurso: 'monthly-changes',
   seed: monthlyChanges,
+  version: 2,
 })
 export const notificationsSv = crearServicio({
   clave: 'notifications',

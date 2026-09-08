@@ -14,6 +14,7 @@ const AyudaGrupo = lazy(() => import('./pages/AyudaGrupo'))
 const Perfil = lazy(() => import('./pages/Perfil'))
 const Traduccion = lazy(() => import('./pages/Traduccion'))
 const Admin = lazy(() => import('./pages/Admin'))
+const AdminDetalle = lazy(() => import('./pages/admin/AdminDetalle'))
 const Quiz = lazy(() => import('./pages/Quiz'))
 const Juegos = lazy(() => import('./pages/Juegos'))
 const Hopper = lazy(() => import('./pages/Hopper'))
@@ -141,6 +142,14 @@ export default function App() {
           element={
             <RequireAuth>
               <Admin />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/admin/:seccion/:id"
+          element={
+            <RequireAuth>
+              <AdminDetalle />
             </RequireAuth>
           }
         />
