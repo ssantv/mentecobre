@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: API Mentecobre
-  version: 0.1.0
+  version: 0.2.0
   description: |
     Contrato de lo que necesita el front de Mentecobre. La base de datos nueva y
     el backend (Django REST + SimpleJWT) deben responder con estas formas y estos
@@ -563,15 +563,21 @@ paths:
   /api/v1/monthly-changes/:
     get:
       tags: [monthly]
-      summary: Listar cambios mensuales (revisor/admin)
+      summary: Listar cambios mensuales (revisor/admin/traductor)
       description: |
-        Cambios que un artículo EN recibió durante un mes. El veredicto decide el
-        trabajo a hacer en el artículo ES:
-          - crear_pagina: el EN no está traducido en nuestra tabla -> crear la página
-            copiando la información tal cual está en EN.
-          - revisar_diff: el EN sí está traducido -> revisar con detenimiento qué cambió.
-        `revisarDesde` marca desde qué fecha hay que revisar (para atrasados de meses
-        anteriores) y `sinPasar` = true avisa de que se ha pasado la fecha.
+        Cambios que un artículo EN recibió durante un mes. El front clasifica cada
+        registro por el tipo de trabajo a hacer en el artículo ES, salvo HTUP que
+        lo señala la propia API:
+          - tipo 'htup': la API marca que algo no cuadra (ID inexistente, enlace roto).
+          - crear: el articleId no existe en la tabla de artículos (página aún no
+            guardada). `tituloEn` trae el título para crear la página en ES.
+          - sin_traducir: el artículo existe pero no está traducido.
+          - traducido: el artículo está traducido; revisar edición a edición los
+            cambios desde `mesInicio`. Si `cambiosGrandes` = true el trabajo se
+            trata aparte (lista "Cambios grandes").
+        `revisarDesde` marca desde qué fecha hay que revisar (para atrasados de
+        meses anteriores), `hecho` = true indica que el trabajo está terminado y
+        deja de salir en las listas de pendientes. Es editable por el usuario.
       parameters:
         - in: query
           name: mes
@@ -580,7 +586,10 @@ paths:
           name: estado
           schema: { type: string, enum: [nuevo, en_proceso, hecho] }
         - in: query
-          name: sinPasar
+          name: tipo
+          schema: { type: string, enum: [htup] }
+        - in: query
+          name: hecho
           schema: { type: boolean }
       responses:
         '200':
@@ -637,6 +646,8 @@ paths:
           - imagen_con_texto: un traductor notificó una imagen con texto (solo el lado
             EN). Completar el lado ES en images-with-text resuelve la notificación.
           - sistema: avisos generales (p. ej. errata o solicitud nueva sin revisar).
+        El feed de Notificaciones del panel de administración fusiona este recurso
+        con erratas y solicitudes de reclutamiento (cada uno desde su propio endpoint).
       parameters:
         - in: query
           name: estado
@@ -715,7 +726,7 @@ components:
           type: array
           description: Ids de los universos del usuario (1 a todos).
           items: { type: integer }
-        status: { type: string, enum: [activo, descanso, inactivo] }
+        status: { type: string, enum: [activo, descanso, baja, inactivo] }
         status_changed_at: { type: string, nullable: true }
         copper_username: { type: string, nullable: true }
         date_joined: { type: string }
@@ -823,7 +834,7 @@ components:
         articulo: { type: string }
         texto: { type: string }
         usuario: { type: integer, nullable: true }
-        estado: { type: string, enum: [nuevo, en_proceso, resuelto] }
+        estado: { type: string, enum: [nuevo, en_proceso, resuelto, descartado] }
         creado_en: { type: string }
 
     Recruitment:
@@ -833,21 +844,28 @@ components:
         nombre: { type: string }
         email: { type: string }
         motivacion: { type: string }
-        estado: { type: string, enum: [nuevo, en_proceso, aceptado, rechazado] }
+        estado: { type: string, enum: [nuevo, entrevista, aceptado, rechazado] }
         creado_en: { type: string }
 
     MonthlyChange:
       type: object
+      description: |
+        Cambio mensual de un artículo EN. El front deriva el tipo de trabajo a partir
+        de la existencia del artículo (articleId) y su estado de traducción; la API
+        solo marca `tipo: "htup"` cuando detecta un problema. `tituloEn` se usa para
+        las entradas de tipo crear.
       properties:
         id: { type: integer }
         articleId: { type: integer, nullable: true }
+        tituloEn: { type: string, nullable: true }
         mesInicio: { type: string }
         mesFin: { type: string }
         estado: { type: string, enum: [nuevo, en_proceso, hecho] }
-        veredicto: { type: string, enum: [crear_pagina, revisar_diff], nullable: true }
+        tipo: { type: string, enum: [htup], nullable: true }
         fechaCambioEn: { type: string, nullable: true }
         revisarDesde: { type: string, nullable: true }
-        sinPasar: { type: boolean }
+        hecho: { type: boolean, description: 'Trabajo terminado: deja de salir en las listas de pendientes.' }
+        cambiosGrandes: { type: boolean, description: 'true si la revisión del artículo requiere cambios grandes; se muestra en su lista propia.' }
 
     Notification:
       type: object
