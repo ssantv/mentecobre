@@ -10,14 +10,6 @@ import {
   articles,
 } from '../../api'
 
-// Esquemas del CRUD del panel: cada sección describe sus campos, su servicio
-// y las opciones externas que necesita el detalle (universos/usuarios).
-// Cuando exista la API real, el detalle se mantendrá igual: solo cambiará el
-// origen de los datos. Tipos de campo:
-//   texto · textarea · url · lista (varios textos, uno por línea)
-//   numero · fecha · checkbox · select (opciones fijas en campo.opciones)
-//   universo/usuario (select de ids, opcional) · ids (multi con checkboxes)
-
 export const ESTADOS_ERRATA = ['nuevo', 'en_proceso', 'resuelto', 'descartado']
 export const ESTADOS_RECLUTAMIENTO = ['nuevo', 'entrevista', 'aceptado', 'rechazado']
 export const ESTADOS_NOTIFICACION = ['pendiente', 'resuelta', 'completado']
@@ -65,6 +57,20 @@ export const SCHEMAS = {
       { guard: 'urlEs', etiqueta: 'URL ES', tipo: 'url' },
     ],
     cargaExtras: extrasUniversos,
+
+    cruce: {
+      svc: articles,
+      etiqueta: 'artículo',
+      clave: 'term',
+      claveOtra: 'titleEn',
+      mapa: {
+        term: 'titleEn',
+        es: 'titleEs',
+        universeId: 'universe',
+        urlEn: 'urlEn',
+        urlEs: 'urlEs',
+      },
+    },
   },
 
   categorias: {
@@ -127,6 +133,20 @@ export const SCHEMAS = {
       { guard: 'problemCopper', etiqueta: 'Problema en Copper', tipo: 'texto' },
     ],
     cargaExtras: extrasUniversosYUsuarios,
+
+    cruce: {
+      svc: glossarySv,
+      etiqueta: 'término del glosario',
+      clave: 'titleEn',
+      claveOtra: 'term',
+      mapa: {
+        titleEn: 'term',
+        titleEs: 'es',
+        universe: 'universeId',
+        urlEn: 'urlEn',
+        urlEs: 'urlEs',
+      },
+    },
   },
 
   usuarios: {
@@ -146,6 +166,7 @@ export const SCHEMAS = {
       { guard: 'universe', etiqueta: 'Universos', tipo: 'ids', opciones: 'universos' },
       { guard: 'status', etiqueta: 'Estado', tipo: 'select', opciones: ESTADOS_USUARIO },
       { guard: 'status_changed_at', etiqueta: 'Cambio de estado el', tipo: 'fecha' },
+      { guard: 'last_copper_update', etiqueta: 'Última actualización en la Copper', tipo: 'fecha' },
       { guard: 'date_joined', etiqueta: 'Alta', tipo: 'fecha' },
       { guard: 'is_active', etiqueta: 'Activo', tipo: 'checkbox' },
       { guard: 'is_staff', etiqueta: 'Staff', tipo: 'checkbox' },
@@ -180,6 +201,7 @@ export const SCHEMAS = {
       { guard: 'email', etiqueta: 'Email', tipo: 'texto' },
       { guard: 'checks', etiqueta: 'Comprobaciones', tipo: 'lista' },
       { guard: 'estado', etiqueta: 'Estado', tipo: 'select', opciones: ESTADOS_ERRATA },
+      { guard: 'notas', etiqueta: 'Notas internas', tipo: 'textarea' },
       { guard: 'creado_en', etiqueta: 'Recibida', tipo: 'fecha' },
     ],
   },
@@ -198,6 +220,7 @@ export const SCHEMAS = {
       { guard: 'libros', etiqueta: 'Obras leídas', tipo: 'lista' },
       { guard: 'prueba', etiqueta: 'Prueba', tipo: 'textarea' },
       { guard: 'estado', etiqueta: 'Estado', tipo: 'select', opciones: ESTADOS_RECLUTAMIENTO },
+      { guard: 'notas', etiqueta: 'Notas internas', tipo: 'textarea' },
       { guard: 'creado_en', etiqueta: 'Recibida', tipo: 'fecha' },
     ],
   },

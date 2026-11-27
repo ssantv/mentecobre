@@ -69,7 +69,6 @@ const articles = filas.map((f) => ({
   problemCopper: f[idx.problemCopper].trim() || '',
 }))
 
-// articles es pesado (miles de filas): única copia servida en runtime desde /data/articles.json.
 fs.writeFileSync(path.join(PUBLIC_DATA, 'articles.json'), JSON.stringify(articles))
 
 const importar = async (rel, name) => {

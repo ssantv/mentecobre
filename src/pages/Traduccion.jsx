@@ -150,8 +150,6 @@ export default function Traduccion() {
   )
 }
 
-// ---------- Tab: Traducción ----------
-
 function TabTraduccion({ user, datos, recargar }) {
   const [modalArticuloId, setModalArticuloId] = useState(null)
   const [notas, setNotas] = useState('')
@@ -366,8 +364,6 @@ function ArticuloCard({
   )
 }
 
-// ---------- Tab: Revisión ----------
-
 function SeccionRevision({ user, datos, recargar }) {
   const [modalId, setModalId] = useState(null)
   const [notas, setNotas] = useState('')
@@ -520,8 +516,6 @@ function SeccionRevision({ user, datos, recargar }) {
   )
 }
 
-// ---------- Tab: Actualización ----------
-
 function slugUrl(t) {
   return (t ?? '').trim().replace(/\s+/g, '_')
 }
@@ -546,11 +540,16 @@ function nombreCambio(c, porId) {
   return a ? a.titleEs || a.titleEn : `#${c.articleId}`
 }
 
-function mesCambio(mesInicio) {
-  if (!mesInicio) return '—'
-  const d = new Date(mesInicio)
-  if (Number.isNaN(d.getTime())) return mesInicio
-  return d.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' })
+function fechaCambio(c) {
+  const f = c.fechaCambioEn ?? c.revisarDesde ?? c.mesInicio
+  if (!f) return '—'
+  const d = new Date(f)
+  if (Number.isNaN(d.getTime())) return f
+  return d.toLocaleDateString('es-ES', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  })
 }
 
 async function marcarHecho(c, recargar) {
@@ -609,9 +608,6 @@ function CheckHecho({ c, modoSel, seleccion, toggleSel, recargar }) {
 
 function FilaHTUP({ c, porId, modoSel, seleccion, toggleSel, recargar }) {
   const a = c.articleId != null ? porId.get(Number(c.articleId)) : null
-  const desc = a
-    ? 'Los datos no coinciden entre la base de datos y la web: posible ID incorrecto o enlace roto.'
-    : `No disponible en nuestra base de datos (artículo #${c.articleId}).`
   return (
     <div className="traduccion-fila">
       <CheckHecho
@@ -623,7 +619,6 @@ function FilaHTUP({ c, porId, modoSel, seleccion, toggleSel, recargar }) {
       />
       <div className="traduccion-fila-info">
         <span className="admin-link">{nombreCambio(c, porId)}</span>
-        <div className="admin-count">{desc}</div>
       </div>
       <div className="traduccion-acciones">
         <Link
@@ -744,7 +739,7 @@ function FilaTraducido({ c, porId, modoSel, seleccion, toggleSel, recargar }) {
       <div className="traduccion-fila-info">
         <span className="admin-link">{nombreCambio(c, porId)}</span>
         <div className="admin-count">
-          Cambios desde: <strong>{mesCambio(c.mesInicio)}</strong>
+          Cambios desde: <strong>{fechaCambio(c)}</strong>
         </div>
       </div>
       <div className="traduccion-acciones">
@@ -792,7 +787,7 @@ function FilaGrandes({ c, porId, modoSel, seleccion, toggleSel, recargar }) {
       <div className="traduccion-fila-info">
         <span className="admin-link">{nombreCambio(c, porId)}</span>
         <div className="admin-count">
-          Cambios desde: <strong>{mesCambio(c.mesInicio)}</strong>
+          Cambios desde: <strong>{fechaCambio(c)}</strong>
         </div>
       </div>
       <div className="traduccion-acciones">

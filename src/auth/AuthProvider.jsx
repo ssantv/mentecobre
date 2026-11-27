@@ -50,12 +50,9 @@ export default function AuthProvider({ children }) {
     async (patch) => {
       const usuario = sesion?.user
       if (!usuario) return null
-      try {
-        await usersSv.modificar(usuario.id, { ...usuario, ...patch })
-      } catch {
-        // En modo real el usuario podría no tener permiso para PATCH /users/<id>/
-        // (lo gestiona el backend vía rol); la sesión se actualiza igualmente.
-      }
+      await usersSv
+        .modificar(usuario.id, { ...usuario, ...patch })
+        .catch(() => null)
       setSesion((prev) =>
         prev ? { ...prev, user: { ...prev.user, ...patch } } : prev,
       )

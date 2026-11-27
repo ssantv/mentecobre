@@ -1,5 +1,3 @@
-/* ===== Variables de tema de Cotorra Viajes =====
-   Por defecto (dark) se definen aquí; se anulan bajo [data-theme='light']. */
 :root {
   --cv-bg: #1f1f1f;
   --cv-surface: #292929;
@@ -69,7 +67,6 @@
   filter: brightness(1.4);
 }
 
-/* ---- top bar ---- */
 .cv-top {
   position: sticky;
   top: 0;
@@ -118,14 +115,6 @@
   margin: 0;
 }
 
-.cv-slogan {
-  font-size: 0.8rem;
-  color: var(--cv-gold);
-  font-weight: 700;
-  margin: 0;
-  justify-self: end;
-}
-
 .cv-nav {
   grid-column: 1 / -1;
   display: flex;
@@ -157,7 +146,6 @@
   border-color: var(--cv-accent);
 }
 
-/* ---- contenido general ---- */
 .cv-inner {
   width: 100%;
   max-width: 960px;
@@ -196,7 +184,6 @@
   margin: 0 0 1rem;
 }
 
-/* ---- hero de inicio ---- */
 .cv-seccion-inicio {
   text-align: center;
 }
@@ -215,16 +202,6 @@
 
 .cv-hero-titulo {
   font-size: 2.6rem;
-}
-
-.cv-hero-img {
-  display: block;
-  max-width: 560px;
-  width: 100%;
-  height: auto;
-  margin: 0 auto 1.75rem;
-  border-radius: 14px;
-  border: 1px solid var(--cv-border-strong);
 }
 
 .cv-puntos {
@@ -274,7 +251,6 @@
   color: var(--cv-accent);
 }
 
-/* ---- regalos ---- */
 .cv-rega-group {
   margin-top: 2.5rem;
   padding: 1.5rem 1.5rem 1.25rem;
@@ -341,7 +317,6 @@
   filter: invert(1);
 }
 
-/* ---- botón CTA ---- */
 .cv-btn-row {
   display: flex;
   justify-content: center;
@@ -371,7 +346,6 @@
   background: var(--cv-accent-strong);
 }
 
-/* ---- tabs de destinos ---- */
 .cv-tabs {
   display: flex;
   flex-wrap: wrap;
@@ -407,7 +381,6 @@
   color: var(--cv-link-invert);
 }
 
-/* ---- destinos apilados ---- */
 .cv-destino {
   margin: 0 0 2.25rem;
   padding: 2rem 2.25rem;
@@ -477,18 +450,6 @@
   background: linear-gradient(135deg, rgba(212, 164, 61, 0.12), rgba(212, 164, 61, 0.04));
 }
 
-.cv-destino-promo-media {
-  flex: 0 0 220px;
-}
-
-.cv-destino-promo-img {
-  display: block;
-  width: 25%;
-  height: 25%;
-  margin-left: auto;
-  margin-right: auto;
-}
-
 .cv-destino-promo-texto-wrap {
   flex: 1;
   min-width: 0;
@@ -516,7 +477,6 @@
   text-align: center;
 }
 
-/* ---- descargas ---- */
 .cv-seccion-descargas {
   text-align: center;
 }
@@ -527,7 +487,6 @@
   color: var(--cv-accent);
 }
 
-/* ---- catálogo ---- */
 .cv-pdf-wrap {
   margin-top: 1.25rem;
   display: flex;
@@ -555,14 +514,9 @@
   text-decoration: none;
 }
 
-/* ---- responsive ---- */
 @media (max-width: 720px) {
   .cv-top {
     grid-template-columns: 1fr auto;
-  }
-
-  .cv-slogan {
-    display: none;
   }
 
   .cv-inner {
@@ -586,8 +540,4 @@
     align-items: flex-start;
   }
 
-  .cv-destino-promo-media {
-    flex-basis: auto;
-    width: 100%;
-  }
 }

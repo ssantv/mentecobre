@@ -14,14 +14,6 @@ import {
   notificationsSv,
 } from '../api'
 
-// M3 · Panel de administración: consola independiente. Aspecto propio
-//   (tabs laterales + contenido en tablas), página fuera del layout de la
-//   Mentecobre. Cada sección tiene su pestaña: glosario, categorías,
-//   imágenes con texto, artículos, usuarios, universos y notificaciones
-//   (la única con contador). Erratas y reclutamiento no tienen tab
-//   propia: entran dentro de notificaciones. El revisor gestiona todo
-//   excepto usuarios y universos.
-
 const SINO = (v) => (v ? 'Sí' : '—')
 
 const HOY = () => new Date().toISOString().slice(0, 10)
@@ -35,6 +27,23 @@ function fmtFecha(fecha) {
     month: 'short',
     year: 'numeric',
   })
+}
+
+const DIA_MS = 24 * 60 * 60 * 1000
+
+function diasSinTrabajar(fecha) {
+  if (!fecha) return null
+  const d = new Date(fecha)
+  if (Number.isNaN(d.getTime())) return null
+  return Math.floor((Date.now() - d.getTime()) / DIA_MS)
+}
+
+function claseInactividad(dias) {
+  if (dias == null) return 'adm-chip-neutro'
+  if (dias >= 90) return 'adm-chip-danger'
+  if (dias >= 60) return 'adm-chip-alert'
+  if (dias >= 30) return 'adm-chip-warn'
+  return 'adm-chip-ok'
 }
 
 const ESTADOS_ERRATA = ['nuevo', 'en_proceso', 'resuelto', 'descartado']
@@ -85,13 +94,20 @@ export function AdminHead({ user }) {
   )
 }
 
-// ---------- CRUD ----------
-
 function NuevoBtn({ seccion }) {
   return (
     <Link className="admin-btn btn-sm" to={`/admin/${seccion}/nuevo`}>
       <span className="material-symbols-outlined">add</span>
       Nuevo
+    </Link>
+  )
+}
+
+function MasivoBtn({ seccion }) {
+  return (
+    <Link className="admin-btn btn-sm" to={`/admin/${seccion}/masivo`}>
+      <span className="material-symbols-outlined">playlist_add</span>
+      Alta masiva
     </Link>
   )
 }
@@ -277,6 +293,7 @@ export default function Admin() {
               erratas={dato.erratas}
               solicitudes={dato.solicitudes}
               esRevisor={esRevisor}
+              esAdmin={esAdmin}
               recargar={() => cargarTodo()}
             />
           )}
@@ -285,8 +302,6 @@ export default function Admin() {
     </div>
   )
 }
-
-// ---------- Secciones ----------
 
 function SeccionGlosario({ glosario, recargar }) {
   return (
@@ -297,6 +312,7 @@ function SeccionGlosario({ glosario, recargar }) {
           <span className="admin-panel-sub">{glosario.length} términos</span>
         </div>
         <div className="admin-head-actions">
+          <MasivoBtn seccion="glosario" />
           <NuevoBtn seccion="glosario" />
         </div>
       </header>
@@ -347,6 +363,7 @@ function SeccionCategorias({ categorias, recargar }) {
           <span className="admin-panel-sub">{categorias.length} categorías</span>
         </div>
         <div className="admin-head-actions">
+          <MasivoBtn seccion="categorias" />
           <NuevoBtn seccion="categorias" />
         </div>
       </header>
@@ -452,6 +469,7 @@ function SeccionArticulos({ articulos, universos, usuarios, recargar }) {
               </option>
             ))}
           </select>
+          <MasivoBtn seccion="articulos" />
           <NuevoBtn seccion="articulos" />
         </div>
       </header>
@@ -539,6 +557,7 @@ function SeccionImagenes({ imagenes, recargar }) {
           </span>
         </div>
         <div className="admin-head-actions">
+          <MasivoBtn seccion="imagenes" />
           <NuevoBtn seccion="imagenes" />
         </div>
       </header>
@@ -621,7 +640,7 @@ function SeccionUsuarios({ usuarios, recargar }) {
               <th>Usuario</th>
               <th>Perfil</th>
               <th>Estado</th>
-              <th>Desde</th>
+              <th>Última en la Copper</th>
               <th></th>
               <th></th>
             </tr>
@@ -648,7 +667,24 @@ function SeccionUsuarios({ usuarios, recargar }) {
                     {u.status ?? '—'}
                   </span>
                 </td>
-                <td>{fmtFecha(u.date_joined)}</td>
+                <td>
+                  {u.last_copper_update ? (
+                    <>
+                      <span
+                        className={`adm-chip ${claseInactividad(
+                          diasSinTrabajar(u.last_copper_update),
+                        )}`}
+                      >
+                        {diasSinTrabajar(u.last_copper_update)} días
+                      </span>
+                      <div className="adm-en">
+                        {fmtFecha(u.last_copper_update)}
+                      </div>
+                    </>
+                  ) : (
+                    <span className="adm-en">Sin registro</span>
+                  )}
+                </td>
                 <td>
                   {(u.status === 'descanso' || u.status === 'baja') && (
                     <button
@@ -729,6 +765,7 @@ function SeccionUniversos({ universos, articulos, usuarios, recargar }) {
           </span>
         </div>
         <div className="admin-head-actions">
+          <MasivoBtn seccion="universos" />
           <NuevoBtn seccion="universos" />
         </div>
       </header>
@@ -783,13 +820,48 @@ function SeccionUniversos({ universos, articulos, usuarios, recargar }) {
   )
 }
 
+function NotasEditor({ registro, svc, recargar, esAdmin }) {
+  const [valor, setValor] = useState(registro.notas ?? '')
+  const [guardando, setGuardando] = useState(false)
+
+  if (!esAdmin) {
+    return registro.notas ? (
+      <div className="adm-en adm-limit">Nota: {registro.notas}</div>
+    ) : null
+  }
+
+  async function guardar() {
+    if (valor === (registro.notas ?? '')) return
+    setGuardando(true)
+    await svc.modificar(registro.id, { notas: valor })
+    await recargar()
+    setGuardando(false)
+  }
+
+  return (
+    <textarea
+      className="adm-notes"
+      value={valor}
+      placeholder="Añadir nota interna…"
+      rows={2}
+      onChange={(ev) => setValor(ev.target.value)}
+      onBlur={guardar}
+      disabled={guardando}
+      aria-label="Nota interna"
+    />
+  )
+}
+
 function SeccionNotificaciones({
   notificaciones,
   erratas,
   solicitudes,
   esRevisor,
+  esAdmin,
   recargar,
 }) {
+  const [filtro, setFiltro] = useState('todas')
+  const [avisoMail, setAvisoMail] = useState(null)
   const TIPO_LABEL = {
     notificacion: 'imagen_con_texto',
     errata: 'errata',
@@ -822,6 +894,12 @@ function SeccionNotificaciones({
     esPendienteNotificaciones(it.tipo, it.registro.estado),
   )
 
+  const visibles = items.filter((it) => {
+    if (filtro === 'todas') return true
+    const pend = esPendienteNotificaciones(it.tipo, it.registro.estado)
+    return filtro === 'pendientes' ? pend : !pend
+  })
+
   async function resolver(n) {
     await notificationsSv.modificar(n.id, { estado: 'resuelta' })
     await recargar()
@@ -831,6 +909,11 @@ function SeccionNotificaciones({
     if (tipo === 'errata') await erratasSv.modificar(registro.id, { estado })
     else await recruitmentSv.modificar(registro.id, { estado })
     await recargar()
+    const resuelto =
+      tipo === 'errata'
+        ? estado === 'resuelto' || estado === 'descartado'
+        : estado === 'aceptado' || estado === 'rechazado'
+    if (resuelto) setAvisoMail({ tipo, registro })
   }
 
   return (
@@ -844,6 +927,16 @@ function SeccionNotificaciones({
           </span>
         </div>
         <div className="admin-head-actions">
+          <select
+            className="adm-select"
+            value={filtro}
+            onChange={(ev) => setFiltro(ev.target.value)}
+            aria-label="Filtrar notificaciones"
+          >
+            <option value="todas">Todas</option>
+            <option value="pendientes">Pendientes</option>
+            <option value="resueltas">Resueltas</option>
+          </select>
           <NuevoBtn seccion="notificaciones" />
         </div>
       </header>
@@ -860,7 +953,7 @@ function SeccionNotificaciones({
             </tr>
           </thead>
           <tbody>
-            {items.map(({ tipo, registro }) => {
+            {visibles.map(({ tipo, registro }) => {
               const contexto =
                 tipo === 'notificacion'
                   ? registro.contexto ?? registro.enUrl
@@ -887,6 +980,12 @@ function SeccionNotificaciones({
                     ? recruitmentSv
                     : notificationsSv
               const pendiente = esPendienteNotificaciones(tipo, registro.estado)
+              const estadoLabel =
+                tipo === 'notificacion'
+                  ? registro.estado === 'pendiente'
+                    ? 'nueva'
+                    : 'resuelta'
+                  : registro.estado
               return (
                 <tr key={`${tipo}-${registro.id}`}>
                   <td>
@@ -905,6 +1004,14 @@ function SeccionNotificaciones({
                         {registro.motivacion}
                       </div>
                     )}
+                    {tipo !== 'notificacion' && (
+                      <NotasEditor
+                        registro={registro}
+                        svc={svc}
+                        recargar={recargar}
+                        esAdmin={esAdmin}
+                      />
+                    )}
                   </td>
                   <td>
                     {tipo === 'notificacion' ? (
@@ -913,7 +1020,7 @@ function SeccionNotificaciones({
                           pendiente ? 'adm-chip-enrev' : 'adm-chip-rev'
                         }`}
                       >
-                        {registro.estado}
+                        {estadoLabel}
                       </span>
                     ) : (
                       <select
@@ -961,16 +1068,50 @@ function SeccionNotificaciones({
                 </tr>
               )
             })}
-            {items.length === 0 && (
+            {visibles.length === 0 && (
               <tr>
                 <td colSpan={6} className="admin-empty">
-                  Nada pendiente
+                  Nada que mostrar
                 </td>
               </tr>
             )}
           </tbody>
         </table>
       </div>
+
+      {avisoMail && (
+        <div
+          className="adm-modal-overlay"
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setAvisoMail(null)}
+        >
+          <div className="adm-modal" onClick={(ev) => ev.stopPropagation()}>
+            <h3 className="adm-modal-title">Recuerda mandar el mail</h3>
+            <p className="adm-modal-text">
+              Has marcado{' '}
+              {avisoMail.tipo === 'errata'
+                ? 'la errata'
+                : 'la solicitud de reclutamiento'}{' '}
+              <strong>
+                {avisoMail.registro.articulo ??
+                  avisoMail.registro.nombre ??
+                  `#${avisoMail.registro.id}`}
+              </strong>{' '}
+              como resuelta. Acuérdate de enviar el correo de respuesta.
+            </p>
+            <div className="adm-modal-actions">
+              <button
+                type="button"
+                className="admin-btn"
+                onClick={() => setAvisoMail(null)}
+              >
+                Entendido
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

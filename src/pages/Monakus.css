@@ -1,4 +1,3 @@
-/* ===== Variables de tema de la Escuela Monakus ===== */
 :root {
   --mn-bg: #1a1b26;
   --mn-surface: #242638;
@@ -64,10 +63,8 @@
   opacity: 0.16;
 }
 
-/* Fondo de página (Inicio): la imagen cubre el ::before */
 .mn-page-con-fondo::before {
   background: var(--mn-page-imagen) center / cover no-repeat;
-  background-size: cover;
   opacity: var(--mn-page-imagen-opacidad, 0.5);
 }
 
@@ -75,7 +72,6 @@
   filter: brightness(1.4);
 }
 
-/* ---- top bar ---- */
 .mn-top {
   position: sticky;
   top: 0;
@@ -126,16 +122,6 @@
   text-align: center;
 }
 
-.mn-slogan {
-  font-size: 0.8rem;
-  color: var(--mn-gold);
-  font-weight: 700;
-  margin: 0;
-  justify-self: end;
-  text-align: right;
-}
-
-/* ---- navegación ---- */
 .mn-nav {
   grid-column: 1 / -1;
   display: flex;
@@ -247,7 +233,6 @@
   background: var(--mn-accent-strong);
 }
 
-/* ---- contenido general ---- */
 .mn-inner {
   width: 100%;
   max-width: 960px;
@@ -333,7 +318,6 @@
   background: var(--mn-accent-strong);
 }
 
-/* ---- inicio / hero ---- */
 .mn-seccion-inicio {
   text-align: center;
 }
@@ -439,7 +423,6 @@
   margin: 1.75rem 0 0.5rem;
 }
 
-/* ---- himno ---- */
 .mn-himno {
   max-width: 640px;
   margin: 0 auto 1.5rem;
@@ -462,7 +445,6 @@
   text-align: center;
 }
 
-/* ---- tríptico ---- */
 .mn-triptico {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
@@ -479,46 +461,6 @@
   background: var(--mn-surface);
 }
 
-/* ---- instalaciones: bloques ---- */
-.mn-bloque {
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: 1.5rem;
-  align-items: start;
-  margin: 0 0 2rem;
-  padding: 1.2rem;
-  background: var(--mn-surface);
-  border: 1px solid var(--mn-border);
-  border-radius: 18px;
-  box-shadow: var(--mn-shadow);
-}
-
-.mn-bloque:nth-child(even) {
-  grid-template-columns: 1fr 300px;
-}
-
-.mn-bloque:nth-child(even) .mn-bloque-img {
-  order: 2;
-}
-
-.mn-bloque-img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 14px;
-  border: 1px solid var(--mn-border-strong);
-}
-
-.mn-bloque-cuerpo h2 {
-  font-family: 'Oswald', sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  font-size: 1.25rem;
-  color: var(--mn-gold);
-  margin: 0 0 0.7rem;
-}
-
-/* ---- instalaciones: carrusel ---- */
 .mn-carrusel {
   position: relative;
   outline: none;
@@ -653,7 +595,6 @@
   margin: 0.75rem 0 0;
 }
 
-/* ---- tarjetas (asignaturas, ramas) ---- */
 .mn-grid-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -691,7 +632,6 @@
   padding-left: 1.1rem;
 }
 
-/* ---- horario ---- */
 .mn-horario-img {
   display: block;
   width: 100%;
@@ -703,7 +643,6 @@
   background: var(--mn-surface);
 }
 
-/* ---- libros (recursos / lecturas) ---- */
 .mn-libros {
   list-style: none;
   margin: 1rem 0 0;
@@ -723,7 +662,6 @@
   color: var(--mn-text);
 }
 
-/* ---- ramas de la enseñanza avanzada ---- */
 .mn-rama {
   margin: 0 0 2rem;
   padding: 1.3rem;
@@ -751,14 +689,6 @@
   justify-self: center;
 }
 
-.mn-rama-img {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
-  border-radius: 14px;
-  border: 1px solid var(--mn-border-strong);
-}
-
 .mn-rama-col h4 {
   font-family: 'Oswald', sans-serif;
   text-transform: uppercase;
@@ -772,7 +702,6 @@
   font-size: 0.92rem;
 }
 
-/* ---- matrícula ---- */
 .mn-aviso {
   max-width: 720px;
   margin: 0 auto 1.5rem;
@@ -807,7 +736,6 @@
   background: var(--mn-surface);
 }
 
-/* ---- material ---- */
 .mn-articulos {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
@@ -842,7 +770,6 @@
   margin: 0.6rem 0 0.2rem;
 }
 
-/* ---- contacto ---- */
 .mn-gracias {
   font-family: 'Oswald', sans-serif;
   text-transform: uppercase;
@@ -865,14 +792,9 @@
   text-align: center;
 }
 
-/* ---- responsive ---- */
 @media (max-width: 860px) {
   .mn-top {
     grid-template-columns: 1fr auto;
-  }
-
-  .mn-slogan {
-    display: none;
   }
 
   .mn-nav-drop-panel {
@@ -883,15 +805,6 @@
 
   .mn-inner {
     padding: 1.5rem 1.25rem 2.5rem;
-  }
-
-  .mn-bloque,
-  .mn-bloque:nth-child(even) {
-    grid-template-columns: 1fr;
-  }
-
-  .mn-bloque:nth-child(even) .mn-bloque-img {
-    order: 0;
   }
 
   .mn-tarjeta-cuerpo {
@@ -922,9 +835,6 @@
     grid-template-columns: 1fr;
   }
 
-  .mn-rama-img {
-    height: 200px;
-  }
 }
 
 @media (max-width: 520px) {

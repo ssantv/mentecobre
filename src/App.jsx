@@ -15,6 +15,9 @@ const Perfil = lazy(() => import('./pages/Perfil'))
 const Traduccion = lazy(() => import('./pages/Traduccion'))
 const Admin = lazy(() => import('./pages/Admin'))
 const AdminDetalle = lazy(() => import('./pages/admin/AdminDetalle'))
+const AdminMasivo = lazy(() =>
+  import('./pages/admin/AdminDetalle').then((m) => ({ default: m.AdminMasivo })),
+)
 const Quiz = lazy(() => import('./pages/Quiz'))
 const Juegos = lazy(() => import('./pages/Juegos'))
 const Hopper = lazy(() => import('./pages/Hopper'))
@@ -25,6 +28,7 @@ const Erratas = lazy(() => import('./pages/Erratas'))
 const Pasatiempos = lazy(() => import('./pages/Pasatiempos'))
 const Metaldoku = lazy(() => import('./pages/Metaldoku'))
 const OjoDespertante = lazy(() => import('./pages/OjoDespertante'))
+const QuizRadiante = lazy(() => import('./pages/QuizRadiante'))
 const CopperNews = lazy(() => import('./pages/CopperNews'))
 const CopperRedaccion = lazy(() => import('./pages/CopperRedaccion'))
 const CopperEdiciones = lazy(() => import('./pages/CopperEdiciones'))
@@ -116,6 +120,7 @@ export default function App() {
           <Route path="/ocio/desolancicos" element={<Desolancicos />} />
           <Route path="/ocio/pasatiempos/ojo-despertante" element={<OjoDespertante />} />
           <Route path="/ocio/pasatiempos/metaldoku" element={<Metaldoku />} />
+          <Route path="/ocio/pasatiempos/quiz-radiante" element={<QuizRadiante />} />
           <Route path="/ocio/pasatiempos" element={<Pasatiempos />} />
           <Route path="/ocio/:slug" element={<OcioDetalle />} />
         </Route>
@@ -142,6 +147,14 @@ export default function App() {
           element={
             <RequireAuth>
               <Admin />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/admin/:seccion/masivo"
+          element={
+            <RequireAuth>
+              <AdminMasivo />
             </RequireAuth>
           }
         />

@@ -13,8 +13,6 @@ export default function Perfil() {
   const [mensaje, setMensaje] = useState(null)
   const [cargado, setCargado] = useState(null)
 
-  // Los artículos y universos del perfil son vistas calculadas de las tablas
-  // de artículos y universos: sin estado duplicado en el usuario.
   useEffect(() => {
     if (!user) return
     let vivo = true

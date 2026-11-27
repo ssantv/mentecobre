@@ -729,6 +729,10 @@ components:
         status: { type: string, enum: [activo, descanso, baja, inactivo] }
         status_changed_at: { type: string, nullable: true }
         copper_username: { type: string, nullable: true }
+        last_copper_update:
+          type: string
+          nullable: true
+          description: Fecha de la última edición del usuario en la Copper EN; sirve para el control de inactividad.
         date_joined: { type: string }
         is_active: { type: boolean }
         is_staff: { type: boolean }
@@ -835,6 +839,7 @@ components:
         texto: { type: string }
         usuario: { type: integer, nullable: true }
         estado: { type: string, enum: [nuevo, en_proceso, resuelto, descartado] }
+        notas: { type: string, description: Nota interna que añade el equipo de administración. }
         creado_en: { type: string }
 
     Recruitment:
@@ -845,6 +850,7 @@ components:
         email: { type: string }
         motivacion: { type: string }
         estado: { type: string, enum: [nuevo, entrevista, aceptado, rechazado] }
+        notas: { type: string, description: Nota interna que añade el equipo de administración. }
         creado_en: { type: string }
 
     MonthlyChange:

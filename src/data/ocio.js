@@ -31,6 +31,14 @@ export const PASA_TIEMPOS = [
       'Sudoku con los metales alománticos del Cosmere. Completa el tablero sin repetir metal.',
     tag: 'Rompecabezas',
   },
+  {
+    to: '/ocio/pasatiempos/quiz-radiante',
+    title: 'Quiz radiante',
+    icon: 'auto_awesome',
+    description:
+      'Mueve 34 deslizadores y descubre a qué Orden de Caballeros Radiantes pertenecerías, con tu afinidad con las diez.',
+    tag: 'Personalidad',
+  },
 ]
 
 export const OCIO = [

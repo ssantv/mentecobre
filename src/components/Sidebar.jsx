@@ -33,8 +33,6 @@ export default function Sidebar() {
   const location = useLocation()
   const [pendientes, setPendientes] = useState(0)
 
-  // Para revisor/admin: notificaciones sin resolver (p. ej. «imagen con
-  // texto») que se atienden desde el panel de administración.
   useEffect(() => {
     if (!user || (user.role !== 'revisor' && user.role !== 'admin')) return
     let vivo = true
@@ -46,7 +44,7 @@ export default function Sidebar() {
         ).length
         if (vivo) setPendientes(sinResolver)
       } catch {
-        /* silencio: el badge se omite si no hay datos */
+        return
       }
     })()
     return () => {
@@ -91,19 +89,12 @@ export default function Sidebar() {
               <span>{item.label}</span>
             </NavLink>
           ))}
-          {AUX_ITEMS.map((item) =>
-            item.to ? (
-              <Link key={item.label} to={item.to} className="nav-item">
-                <span className="material-symbols-outlined nav-icon">{item.icon}</span>
-                <span>{item.label}</span>
-              </Link>
-            ) : (
-              <a key={item.label} href={item.href} className="nav-item">
-                <span className="material-symbols-outlined nav-icon">{item.icon}</span>
-                <span>{item.label}</span>
-              </a>
-            ),
-          )}
+          {AUX_ITEMS.map((item) => (
+            <Link key={item.label} to={item.to} className="nav-item">
+              <span className="material-symbols-outlined nav-icon">{item.icon}</span>
+              <span>{item.label}</span>
+            </Link>
+          ))}
           {roleItems.map((item) => (
             <Link key={item.label} to={item.to} className="nav-item">
               <span className="material-symbols-outlined nav-icon">{item.icon}</span>

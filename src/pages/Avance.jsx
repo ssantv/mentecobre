@@ -3,9 +3,6 @@ import { BarChart } from '@mui/x-charts/BarChart'
 import { PieChart } from '@mui/x-charts/PieChart'
 import { obtenerStats } from '../api'
 
-// Serie mensual histórica: muestra estática hasta que la DDBD sirva el
-// histórico real. El resto de cifras del Avance se calculan de la tabla de
-// artículos (obtenerStats) en la capa de servicios.
 const monthlyProgress = [
   { mes: 'ENE', traducidos: 8, revisados: 5 },
   { mes: 'FEB', traducidos: 12, revisados: 8 },
@@ -37,6 +34,7 @@ const conMetas = (u) => {
 export default function Avance() {
   const [estadisticas, setEstadisticas] = useState(null)
   const [orden, setOrden] = useState('cantidad')
+  const [ayudaPct, setAyudaPct] = useState(false)
 
   useEffect(() => {
     let vivo = true
@@ -178,13 +176,29 @@ export default function Avance() {
               </div>
             </div>
 
-            {/* 1 · TODOS LOS UNIVERSOS */}
             <div className="glass-panel chart-panel chart-full">
               <span className="viz-tag">Ranking</span>
               <h2 className="chart-title">Todos los universos</h2>
-              <p className="chart-sub">
-                Ordena por cantidad de artículos, alfabéticamente o por porcentaje.
-              </p>
+              <div className="advance-help-row">
+                <p className="chart-sub">
+                  Ordena por cantidad de artículos, alfabéticamente o por porcentaje.
+                </p>
+                <button
+                  type="button"
+                  className="advance-help-btn"
+                  onClick={() => setAyudaPct((v) => !v)}
+                  aria-label="Qué significa el porcentaje"
+                  aria-expanded={ayudaPct}
+                >
+                  ?
+                </button>
+              </div>
+              {ayudaPct && (
+                <p className="advance-help-text">
+                  El porcentaje es el de artículos <strong>traducidos</strong> sobre
+                  el total del universo (traducidos / total).
+                </p>
+              )}
 
               <div className="rank-legend">
                 <span className="rank-legend-item">
@@ -239,7 +253,10 @@ export default function Avance() {
                 {ordenados.map((u) => (
                   <div key={u.id} className="rank-row">
                     <span className="rank-name">{u.nombre}</span>
-                    <div className="rank-track">
+                    <div
+                      className="rank-track"
+                      title={`${u.traducidos} traducidos · ${u.revisados} revisados`}
+                    >
                       <div
                         className="rank-fill-rev"
                         style={{ width: `${u.pctRevisados}%` }}

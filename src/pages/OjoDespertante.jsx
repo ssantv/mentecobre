@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import './OjoDespertante.css'
 
 function getRandomHexColor() {
-  const rand = () => Math.floor(30 + Math.random() * 196) // evita extremos 0-30 y 225-255
+  const rand = () => Math.floor(30 + Math.random() * 196)
   const r = rand()
   const g = rand()
   const b = rand()
@@ -24,7 +24,6 @@ const STAGE_NAMES = [
   'Décima Elevación',
 ]
 
-// Nombre de la etapa (solo cosmético, no afecta a la dificultad real)
 function getStageName(level) {
   const mainStage = Math.floor((level - 1) / 10)
   return STAGE_NAMES[Math.min(mainStage, STAGE_NAMES.length - 1)]
@@ -37,12 +36,9 @@ function hexToRgb(hex) {
     : [0, 0, 0]
 }
 
-// Curva de dificultad continua (sin escalones): decae exponencialmente
-// con el nivel, así que cada nivel es un pelín más difícil que el anterior,
-// sin saltos bruscos cada 10 niveles.
-const MAX_DIFF = 240 // diferencia de color en el nivel 1
-const MIN_DIFF = 4 // diferencia de color mínima (asíntota en niveles muy altos)
-const DECAY_RATE = 0.045 // cuanto más alto, más rápido baja la dificultad
+const MAX_DIFF = 240
+const MIN_DIFF = 4
+const DECAY_RATE = 0.045
 
 function getBaseDifference(level) {
   return MIN_DIFF + (MAX_DIFF - MIN_DIFF) * Math.exp(-DECAY_RATE * (level - 1))
@@ -52,8 +48,6 @@ function getSimilarColor(baseColor, level) {
   const rgb = hexToRgb(baseColor)
   const baseDiff = getBaseDifference(level)
 
-  // Un poco de variación (±15%) para que no sea idéntico cada partida,
-  // pero sin generar saltos grandes de un nivel a otro.
   const jitter = 0.85 + Math.random() * 0.3
   const diff = Math.max(2, Math.round(baseDiff * jitter))
 
@@ -82,7 +76,7 @@ function createRound(currentLevel, size) {
 }
 
 export default function OjoDespertante() {
-  const [phase, setPhase] = useState('difficulty') // 'difficulty' | 'playing' | 'over'
+  const [phase, setPhase] = useState('difficulty')
   const [level, setLevel] = useState(1)
   const [score, setScore] = useState(0)
   const [round, setRound] = useState(null)

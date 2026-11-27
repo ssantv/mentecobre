@@ -1,5 +1,3 @@
-/* ---------- CopperQuiz ---------- */
-
 .cuiz {
   display: flex;
   flex-direction: column;
@@ -41,28 +39,6 @@
   margin-bottom: 1.25rem;
 }
 
-.cuiz-cotorra {
-  text-align: center;
-  margin: 1.25rem 0;
-}
-
-.cuiz-cotorra .cotorra-gif {
-  max-width: 150px;
-}
-
-.cuiz-sound-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  margin: 1.5rem auto;
-  color: var(--on-surface);
-}
-
-.cuiz-sound-label {
-  font-size: 0.95rem;
-}
-
 .cviz-switch {
   position: relative;
   width: 52px;
@@ -93,8 +69,6 @@
 .cviz-switch.on .cviz-thumb {
   transform: translateX(26px);
 }
-
-/* --- Pantalla de juego --- */
 
 .cueiz-qheader {
   display: flex;
@@ -269,8 +243,6 @@
   }
 }
 
-/* --- Resultados --- */
-
 .cueiz-table {
   width: 100%;
   max-width: 600px;
@@ -302,8 +274,6 @@
   border-bottom: none;
 }
 
-/* --- Responsive --- */
-
 @media (max-width: 768px) {
   .cuiz .cuiz-card {
     padding: 1.25rem;
@@ -327,7 +297,4 @@
     font-size: 1.9rem;
   }
 
-  .cuiz-cotorra .cotorra-gif {
-    max-width: 120px;
-  }
 }

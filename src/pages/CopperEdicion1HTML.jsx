@@ -71,12 +71,10 @@ export default function CopperEdicion1HTML() {
     )
   }
 
-  // Edición 1: 27 NOVIEMBRE 2022 · EDICIÓN ESPECIAL
   return (
     <div className="cn-content">
       <p className="cn-kicker">27 NOVIEMBRE 2022 · EDICIÓN ESPECIAL</p>
 
-      {/* --- Bloque 1: Artículo a la izquierda, imagen a la derecha --- */}
       <div style={rowStyle}>
         <Columna>
           <h2 className="cn-article-title">Intento fallido de hackeo en la cuenta de twitter</h2>
@@ -90,7 +88,6 @@ export default function CopperEdicion1HTML() {
       </div>
       <hr style={separator} />
 
-      {/* --- Bloque 2: Imagen a la izquierda, artículo a la derecha --- */}
       <div style={rowStyle}>
         <Columna>
           <Fig img={n1_1} w="80%" alt="Imagen de Connor Chamberlain" caption="Imagen de Connor Chamberlain, un testigo" />
@@ -104,7 +101,6 @@ export default function CopperEdicion1HTML() {
       </div>
       <hr style={separator} />
 
-      {/* --- Bloque 3: Artículo central --- */}
       <div>
         <h2 className="cn-article-title">¿Han sido las cotorras suplantadas por kandra?</h2>
         <p className="cn-paragraph">
@@ -113,7 +109,6 @@ export default function CopperEdicion1HTML() {
       </div>
       <hr style={separator} />
 
-      {/* --- Bloque 4: Artículo a la izquierda, imagen a la derecha --- */}
       <div style={rowStyle}>
         <Columna>
           <h2 className="cn-article-title">Las organizaciones del cosmere se posicionan sobre el suceso</h2>
@@ -127,7 +122,6 @@ export default function CopperEdicion1HTML() {
       </div>
       <hr style={separator} />
 
-      {/* --- Bloque 5: Jak + investigador en la misma fila (4 columnas) --- */}
       <div style={rowStyle}>
         <Columna>
           <h2 className="cn-article-title">Alomante Jak, completamente consternado</h2>

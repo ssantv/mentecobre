@@ -18,15 +18,13 @@ async function semillaArticles() {
   return res.json()
 }
 
-// Articles es la tabla pesada (8023 filas): se mantiene solo en memoria para
-// no inflar localStorage (cuota) y se resiembra del JSON estático en cada sesión.
 export const articles = crearServicio({
   clave: 'articles',
   recurso: 'articles',
   seed: semillaArticles,
   persistir: false,
 })
-export const usersSv = crearServicio({ clave: 'users', recurso: 'users', seed: users })
+export const usersSv = crearServicio({ clave: 'users', recurso: 'users', seed: users, version: 2 })
 export const universesSv = crearServicio({ clave: 'universes', recurso: 'universes', seed: universes })
 export const glossarySv = crearServicio({ clave: 'glossary', recurso: 'glossary', seed: glossary })
 export const categoriesSv = crearServicio({ clave: 'categories', recurso: 'categories', seed: categories })
@@ -66,17 +64,12 @@ export async function restaurarDatos() {
   await Promise.all(TODOS.map((s) => s.restaurar()))
 }
 
-// ---------- Vistas calculadas ----------
-
-// Nombres de universos a partir de sus ids (para Perfil/Traducción).
 export async function obtenerNombreUniversos(ids = []) {
   const universos = await universesSv.listar()
   const porId = new Map(universos.map((u) => [Number(u.id), u.nombre]))
   return ids.map((id) => porId.get(Number(id)) ?? 'Otro')
 }
 
-// Estadísticas del proyecto derivadas de la tabla de artículos: un solo cálculo
-// compartido por Avance, Home y (más adelante) el panel.
 export async function obtenerStats() {
   const [universos, articulos] = await Promise.all([
     universesSv.listar(),
@@ -99,9 +92,7 @@ export async function obtenerStats() {
     }
     porUni.set(u, e)
   })
-  // Los totales del proyecto se calculan sobre TODOS los artículos (puede
-  // haber artículos con universo fuera del catálogo); el ranking por universo
-  // solo pinta los universos conocidos.
+
   const universosConStats = universos.map((uni) => {
     const e = porUni.get(uni.id) ?? { revisados: 0, enRevision: 0, pendientes: 0 }
     const traducidos = e.revisados + e.enRevision

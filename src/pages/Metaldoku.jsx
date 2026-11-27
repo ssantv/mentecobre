@@ -3,15 +3,15 @@ import { Link } from 'react-router-dom'
 import './Metaldoku.css'
 
 const IMAGES = [
-  'https://i.ibb.co/0jcKh6Qb/Zinc.png', // 1 Zinc
-  'https://i.ibb.co/84KhQgm1/Tin.png', // 2 Tin (Estaño)
-  'https://i.ibb.co/mFvKxG3Z/Steel.png', // 3 Steel (Acero)
-  'https://i.ibb.co/nqDbJvCF/Pewter.png', // 4 Pewter (Peltre)
-  'https://i.ibb.co/RG0MTYFZ/Iron.png', // 5 Iron (Hierro)
-  'https://i.ibb.co/gZRpLFXf/Copper.png', // 6 Copper (Cobre)
-  'https://i.ibb.co/nNLgWCCH/Bronze.png', // 7 Bronze (Bronce)
-  'https://i.ibb.co/tTCcQr7R/Atium.png', // 8 Atium
-  'https://i.ibb.co/G4CBC5Wz/Brass.png', // 9 Brass (Latón)
+  'https://i.ibb.co/0jcKh6Qb/Zinc.png',
+  'https://i.ibb.co/84KhQgm1/Tin.png',
+  'https://i.ibb.co/mFvKxG3Z/Steel.png',
+  'https://i.ibb.co/nqDbJvCF/Pewter.png',
+  'https://i.ibb.co/RG0MTYFZ/Iron.png',
+  'https://i.ibb.co/gZRpLFXf/Copper.png',
+  'https://i.ibb.co/nNLgWCCH/Bronze.png',
+  'https://i.ibb.co/tTCcQr7R/Atium.png',
+  'https://i.ibb.co/G4CBC5Wz/Brass.png',
 ]
 
 const N = 3
@@ -75,7 +75,7 @@ function buildBoard(fixCells) {
 }
 
 export default function Metaldoku() {
-  const [phase, setPhase] = useState('difficulty') // 'difficulty' | 'playing' | 'over'
+  const [phase, setPhase] = useState('difficulty')
   const [board, setBoard] = useState([])
   const [fixed, setFixed] = useState([])
   const [solution, setSolution] = useState([])

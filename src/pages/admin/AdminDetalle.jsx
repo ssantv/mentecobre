@@ -26,7 +26,6 @@ function etiquetaOpcion(op) {
   return String(op)
 }
 
-// Registro (API) -> valores del formulario.
 function aFormulario(schema, registro) {
   const base = { ...(schema.nuevosDefecto?.() ?? {}), ...(registro ?? {}) }
   const formula = {}
@@ -40,7 +39,6 @@ function aFormulario(schema, registro) {
   return formula
 }
 
-// Valores del formulario -> registro (API).
 function deFormulario(campo, v) {
   if (campo.tipo === 'lista') {
     return String(v ?? '')
@@ -85,7 +83,7 @@ function valorTexto(schema, campo, registro, extras) {
   return String(v)
 }
 
-function CampoForm({ campo, formula, extras, onChange }) {
+function CampoForm({ campo, formula, extras, onChange, onBlur }) {
   const actualizar = (valor) => onChange(campo.guard, valor)
 
   if (campo.tipo === 'textarea' || campo.tipo === 'lista') {
@@ -196,6 +194,7 @@ function CampoForm({ campo, formula, extras, onChange }) {
       type="text"
       value={formula[campo.guard]}
       onChange={(ev) => actualizar(ev.target.value)}
+      onBlur={onBlur}
     />
   )
 }
@@ -215,6 +214,7 @@ export default function AdminDetalle() {
   const [cargando, setCargando] = useState(true)
   const [guardando, setGuardando] = useState(false)
   const [error, setError] = useState(null)
+  const [cruce, setCruce] = useState(null)
 
   useEffect(() => {
     if (!schema) return
@@ -223,6 +223,7 @@ export default function AdminDetalle() {
     setError(null)
     setGuardando(false)
     setRegistro(null)
+    setCruce(null)
     setEditando(esNuevo)
     ;(async () => {
       try {
@@ -254,6 +255,37 @@ export default function AdminDetalle() {
 
   function actualizarCampo(guard, valor) {
     setFormula((f) => (f ? { ...f, [guard]: valor } : f))
+  }
+
+  async function comprobarCruce() {
+    if (!esNuevo || !schema?.cruce || !formula) return
+    const valor = String(formula[schema.cruce.clave] ?? '').trim()
+    if (!valor) return
+    try {
+      const filas = await schema.cruce.svc.listar()
+      const encontrado = filas.find(
+        (f) =>
+          String(f[schema.cruce.claveOtra] ?? '')
+            .trim()
+            .toLowerCase() === valor.toLowerCase(),
+      )
+      if (encontrado) setCruce(encontrado)
+    } catch {
+      return
+    }
+  }
+
+  function traerDatos() {
+    if (!cruce || !schema?.cruce) return
+    setFormula((f) => {
+      const nuevo = { ...f }
+      for (const [destino, origen] of Object.entries(schema.cruce.mapa)) {
+        const v = cruce[origen]
+        if (v !== undefined && v !== null && v !== '') nuevo[destino] = v
+      }
+      return nuevo
+    })
+    setCruce(null)
   }
 
   async function guardar() {
@@ -408,6 +440,11 @@ export default function AdminDetalle() {
                           formula={formula}
                           extras={extras}
                           onChange={actualizarCampo}
+                          onBlur={
+                            campo.guard === schema.cruce?.clave
+                              ? comprobarCruce
+                              : undefined
+                          }
                         />
                       </div>
                     ) : (
@@ -418,6 +455,11 @@ export default function AdminDetalle() {
                           formula={formula}
                           extras={extras}
                           onChange={actualizarCampo}
+                          onBlur={
+                            campo.guard === schema.cruce?.clave
+                              ? comprobarCruce
+                              : undefined
+                          }
                         />
                       </div>
                     ),
@@ -442,6 +484,195 @@ export default function AdminDetalle() {
                 </div>
               </>
             )}
+
+            {cruce && schema.cruce && (
+              <div
+                className="adm-modal-overlay"
+                role="dialog"
+                aria-modal="true"
+                onClick={() => setCruce(null)}
+              >
+                <div className="adm-modal" onClick={(ev) => ev.stopPropagation()}>
+                  <h3 className="adm-modal-title">He encontrado estos datos</h3>
+                  <p className="adm-modal-text">
+                    Ya existe un {schema.cruce.etiqueta} con el mismo nombre en la
+                    otra tabla. ¿Quieres enlazarlo y traer sus datos?
+                  </p>
+                  <dl className="adm-detail adm-modal-detail">
+                    {Object.entries(schema.cruce.mapa).map(([destino, origen]) =>
+                      cruce[origen] ? (
+                        <div className="adm-detail-row" key={destino}>
+                          <dt className="adm-detail-label">
+                            {schema.campos.find((c) => c.guard === destino)
+                              ?.etiqueta ?? destino}
+                          </dt>
+                          <dd className="adm-detail-value">
+                            {String(cruce[origen])}
+                          </dd>
+                        </div>
+                      ) : null,
+                    )}
+                  </dl>
+                  <div className="adm-modal-actions">
+                    <button
+                      type="button"
+                      className="admin-btn"
+                      onClick={() => setCruce(null)}
+                    >
+                      Ahora no
+                    </button>
+                    <button
+                      type="button"
+                      className="admin-btn admin-btn-primary"
+                      onClick={traerDatos}
+                    >
+                      Traer datos
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </main>
+      </div>
+    </div>
+  )
+}
+
+export function AdminMasivo() {
+  const { seccion } = useParams()
+  const { user } = useAuth()
+  const esRevisor = user?.role === 'revisor'
+  const schema = SCHEMAS[seccion]
+
+  const [texto, setTexto] = useState('')
+  const [error, setError] = useState(null)
+  const [creando, setCreando] = useState(false)
+  const [creados, setCreados] = useState(0)
+
+  const bloqueado = !schema || (esRevisor && SIN_ACCESO_REVISOR.has(seccion))
+
+  const campos = schema?.campos ?? []
+  const orden = campos.map((c) => c.etiqueta).join(' | ')
+
+  async function crearTodo() {
+    setError(null)
+    setCreados(0)
+    const lineas = texto
+      .split('\n')
+      .map((l) => l.trim())
+      .filter(Boolean)
+    if (!lineas.length) {
+      setError('Pega al menos una fila.')
+      return
+    }
+    setCreando(true)
+    let n = 0
+    try {
+      for (const linea of lineas) {
+        const valores = linea.split('|')
+        const payload = {}
+        campos.forEach((campo, i) => {
+          const bruto = (valores[i] ?? '').trim()
+          const valor =
+            campo.tipo === 'lista'
+              ? bruto.replace(/\s*;\s*/g, '\n')
+              : bruto
+          payload[campo.guard] = deFormulario(campo, valor)
+        })
+        await schema.svc.crear(payload)
+        n += 1
+        setCreados(n)
+      }
+      setTexto('')
+    } catch (e) {
+      setError(
+        `Se crearon ${n} de ${lineas.length} registros. ${String(e?.message ?? e)}`,
+      )
+    } finally {
+      setCreando(false)
+    }
+  }
+
+  if (bloqueado) {
+    return (
+      <div className="admin-standalone">
+        <AdminHead user={user} />
+        <div className="admin-body">
+          <main className="admin-content">
+            <div className="admin-panel">
+              <header className="admin-panel-head">
+                <div>
+                  <h2 className="admin-panel-title">Sin acceso</h2>
+                  <span className="admin-panel-sub">
+                    Esta sección es exclusiva del equipo de administración.
+                  </span>
+                </div>
+              </header>
+              <p className="admin-lock-msg">
+                No tienes permisos para gestionar esta sección.
+              </p>
+            </div>
+          </main>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="admin-standalone">
+      <AdminHead user={user} />
+      <div className="admin-body">
+        <main className="admin-content">
+          <div className="admin-panel">
+            <header className="admin-panel-head">
+              <div>
+                <h2 className="admin-panel-title">
+                  Alta masiva · {schema.label}
+                </h2>
+                <span className="admin-panel-sub">
+                  Una fila por registro · {creados} creados en esta tanda
+                </span>
+              </div>
+              <div className="admin-head-actions">
+                <Link className="admin-btn btn-sm" to="/admin">
+                  <span className="material-symbols-outlined">arrow_back</span>
+                  Volver
+                </Link>
+              </div>
+            </header>
+
+            <p className="adm-field-label">
+              Orden de los campos, separados por «|»: {orden}
+            </p>
+            <textarea
+              className="admin-textarea adm-masivo-textarea"
+              rows={12}
+              value={texto}
+              onChange={(ev) => setTexto(ev.target.value)}
+              placeholder={`Ejemplo:\n${campos
+                .map((c) => `valor ${c.etiqueta}`)
+                .join(' | ')}`}
+            />
+
+            {error && <p className="admin-empty">{error}</p>}
+            {creados > 0 && !error && (
+              <p className="site-ok">{creados} registros creados.</p>
+            )}
+
+            <div className="adm-form-actions">
+              <Link className="admin-btn btn-sm" to="/admin">
+                Cancelar
+              </Link>
+              <button
+                type="button"
+                className="admin-btn admin-btn-primary btn-sm"
+                onClick={crearTodo}
+                disabled={creando}
+              >
+                {creando ? 'Creando…' : 'Crear registros'}
+              </button>
+            </div>
           </div>
         </main>
       </div>

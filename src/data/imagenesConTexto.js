@@ -1,5 +1,3 @@
-﻿// Página «Imágenes con texto»: imágenes que llevan texto en inglés y su versión en español.
-// fuente: guía de traducción de la Coppermind.
 
 export const imagenesConTexto = [
   { nombre: "Mapa de Sycla", en: "Sycla-Opelon Map.jpg", es: "MapaSycla.png", urlEn: 'https://coppermind.net/wiki/Special:FilePath/Sycla-Opelon%20Map.jpg', urlEs: 'https://es.coppermind.net/wiki/Special:FilePath/MapaSycla.png' },

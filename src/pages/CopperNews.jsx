@@ -1,6 +1,6 @@
 import CopperNewsShell from '../components/CopperNewsShell'
 import CopperBloques from '../components/CopperBloques'
-import { CN_INICIO, CN_EDICIONES_META } from '../data/coppernews'
+import { CN_INICIO } from '../data/coppernews'
 import { Link } from 'react-router-dom'
 import './CopperNews.css'
 

@@ -233,7 +233,6 @@ export default function CopperEdicion3HTML() {
     <div className="cn-content">
       <p className="cn-kicker">23 ABRIL 2023 · EDICIÓN ESPECIAL ANIVERSARIO</p>
 
-      {/* --- Bloque 1: Nota de la dirección --- */}
       <div style={boxStyle}>
         <h3 style={boxTitle}>Nota de la dirección</h3>
         <p className="cn-paragraph">
@@ -291,7 +290,6 @@ export default function CopperEdicion3HTML() {
       </div>
       <hr style={separator} />
 
-      {/* --- Bloque 3: Caso resuelto + imágenes --- */}
       <div style={rowStyle}>
         <Columna>
           <h2 className="cn-article-title">
@@ -347,7 +345,6 @@ export default function CopperEdicion3HTML() {
       </div>
       <hr style={separator} />
 
-      {/* --- Bloque 4: Prensa física (anuncio) --- */}
       <div style={rowStyle}>
         <Columna>
         <h2 className="cn-article-title">Nueva sección</h2>
@@ -382,7 +379,6 @@ export default function CopperEdicion3HTML() {
       </div>
       <hr style={separator} />
 
-      {/* --- Bloque 5: Supervivencia en el cosmere --- */}
       <div>
         <h2 className="cn-article-title">Supervivencia en el cosmere</h2>
         <h3 style={{...boxTitle, textAlign:'center'}}>Sobrevivir a las tormentas: Guía para que no te lleve el viento en Roshar</h3>
@@ -491,7 +487,6 @@ export default function CopperEdicion3HTML() {
       </div>
       <hr style={separator} />
 
-      {/* --- Bloque 6: Supervivencia O'Conell (anuncio) --- */}
       <div style={rowStyle}>
         <Columna style={{maxWidth: "30%"}}>
           <Fig
@@ -529,7 +524,6 @@ export default function CopperEdicion3HTML() {
       </div>
       <hr style={separator} />
 
-      {/* --- Bloque 7: Recetas cosmeriles --- */}
       <div>
         <h2 className="cn-article-title">Recetas cosmeriles</h2>
         <p className="cn-paragraph">
@@ -657,7 +651,6 @@ export default function CopperEdicion3HTML() {
         </p>
       <hr style={separator} />
 
-      {/* --- Bloque 8: Sucesos + imagen --- */}
       <div>
         <h2 className="cn-article-title">Sucesos</h2>
         <div style={{ ...rowStyle, flexWrap: 'wrap' }}>
@@ -673,7 +666,6 @@ export default function CopperEdicion3HTML() {
       </div>
       <hr style={separator} />
 
-      {/* --- Bloque 9: Gran reunión de eruditos --- */}
       <div>
         <h2 className="cn-article-title">
           Gran reunión de eruditos del cosmere en luzdeplata
@@ -707,7 +699,6 @@ export default function CopperEdicion3HTML() {
       </div>
       <hr style={separator} />
 
-      {/* --- Bloque 10: Iniciativa posaderos de Treno --- */}
       <div style={rowStyle}>
         <Columna>
           <h2 className="cn-article-title">
@@ -734,7 +725,6 @@ export default function CopperEdicion3HTML() {
       </div>
       <hr style={separator} />
 
-      {/* --- Bloque 11: Artículo de opinión --- */}
       <div >
               <h2 className="cn-article-title">Artículo de opinión</h2>
               <div style={boxStyle}>
@@ -756,7 +746,6 @@ export default function CopperEdicion3HTML() {
             </div>
       <hr style={separator} />
 
-      {/* --- Bloque 12: Entrevista --- */}
       <div>
         <h2 className="cn-article-title">
           Entrevista en exclusiva con las «cotorras de la copper»
@@ -779,7 +768,6 @@ export default function CopperEdicion3HTML() {
       
       <hr style={separator} />
 
-      {/* --- Bloque 13: Próximo número + Pasatiempos --- */}
       <div style={rowStyle}>
         <Columna>
           <h2 className="cn-article-title">

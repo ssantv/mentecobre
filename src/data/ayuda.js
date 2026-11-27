@@ -1,4 +1,3 @@
-// Contenido de la guía de traducción (extraído de ayuda.sirayastein.es)
 
 import imgTraducir0 from "../assets/images/ayuda/img-1.png";
 import imgTraducir1 from "../assets/images/ayuda/img-2.png";
@@ -1639,7 +1638,6 @@ export const ARTICULOS = {
           tabla(
             ["", "METAL", "ALOMANCIA", "FERUQUIMIA", "HEMALURGIA"],
             [
-              // FÍSICO
               [{ t: "FÍSICO", cat: true, rowSpan: 8 }, { t: "Hierro", negrita: true, rowSpan: 2 }, { t: "Atraedor", negrita: true }, { t: "Ajustador", negrita: true }, { t: "Roba fuerza", rowSpan: 2 }],
               ["Atrae metales cercanos", "Acumula peso físico"],
               [{ t: "Acero", negrita: true, rowSpan: 2 }, { t: "Lanzamonedas", negrita: true }, { t: "Mensajero de acero", negrita: true }, { t: "Roba alomancia física", rowSpan: 2 }],
@@ -1648,7 +1646,6 @@ export const ARTICULOS = {
               ["Incrementa los sentidos", "Acumula sentidos"],
               [{ t: "Peltre", negrita: true, rowSpan: 2 }, { t: "Brazo de peltre / violento", negrita: true }, { t: "Bruto", negrita: true }, { t: "Roba feruquimia física", rowSpan: 2 }],
               ["Incrementa las capacidades físicas", "Acumula fuerza física"],
-              // COGNITIVO
               [{ t: "COGNITIVO", cat: true, rowSpan: 8 }, { t: "Cinc", negrita: true, rowSpan: 2 }, { t: "Encendedor", negrita: true }, { t: "Chispeante", negrita: true }, { t: "Roba fortaleza emocional", rowSpan: 2 }],
               ["Enciende emociones", "Acumula velocidad mental"],
               [{ t: "Latón", negrita: true, rowSpan: 2 }, { t: "Aplacador", negrita: true }, { t: "Alma de fuego", negrita: true }, { t: "Roba feruquimia cognitiva", rowSpan: 2 }],
@@ -1657,7 +1654,6 @@ export const ARTICULOS = {
               ["Oculta pulsos alománticos", "Acumula recuerdos"],
               [{ t: "Bronce", negrita: true, rowSpan: 2 }, { t: "Buscador", negrita: true }, { t: "Centinela", negrita: true }, { t: "Roba alomancia mental", rowSpan: 2 }],
               ["Revela los pulsos alománticos", "Acumula desvelo"],
-              // HÍBRIDO
               [{ t: "HÍBRIDO", cat: true, rowSpan: 8 }, { t: "Cadmio", negrita: true, rowSpan: 2 }, { t: "Pulsador", negrita: true }, { t: "Resollante", negrita: true }, { t: "Roba alomancia temporal", rowSpan: 2 }],
               ["Ralentiza el tiempo", "Acumula aliento"],
               [{ t: "Bendaleo", negrita: true, rowSpan: 2 }, { t: "Deslizador", negrita: true }, { t: "Incorporador", negrita: true }, { t: "Roba feruquimia espiritual", rowSpan: 2 }],
@@ -1666,7 +1662,6 @@ export const ARTICULOS = {
               ["Revela el pasado propio", "Acumula salud"],
               [{ t: "Electro", negrita: true, rowSpan: 2 }, { t: "Oráculo", negrita: true }, { t: "Pináculo", negrita: true }, { t: "Roba alomancia de mejora", rowSpan: 2 }],
               ["Revela el futuro propio", "Acumula determinación"],
-              // ESPIRITUAL
               [{ t: "ESPIRITUAL", cat: true, rowSpan: 8 }, { t: "Cromo", negrita: true, rowSpan: 2 }, { t: "Sanguijuela", negrita: true }, { t: "Hilador", negrita: true }, { t: "Quizá robe destino", rowSpan: 2 }],
               ["Elimina las reservas alománticas del objetivo", "Acumula Fortuna"],
               [{ t: "Nicrosil", negrita: true, rowSpan: 2 }, { t: "Nicroestallante", negrita: true }, { t: "Portaalmas", negrita: true }, { t: "Roba Investidura", rowSpan: 2 }],
@@ -1675,7 +1670,6 @@ export const ARTICULOS = {
               ["Elimina las propias reservas alománticas", "Acumula Identidad"],
               [{ t: "Duraluminio", negrita: true, rowSpan: 2 }, { t: "Mosquito de duraluminio", negrita: true }, { t: "Conector", negrita: true }, { t: "Roba Conexión e Identidad", rowSpan: 2 }],
               ["Mejora el siguiente metal quemado", "Acumula Conexión"],
-              // DIVINO
               [{ t: "DIVINO", cat: true, rowSpan: 8 }, { t: "Atium", negrita: true, rowSpan: 2 }, { t: "Vidente", negrita: true }, { t: "Desconocido", negrita: true }, { t: "Roba cualquier poder", rowSpan: 2 }],
               ["Revela el futuro de otras personas", "Acumula juventud"],
               [{ t: "Lerasium", negrita: true, rowSpan: 2 }, { t: "Desconocido", negrita: true }, { t: "Desconocido", negrita: true }, { t: "Roba todas las capacidades", rowSpan: 2 }],
@@ -1684,7 +1678,6 @@ export const ARTICULOS = {
               ["Desconocido", "Desconocido"],
               [{ t: "Trellium", negrita: true, rowSpan: 2 }, { t: "Desconocido", negrita: true }, { t: "Desconocido", negrita: true }, { t: "Desconocido", rowSpan: 2 }],
               ["Desconocido", "Desconocido"],
-              // OTROS
               [{ t: "OTROS", cat: true, rowSpan: 2 }, { t: "Malatium", negrita: true, rowSpan: 2 }, { t: "Desconocido", negrita: true }, { t: "Desconocido", negrita: true }, { t: "Desconocido", rowSpan: 2 }],
               ["Permite ver el pasado de las personas", "Desconocido"],
             ]
@@ -1733,8 +1726,6 @@ export const ARTICULOS = {
   },
 }
 
-// Grupos de sub-apartados (Dudas y Recursos interesantes)
-// Cada entrada: slug, titulo, icono, sub, lista de { slug, titulo, sub, icono }
 export const GRUPOS = {
   dudas: {
     slug: "dudas",

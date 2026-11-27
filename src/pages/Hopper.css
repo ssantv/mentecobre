@@ -1,5 +1,3 @@
-/* ---------- CopperHopper ---------- */
-
 .hopper {
   display: flex;
   flex-direction: column;
@@ -94,8 +92,6 @@
   font-size: 0.9rem;
 }
 
-/* --- Carga --- */
-
 .hopper-loading {
   display: flex;
   flex-direction: column;
@@ -164,8 +160,6 @@
 .hopper-link {
   animation: hopperUp 0.3s ease-out both;
 }
-
-/* --- Tablero --- */
 
 .hopper-board {
   margin-top: 1.5rem;
@@ -303,8 +297,6 @@
   font-size: 0.9rem;
 }
 
-/* --- Stats --- */
-
 .hopper-toolbar {
   display: flex;
   align-items: center;
@@ -367,8 +359,6 @@
   flex-shrink: 0;
 }
 
-/* --- Pistas --- */
-
 .hopper-hints {
   margin-top: 0.75rem;
   border-top: 1px solid var(--primary);
@@ -413,8 +403,6 @@
   background: var(--primary);
   color: var(--on-primary-container);
 }
-
-/* --- Ruta --- */
 
 .hopper-path-bar {
   display: flex;
@@ -478,8 +466,6 @@
   }
 }
 
-/* --- Badges y etiquetas --- */
-
 .hopper-badge {
   align-self: flex-start;
   font-size: 0.72rem;
@@ -520,8 +506,6 @@
   padding: 0.15rem 0.6rem;
 }
 
-/* --- Botón de pista deshabilitado --- */
-
 .cviz-btn.hopper-secondary:disabled {
   opacity: 0.55;
   cursor: not-allowed;
@@ -534,8 +518,6 @@
   background: transparent;
   color: var(--on-surface-variant);
 }
-
-/* --- Pantalla de victoria --- */
 
 .hopper-winning {
   text-align: center;
@@ -593,8 +575,6 @@
   color: var(--text-amber);
   font-size: 1.2rem;
 }
-
-/* --- Ruta de rendición --- */
 
 .hopper-route {
   display: flex;

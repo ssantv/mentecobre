@@ -1,12 +1,9 @@
-# Dependencies
 node_modules/
 
-# Build
 dist/
 dist-ssr/
 *.local
 
-# Logs
 logs/
 *.log
 npm-debug.log*
@@ -14,7 +11,6 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# Editor / OS
 .vscode/*
 !.vscode/extensions.json
 .idea/
@@ -25,7 +21,6 @@ pnpm-debug.log*
 *.sln
 *.sw?
 
-# Env
 .env
 .env.*
 !.env.example

@@ -1,11 +1,19 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { glossarySv, categoriesSv, imagesWithTextSv, notificationsSv } from '../api'
 import { useAuth } from '../auth/useAuth'
 
 const IMG_NO_ENC = 'https://media.tenor.com/a-niVX8qPEkAAAAj/rei-john-travolta.gif'
 
+const SECCION_ADMIN = {
+  articulos: 'glosario',
+  categorias: 'categorias',
+  imagenes: 'imagenes',
+}
+
 export default function Glosario() {
   const { user } = useAuth()
+  const puedeGestionar = user?.role === 'revisor' || user?.role === 'admin'
   const [tab, setTab] = useState('articulos')
   const [query, setQuery] = useState('')
   const [preview, setPreview] = useState(null)
@@ -21,8 +29,6 @@ export default function Glosario() {
   const [notifyOk, setNotifyOk] = useState(false)
   const [notifyError, setNotifyError] = useState('')
 
-  // Glosario, categorías e imágenes viven en la capa de servicios: el front
-  // solo consume la misma forma que servirá la API.
   useEffect(() => {
     let vivo = true
     Promise.all([
@@ -55,7 +61,7 @@ export default function Glosario() {
       try {
         en = decodeURIComponent(url.split('/').pop() || 'Imagen con texto')
       } catch {
-        /* dejamos el nombre por defecto */
+        en = 'Imagen con texto'
       }
       const img = await imagesWithTextSv.crear({
         nombre: notifyContexto.trim() || en,
@@ -133,6 +139,15 @@ export default function Glosario() {
             Términos, traducciones y recursos consensuados por el equipo.
           </p>
         </div>
+        {puedeGestionar && (
+          <Link
+            to={`/admin/${SECCION_ADMIN[tab]}/nuevo`}
+            className="btn btn-primary glosario-add-btn"
+          >
+            <span className="material-symbols-outlined">add</span>
+            Añadir nuevo
+          </Link>
+        )}
       </header>
 
       <div className="glosario-tabs">

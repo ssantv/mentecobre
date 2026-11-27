@@ -1,12 +1,3 @@
-// Capa de servicios: UNA interfaz (listar/crear/modificar/borrar) por entidad,
-// con dos implementaciones:
-//   - mock: localStorage versionado, sembrado desde los contratos JSON.
-//   - real: fetch contra la API (VITE_API_URL), misma forma.
-// La UI nunca sabe cuál usa. Definir VITE_API_URL apunta al backend; sin ella
-// se sirven los datos simulados.
-//
-// El seed puede ser un array o una función async que lo devuelva (para tablas
-// pesadas, como articles, cargadas desde /data/articles.json).
 
 const API_URL = import.meta.env?.VITE_API_URL ?? null
 
@@ -93,8 +84,6 @@ export function crearServicio({
     return clonar(semilla ?? [])
   }
 
-  // La carga se memoiza como promesa: si varios componentes piden la tabla a
-  // la vez (sidebar, página, stats) solo se siembra una vez.
   async function cargar() {
     if (memoria) return memoria
     if (!cargaEnCurso) {

@@ -105,7 +105,6 @@ export default function CopperEdicion2HTML() {
     <div className="cn-content">
       <p className="cn-kicker">28 DICIEMBRE 2022 · EDICIÓN ESPECIAL</p>
 
-      {/* --- Bloque 1: Artículo central --- */}
       <div style={rowStyle}>
         <Columna>
         <h2 className="cn-article-title">Continúa la investigación sobre el asalto a la coppermind</h2>
@@ -120,7 +119,6 @@ export default function CopperEdicion2HTML() {
       
       <hr style={separator} />
 
-      {/* --- Bloque 3: Imagen + artículo reina --- */}
       <div style={rowStyle}>
         <Columna>
           <Fig img={n2_1} w="80%" alt="La reina sisirinah" caption="Su Majestad la reina, recientemente teñida." />
@@ -137,7 +135,6 @@ export default function CopperEdicion2HTML() {
       </div>
       <hr style={separator} />
 
-      {/* --- Bloque 4: Pronóstico del tiempo --- */}
       <div>
         <h2 className="cn-article-title">Pronóstico del tiempo</h2>
         <Fig img={n2_2} w="100%" alt="Pronóstico del tiempo en Roshar" caption="Pronóstico del tiempo en Roshar." />
@@ -153,7 +150,6 @@ export default function CopperEdicion2HTML() {
       </div>
       <hr style={separator} />
 
-      {/* --- Bloque 5: Cosmóscopo --- */}
       <div>
         <h2 className="cn-article-title">Cosmóscopo</h2>
         <p className="cn-kicker">(sin adivinación, aprobado por fervorosos vorin)</p>
@@ -168,7 +164,6 @@ export default function CopperEdicion2HTML() {
       </div>
       <hr style={separator} />
 
-      {/* --- Bloque 6: Artículo de opinión --- */}
       <div >
         <h2 className="cn-article-title">Artículo de opinión</h2>
         <div style={boxStyle}>
@@ -191,14 +186,12 @@ export default function CopperEdicion2HTML() {
       </div>
       <hr style={separator} />
 
-      {/* --- Bloque 7: En otras noticias --- */}
       <div style={rowStyle}>
         <h2 className="cn-article-title">Saltamundos indignadas ante los pudorosos rosharianos. Aumenta la venta de guantes en las cercanías del planeta.</h2>
         <h2 className="cn-article-title">Luzdeplata a la cabeza de la investigación del resfriado común y una posible cura para los afectados.</h2>
       </div>
       <hr style={separator} />
 
-      {/* --- Bloque 8: Espacio publicitario --- */}
       <div>
         <h2 className="cn-article-title">Espacio publicitario</h2>
         <div style={{ ...rowStyle, flexWrap: 'wrap' }}>
