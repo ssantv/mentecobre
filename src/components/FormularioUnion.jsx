@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { recruitmentSv } from '../api'
 
-const HOY = () => new Date().toISOString().slice(0, 10)
+const fechaHoy = () => new Date().toISOString().slice(0, 10)
 
 const LIBROS_COSMERE = [
   'Elantris',
@@ -83,11 +83,11 @@ export default function FormularioUnion() {
   const [enviado, setEnviado] = useState(false)
   const [error, setError] = useState('')
 
-  function toggleSet(set, setter, valor) {
-    const nuevo = new Set(set)
-    if (nuevo.has(valor)) nuevo.delete(valor)
-    else nuevo.add(valor)
-    setter(nuevo)
+  function alternarObraCosmere(cosmere, setCosmere, libro) {
+    const nuevo = new Set(cosmere)
+    if (nuevo.has(libro)) nuevo.delete(libro)
+    else nuevo.add(libro)
+    setCosmere(nuevo)
   }
 
   function toggleFuera(libro) {
@@ -122,7 +122,7 @@ export default function FormularioUnion() {
         libros,
         prueba: prueba.trim(),
         estado: 'nuevo',
-        creado_en: HOY(),
+        creado_en: fechaHoy(),
       })
       setEnviado(true)
     } catch {
@@ -222,7 +222,7 @@ export default function FormularioUnion() {
         titulo="Dentro del Cosmere"
         libros={LIBROS_COSMERE}
         seleccion={cosmere}
-        onToggle={(l) => toggleSet(cosmere, setCosmere, l)}
+        onToggle={(l) => alternarObraCosmere(cosmere, setCosmere, l)}
       />
       <ListaLibros
         titulo="Fuera del Cosmere"

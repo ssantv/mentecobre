@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../auth/useAuth'
 import { articles, universesSv, monthlyChangesSv } from '../api'
 
-const vacio = (v) => v === null || v === undefined || v === ''
+const estaVacio = (v) => v === null || v === undefined || v === ''
 
 function hoy() {
   const d = new Date()
@@ -169,7 +169,7 @@ function TabTraduccion({ user, datos, recargar }) {
     ) ?? null
   const porUniverso = new Map()
   articulos.forEach((a) => {
-    if (a.translated || !vacio(a.translator)) return
+    if (a.translated || !estaVacio(a.translator)) return
     const uni = Number(a.universe)
     if (!porUniverso.has(uni)) porUniverso.set(uni, a)
   })
@@ -384,7 +384,7 @@ function SeccionRevision({ user, datos, recargar }) {
   )
   const porUniverso = new Map()
   articulos.forEach((a) => {
-    if (!vacio(a.reviewer)) return
+    if (!estaVacio(a.reviewer)) return
     const uni = Number(a.universe)
     if (!porUniverso.has(uni)) porUniverso.set(uni, a)
   })

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { erratasSv } from '../api'
 
-const HOY = () => new Date().toISOString().slice(0, 10)
+const fechaHoy = () => new Date().toISOString().slice(0, 10)
 
 const CHECK_TRADUCIDO =
   'Confirmo que el artículo en el que he encontrado el fallo está traducido al español.'
@@ -33,7 +33,7 @@ export default function FormularioErrata() {
         usuario: nombre.trim(),
         checks: [CHECK_TRADUCIDO, CHECK_REVISADO],
         estado: 'nuevo',
-        creado_en: HOY(),
+        creado_en: fechaHoy(),
       })
       setEnviado(true)
     } catch {

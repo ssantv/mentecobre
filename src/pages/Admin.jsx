@@ -14,9 +14,7 @@ import {
   notificationsSv,
 } from '../api'
 
-const SINO = (v) => (v ? 'Sí' : '—')
-
-const HOY = () => new Date().toISOString().slice(0, 10)
+const fechaHoy = () => new Date().toISOString().slice(0, 10)
 
 function fmtFecha(fecha) {
   if (!fecha) return '—'
@@ -581,7 +579,7 @@ function SeccionImagenes({ imagenes, recargar }) {
                 <td>
                   <span className="adm-link">{img.es || '—'}</span>
                 </td>
-                <td>{SINO(img.pendienteEs)}</td>
+                <td>{img.pendienteEs ? 'Sí' : '—'}</td>
                 <td>
                   <AccionesFila
                     seccion="imagenes"
@@ -602,15 +600,15 @@ function SeccionImagenes({ imagenes, recargar }) {
 
 function SeccionUsuarios({ usuarios, recargar }) {
   async function cambiarEstado(u, status) {
-    const patch = { status, status_changed_at: HOY() }
+    const patch = { status, status_changed_at: fechaHoy() }
     if (status === 'descanso') {
       patch.is_resting = true
-      patch.timeoff_date = HOY()
+      patch.timeoff_date = fechaHoy()
       patch.out_date = null
     } else if (status === 'baja') {
       patch.is_resting = false
       patch.timeoff_date = null
-      patch.out_date = HOY()
+      patch.out_date = fechaHoy()
     } else {
       patch.is_resting = false
       patch.timeoff_date = null

@@ -16,7 +16,7 @@ export const ESTADOS_NOTIFICACION = ['pendiente', 'resuelta', 'completado']
 export const ESTADOS_USUARIO = ['activo', 'descanso', 'baja']
 export const TIPOS_ARTICULO = ['FDV', 'LIB', 'LOC', 'MG', 'ORG', 'PJ', 'RD']
 
-const HOY = () => new Date().toISOString().slice(0, 10)
+const fechaHoy = () => new Date().toISOString().slice(0, 10)
 
 function nombreUsuario(u) {
   return (
@@ -193,7 +193,7 @@ export const SCHEMAS = {
     singular: 'Errata',
     svc: erratasSv,
     titulo: (f) => f.articulo || '—',
-    nuevosDefecto: () => ({ estado: 'nuevo', creado_en: HOY() }),
+    nuevosDefecto: () => ({ estado: 'nuevo', creado_en: fechaHoy() }),
     campos: [
       { guard: 'articulo', etiqueta: 'Artículo', tipo: 'texto' },
       { guard: 'texto', etiqueta: 'Texto', tipo: 'textarea' },
@@ -212,7 +212,7 @@ export const SCHEMAS = {
     singular: 'Solicitud',
     svc: recruitmentSv,
     titulo: (f) => f.nombre || '—',
-    nuevosDefecto: () => ({ estado: 'nuevo', creado_en: HOY() }),
+    nuevosDefecto: () => ({ estado: 'nuevo', creado_en: fechaHoy() }),
     campos: [
       { guard: 'nombre', etiqueta: 'Nombre', tipo: 'texto' },
       { guard: 'email', etiqueta: 'Email', tipo: 'texto' },
@@ -231,7 +231,7 @@ export const SCHEMAS = {
     singular: 'Notificación',
     svc: notificationsSv,
     titulo: (f) => f.contexto || f.tipo || '—',
-    nuevosDefecto: () => ({ estado: 'pendiente', creado_en: HOY() }),
+    nuevosDefecto: () => ({ estado: 'pendiente', creado_en: fechaHoy() }),
     campos: [
       { guard: 'tipo', etiqueta: 'Tipo', tipo: 'texto' },
       { guard: 'contexto', etiqueta: 'Contexto', tipo: 'texto' },
