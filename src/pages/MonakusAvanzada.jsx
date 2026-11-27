@@ -20,16 +20,15 @@ export default function MonakusAvanzada() {
           {avanzada.ramas.map((r, i) => (
             <article key={i} className="mn-rama">
               <h2 className="mn-rama-titulo">{r.nombre}</h2>
-                <div>
+              <div>
                 <img
-                  
                   src={r.imagen}
                   alt={r.nombre}
                   loading="lazy"
                   width="100%"
                   height="100%"
                 />
-                </div>
+              </div>
               <div className="mn-rama-fila">
                 <div className="mn-rama-col">
                   <h4>Troncales</h4>

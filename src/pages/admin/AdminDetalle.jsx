@@ -2,19 +2,39 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from '../../auth/useAuth'
 import { AdminHead } from '../Admin'
-import { SCHEMAS } from './schemas'
+import { SCHEMAS, fmtFecha } from './schemas'
 
 const SIN_ACCESO_REVISOR = new Set(['usuarios', 'universos', 'reclutamiento'])
 
-function fmtFecha(fecha) {
-  if (!fecha) return '—'
-  const d = new Date(fecha)
-  if (Number.isNaN(d.getTime())) return fecha
-  return d.toLocaleDateString('es-ES', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-  })
+const EJEMPLOS_CAMPO = {
+  term: 'Investiture',
+  es: 'Investidura',
+  en: 'Investiture.jpg',
+  nombre: 'Scadrial',
+  titleEn: 'Investiture',
+  titleEs: 'Investidura',
+  universeId: '5',
+  universe: '5',
+  urlEn: 'https://coppermind.net/wiki/Investiture',
+  urlEs: 'https://es.coppermind.net/wiki/Investidura',
+  articulo: 'Elantris',
+  texto: 'Falta la tabla de metales alománticos.',
+  email: 'kokerlii@mentecobre.dev',
+  username: 'kokerlii',
+  first_name: 'Kokerlii',
+  last_name: 'Cotorra',
+  notes: 'Pendiente de revisar.',
+  notas: 'Pendiente de revisar.',
+  contexto: 'Armaduras esquirladas',
+  enUrl: 'https://coppermind.net/wiki/Special:FilePath/Shardplate.jpeg',
+  tipo: 'imagen_con_texto',
+  estado: 'nuevo',
+  type: 'LIB',
+  priority: '2',
+  status: 'activo',
+  rol: 'colaborador',
+  imageId: '71',
+  creado_en: '2026-09-01',
 }
 
 function opcionesDe(campo, extras) {
@@ -432,38 +452,30 @@ export default function AdminDetalle() {
             {!cargando && formula && editando && (
               <>
                 <div className="adm-form-grid">
-                  {schema.campos.map((campo) =>
-                    campo.tipo === 'checkbox' ? (
-                      <div className="adm-field adm-field-check" key={campo.guard}>
+                  {schema.campos.map((campo) => {
+                    const esCheck = campo.tipo === 'checkbox'
+                    const alBlur =
+                      campo.guard === schema.cruce?.clave
+                        ? comprobarCruce
+                        : undefined
+                    return (
+                      <div
+                        className={`adm-field${esCheck ? ' adm-field-check' : ''}`}
+                        key={campo.guard}
+                      >
+                        {!esCheck && (
+                          <span className="adm-field-label">{campo.etiqueta}</span>
+                        )}
                         <CampoForm
                           campo={campo}
                           formula={formula}
                           extras={extras}
                           onChange={actualizarCampo}
-                          onBlur={
-                            campo.guard === schema.cruce?.clave
-                              ? comprobarCruce
-                              : undefined
-                          }
+                          onBlur={alBlur}
                         />
                       </div>
-                    ) : (
-                      <div className="adm-field" key={campo.guard}>
-                        <span className="adm-field-label">{campo.etiqueta}</span>
-                        <CampoForm
-                          campo={campo}
-                          formula={formula}
-                          extras={extras}
-                          onChange={actualizarCampo}
-                          onBlur={
-                            campo.guard === schema.cruce?.clave
-                              ? comprobarCruce
-                              : undefined
-                          }
-                        />
-                      </div>
-                    ),
-                  )}
+                    )
+                  })}
                 </div>
                 <div className="adm-form-actions">
                   <button
@@ -651,7 +663,7 @@ export function AdminMasivo() {
               value={texto}
               onChange={(ev) => setTexto(ev.target.value)}
               placeholder={`Ejemplo:\n${campos
-                .map((c) => `valor ${c.etiqueta}`)
+                .map((c) => EJEMPLOS_CAMPO[c.guard] ?? `valor ${c.etiqueta}`)
                 .join(' | ')}`}
             />
 

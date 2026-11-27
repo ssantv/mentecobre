@@ -26,7 +26,6 @@ export default function CotorraViajesShell({ children, fondo, fondoOpacidad }) {
 
         <p className="cv-brand">Cotorra Viajes</p>
 
-
         <nav className="cv-nav">
           {SUBS.map((s) => (
             <NavLink

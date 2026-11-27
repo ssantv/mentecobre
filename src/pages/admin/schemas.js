@@ -18,7 +18,18 @@ export const TIPOS_ARTICULO = ['FDV', 'LIB', 'LOC', 'MG', 'ORG', 'PJ', 'RD']
 
 const fechaHoy = () => new Date().toISOString().slice(0, 10)
 
-function nombreUsuario(u) {
+export function fmtFecha(fecha) {
+  if (!fecha) return '—'
+  const d = new Date(fecha)
+  if (Number.isNaN(d.getTime())) return fecha
+  return d.toLocaleDateString('es-ES', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  })
+}
+
+export function nombreUsuario(u) {
   return (
     [u.first_name, u.last_name].filter(Boolean).join(' ') ||
     u.username ||

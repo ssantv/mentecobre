@@ -42,7 +42,7 @@
   --error-container: #93000a;
   --on-error-container: #ffdad6;
 
---outline: #a18d7c;
+  --outline: #a18d7c;
   --outline-variant: #544436;
 
   --border: rgba(255, 255, 255, 0.06);
@@ -59,7 +59,7 @@
   --radius: 1rem;
   --radius-lg: 2rem;
 
---kinetic: linear-gradient(135deg, #ffb873 0%, #d66e4b 100%);
+  --kinetic: linear-gradient(135deg, #ffb873 0%, #d66e4b 100%);
 }
 
 [data-theme='light'] {
@@ -223,7 +223,7 @@ body {
   left: 0;
   bottom: 0;
   width: 16rem;
-background: var(--surface-container-low);
+  background: var(--surface-container-low);
   flex-direction: column;
   padding: 1.5rem 0;
   box-shadow: var(--shadow-sidebar);
@@ -690,7 +690,7 @@ background: var(--surface-container-low);
   padding: 2.5rem;
   margin: 1.5rem auto 0;
   max-width: 44rem;
-background: var(--surface-glass-solid);
+  background: var(--surface-glass-solid);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--border);
@@ -856,7 +856,7 @@ background: var(--surface-glass-solid);
   background: var(--surface-container-high);
   border: 1px solid var(--border);
   color: var(--on-surface);
-  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
   font-size: 0.85rem;
   line-height: 1.6;
   white-space: pre-wrap;
@@ -935,7 +935,6 @@ background: var(--surface-glass-solid);
 }
 
 .ayuda-articulo-tabla th {
-  text-align: left;
   color: var(--on-surface-variant);
   font-weight: 800;
   padding: 0.7rem 0.9rem;
@@ -947,7 +946,6 @@ background: var(--surface-glass-solid);
 .ayuda-articulo-tabla td {
   padding: 0.7rem 0.9rem;
   border-bottom: 1px solid var(--border);
-  vertical-align: top;
   color: var(--on-surface-variant);
   font-weight: 300;
   line-height: 1.5;
@@ -1286,7 +1284,7 @@ background: var(--surface-glass-solid);
     grid-column: span 4;
   }
 
-    .chart-full {
+  .chart-full {
     grid-column: span 12;
   }
 }
@@ -1833,11 +1831,6 @@ img,
 svg,
 table {
   max-width: 100%;
-}
-
-html,
-body {
-  overflow-x: hidden;
 }
 
 .page-title {

@@ -13,18 +13,20 @@ const NAV_ITEMS = [
 
 const AUX_ITEMS = [{ icon: 'sports_esports', label: 'Ocio', to: '/ocio' }]
 
+const itemsConAdmin = [
+  { icon: 'translate', label: 'Traducción', to: '/traduccion' },
+  {
+    icon: 'admin_panel_settings',
+    label: 'Administración',
+    to: '/admin',
+    badge: true,
+  },
+]
+
 const ROLE_ITEMS = {
-  traductor: [
-    { icon: 'translate', label: 'Traducción', to: '/traduccion' },
-  ],
-  revisor: [
-    { icon: 'translate', label: 'Traducción', to: '/traduccion' },
-    { icon: 'admin_panel_settings', label: 'Administración', to: '/admin', badge: true },
-  ],
-  admin: [
-    { icon: 'translate', label: 'Traducción', to: '/traduccion' },
-    { icon: 'admin_panel_settings', label: 'Administración', to: '/admin', badge: true },
-  ],
+  traductor: [{ icon: 'translate', label: 'Traducción', to: '/traduccion' }],
+  revisor: itemsConAdmin,
+  admin: itemsConAdmin,
 }
 
 export default function Sidebar() {
@@ -72,7 +74,7 @@ export default function Sidebar() {
   const roleLabel = user ? ROLES_LABEL[user.role] : null
 
   return (
-<aside className="sidebar">
+    <aside className="sidebar">
         <div className="sidebar-header">
           <h1 className="sidebar-title">Mentecobre</h1>
         </div>

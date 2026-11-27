@@ -1,61 +1,61 @@
-import { Link, useParams } from "react-router-dom";
-import { ARTICULOS } from "../data/ayuda";
+import { Link, useParams } from 'react-router-dom'
+import { ARTICULOS } from '../data/ayuda'
 
 function renderBloque(bloque, i) {
   switch (bloque.tipo) {
-    case "p":
-      return <p key={i} className="ayuda-articulo-p">{bloque.texto}</p>;
-    case "h3":
-      return <h3 key={i} className="ayuda-articulo-h3">{bloque.texto}</h3>;
-    case "nota":
+    case 'p':
+      return <p key={i} className="ayuda-articulo-p">{bloque.texto}</p>
+    case 'h3':
+      return <h3 key={i} className="ayuda-articulo-h3">{bloque.texto}</h3>
+    case 'nota':
       return (
         <div key={i} className="ayuda-articulo-nota">
           <span className="material-symbols-outlined">lightbulb</span>
           <p>{bloque.texto}</p>
         </div>
-      );
-    case "code":
-      return <pre key={i} className="ayuda-articulo-code">{bloque.texto}</pre>;
-    case "imagen":
+      )
+    case 'code':
+      return <pre key={i} className="ayuda-articulo-code">{bloque.texto}</pre>
+    case 'imagen':
       return (
         <figure key={i} className="ayuda-articulo-imagen">
-          <img src={bloque.src} alt={bloque.pie || ""} loading="lazy" />
+          <img src={bloque.src} alt={bloque.pie || ''} loading="lazy" />
           {bloque.pie && <figcaption>{bloque.pie}</figcaption>}
         </figure>
-      );
-    case "imagenes":
+      )
+    case 'imagenes':
       return (
         <div key={i} className="ayuda-articulo-imagenes">
           {bloque.items.map(([src, pie], j) => (
             <figure key={j} className="ayuda-articulo-imagen">
-              <img src={src} alt={pie || ""} loading="lazy" />
+              <img src={src} alt={pie || ''} loading="lazy" />
               {pie && <figcaption>{pie}</figcaption>}
             </figure>
           ))}
         </div>
-      );
-    case "tabla":
+      )
+    case 'tabla':
       return (
         <div key={i} className="table-scroll">
           <table className="ayuda-articulo-tabla">
             <thead>
               <tr>
                 {bloque.columnas.map((c, j) => {
-                  if (c && typeof c === "object") {
+                  if (c && typeof c === 'object') {
                     return (
                       <th key={j} colSpan={c.colSpan} rowSpan={c.rowSpan}>{c.t}</th>
-                    );
+                    )
                   }
-                  return <th key={j} rowSpan={bloque.subColumnas ? 2 : undefined}>{c}</th>;
+                  return <th key={j} rowSpan={bloque.subColumnas ? 2 : undefined}>{c}</th>
                 })}
               </tr>
               {bloque.subColumnas && (
                 <tr>
                   {bloque.subColumnas.map((c, j) => {
-                    if (c && typeof c === "object") {
-                      return <th key={j} colSpan={c.colSpan}>{c.t}</th>;
+                    if (c && typeof c === 'object') {
+                      return <th key={j} colSpan={c.colSpan}>{c.t}</th>
                     }
-                    return <th key={j}>{c}</th>;
+                    return <th key={j}>{c}</th>
                   })}
                 </tr>
               )}
@@ -64,31 +64,31 @@ function renderBloque(bloque, i) {
               {bloque.filas.map((fila, j) => (
                 <tr key={j}>
                   {fila.filter((c) => c !== null).map((celda, k) => {
-                    if (celda && typeof celda === "object") {
+                    if (celda && typeof celda === 'object') {
                       return (
                         <td
                           key={k}
                           rowSpan={celda.rowSpan}
                           colSpan={celda.colSpan}
                           className={
-                            celda.cat ? "ayuda-tabla-cat" :
-                            celda.negrita ? "ayuda-tabla-negrita" : undefined
+                            celda.cat ? 'ayuda-tabla-cat' :
+                            celda.negrita ? 'ayuda-tabla-negrita' : undefined
                           }
                         >
                           {renderCeldaTexto(celda)}
                         </td>
-                      );
+                      )
                     }
-                    return <td key={k}>{celda}</td>;
+                    return <td key={k}>{celda}</td>
                   })}
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-      );
-    case "ul":
-    case "ol":
+      )
+    case 'ul':
+    case 'ol':
       return bloque.ol ? (
         <ol key={i} className="ayuda-articulo-lista">
           {bloque.items.map((item, j) => renderItem(item, j))}
@@ -97,9 +97,9 @@ function renderBloque(bloque, i) {
         <ul key={i} className="ayuda-articulo-lista">
           {bloque.items.map((item, j) => renderItem(item, j))}
         </ul>
-      );
+      )
     default:
-      return null;
+      return null
   }
 }
 
@@ -111,10 +111,10 @@ function renderCeldaTexto(celda) {
       ) : (
         <span key={k}>{run.t}</span>
       )
-    );
+    )
   }
-  const contenido = celda.t ?? celda;
-  return celda.negrita ? <strong>{contenido}</strong> : contenido;
+  const contenido = celda.t ?? celda
+  return celda.negrita ? <strong>{contenido}</strong> : contenido
 }
 
 function renderItem(item, j) {
@@ -124,14 +124,14 @@ function renderItem(item, j) {
         <strong>{item[0]}: </strong>
         {item[1]}
       </li>
-    );
+    )
   }
-  return <li key={j}>{item}</li>;
+  return <li key={j}>{item}</li>
 }
 
 export default function AyudaArticulo() {
-  const { slug } = useParams();
-  const articulo = ARTICULOS[slug];
+  const { slug } = useParams()
+  const articulo = ARTICULOS[slug]
 
   if (!articulo) {
     return (
@@ -154,7 +154,7 @@ export default function AyudaArticulo() {
           </Link>
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -183,5 +183,5 @@ export default function AyudaArticulo() {
         </Link>
       </div>
     </div>
-  );
+  )
 }

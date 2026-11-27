@@ -104,7 +104,7 @@ export default function CopperEdicion1HTML() {
       <div>
         <h2 className="cn-article-title">¿Han sido las cotorras suplantadas por kandra?</h2>
         <p className="cn-paragraph">
-          El mayor miedo que existe ahora mismo entre la población es si sus queridas cotorras (Kokerlii, Sak y Cotónica) se encuentran en buen estado. Este medio ha conseguido hablar con ellas y, aunque asustadas por lo ocurrido, se muestran confiadas en que las autoridades sean capaces de dar con el culpable. Por el momento, y hasta que la investigaciónarroje más datos sobre el asunto, planean continuar como hasta ahora, «como si nada hubiera pasado», acciones que, a muchos nos extrañan y que nos hacen plantearnos… ¿Serán elles las originales… o habrán sido reemplazadas por Inmortales Sin Rostro?
+          El mayor miedo que existe ahora mismo entre la población es si sus queridas cotorras (Kokerlii, Sak y Cotónica) se encuentran en buen estado. Este medio ha conseguido hablar con ellas y, aunque asustadas por lo ocurrido, se muestran confiadas en que las autoridades sean capaces de dar con el culpable. Por el momento, y hasta que la investigación arroje más datos sobre el asunto, planean continuar como hasta ahora, «como si nada hubiera pasado», acciones que, a muchos nos extrañan y que nos hacen plantearnos… ¿Serán elles las originales… o habrán sido reemplazadas por Inmortales Sin Rostro?
         </p>
       </div>
       <hr style={separator} />

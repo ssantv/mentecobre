@@ -13,19 +13,9 @@ import {
   recruitmentSv,
   notificationsSv,
 } from '../api'
+import { ESTADOS_ERRATA, ESTADOS_RECLUTAMIENTO, fmtFecha } from './admin/schemas'
 
 const fechaHoy = () => new Date().toISOString().slice(0, 10)
-
-function fmtFecha(fecha) {
-  if (!fecha) return '—'
-  const d = new Date(fecha)
-  if (Number.isNaN(d.getTime())) return fecha
-  return d.toLocaleDateString('es-ES', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-  })
-}
 
 const DIA_MS = 24 * 60 * 60 * 1000
 
@@ -43,9 +33,6 @@ function claseInactividad(dias) {
   if (dias >= 30) return 'adm-chip-warn'
   return 'adm-chip-ok'
 }
-
-const ESTADOS_ERRATA = ['nuevo', 'en_proceso', 'resuelto', 'descartado']
-const ESTADOS_RECLUTAMIENTO = ['nuevo', 'entrevista', 'aceptado', 'rechazado']
 
 function esPendienteNotificaciones(tipo, estado) {
   if (tipo === 'errata') return estado === 'nuevo'

@@ -86,7 +86,7 @@ export default function FormularioErrata() {
         <input
           className="site-input"
           type="email"
-          placeholder="correo@ejemplo.com"
+          placeholder="kokerlii@mentecobre.dev"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required

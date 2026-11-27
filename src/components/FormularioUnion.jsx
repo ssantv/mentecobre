@@ -92,7 +92,7 @@ export default function FormularioUnion() {
 
   function toggleFuera(libro) {
     if (libro === 'Ninguna') {
-      setFuera(new Set(libro === 'Ninguna' && fuera.has(libro) ? [] : ['Ninguna']))
+      setFuera(new Set(fuera.has(libro) ? [] : ['Ninguna']))
       return
     }
     const nuevo = new Set(fuera)
@@ -174,7 +174,7 @@ export default function FormularioUnion() {
         <input
           className="site-input"
           type="text"
-          placeholder="Tu nombre completo"
+          placeholder="Tu nombre en la Copper"
           value={nombre}
           onChange={(e) => setNombre(e.target.value)}
           required
@@ -186,7 +186,7 @@ export default function FormularioUnion() {
         <input
           className="site-input"
           type="email"
-          placeholder="correo@ejemplo.com"
+          placeholder="kokerlii@mentecobre.dev"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required

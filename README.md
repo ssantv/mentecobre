@@ -1,16 +1,13 @@
-# React + Vite
+# Mentecobre
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Front React + Vite para la Coppermind en español.
 
-Currently, two official plugins are available:
+Sin `VITE_API_URL`, la aplicación usa las semillas de `src/data/contracts` y `public/data/articles.json`. Con `VITE_API_URL`, llama a la API descrita en `docs/api-contrato-openapi.yml`.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+En modo mock los datos se guardan en localStorage con claves `mentecobre.<clave>.vN`, así que editar una semilla no se refleja en un navegador que ya tiene datos guardados: hay que borrar el localStorage. Los usuarios de prueba (`traductor`, `revisor`, `admin`) y sus contraseñas están en `src/auth/mockUsers.js`.
 
-## React Compiler
+Requiere Node 22.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+`npm install`, `npm run dev`, `npm run lint`, `npm run build`, `npm run preview`. Para validar el contrato: `node scripts/validar-openapi.mjs`.
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+No hay tests automatizados.

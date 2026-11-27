@@ -37,8 +37,6 @@ export default function CotorraViajes() {
             </Link>
           </div>
 
-          
-
           <div className="cv-rega-group">
             <h2 className="cv-rega-titulo">{CV_INICIO.regalos.titulo}</h2>
             <p className="cv-rega-texto">{CV_INICIO.regalos.texto}</p>

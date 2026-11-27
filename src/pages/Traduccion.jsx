@@ -24,6 +24,24 @@ export default function Traduccion() {
     { id: 'actualizacion', label: 'Actualización', icon: 'update' },
   ]
 
+  const TAB_TEXTO = {
+    traduccion: {
+      titulo: 'Traducción',
+      subtitulo:
+        'Tu artículo actual y el siguiente por asignar de cada uno de tus universos.',
+    },
+    revision: {
+      titulo: 'Revisión',
+      subtitulo:
+        'Revisa los artículos ya traducidos y pendientes de verificación.',
+    },
+    actualizacion: {
+      titulo: 'Actualización',
+      subtitulo:
+        'Cambios que detecta la API en la Coppermind en inglés, agrupados por tipo de trabajo.',
+    },
+  }
+
   const [tab, setTab] = useState(TABS[0]?.id ?? 'traduccion')
   const [estado, setEstado] = useState({ tab: null, datos: null, cambios: null })
 
@@ -44,27 +62,26 @@ export default function Traduccion() {
     return { articulos, cambios: cambiosLista }
   }, [])
 
+  const cargarTab = useCallback(
+    async (id) => {
+      if (id === 'actualizacion') {
+        return { cambios: await cargarCambios().catch(() => null) }
+      }
+      return { datos: await cargar().catch(() => null) }
+    },
+    [cargar, cargarCambios],
+  )
+
   const recargar = useCallback(async () => {
-    const data =
-      tab === 'actualizacion'
-        ? { cambios: await cargarCambios().catch(() => null) }
-        : { datos: await cargar().catch(() => null) }
+    const data = await cargarTab(tab)
     setEstado((prev) => ({ ...prev, tab, ...data }))
-  }, [tab, cargar, cargarCambios])
+  }, [tab, cargarTab])
 
   useEffect(() => {
-    const peticion =
-      tab === 'actualizacion'
-        ? cargarCambios()
-            .then((res) => ({ cambios: res }))
-            .catch(() => ({ cambios: null }))
-        : cargar()
-            .then((res) => ({ datos: res }))
-            .catch(() => ({ datos: null }))
-    peticion.then((data) =>
+    cargarTab(tab).then((data) =>
       setEstado((prev) => ({ ...prev, tab, ...data })),
     )
-  }, [tab, cargar, cargarCambios])
+  }, [tab, cargarTab])
 
   if (!user) {
     return (
@@ -89,18 +106,7 @@ export default function Traduccion() {
     )
   }
 
-  const titulo =
-    tab === 'revision'
-      ? 'Revisión'
-      : tab === 'actualizacion'
-        ? 'Actualización'
-        : 'Traducción'
-  const subtitulo =
-    tab === 'revision'
-      ? 'Revisa los artículos ya traducidos y pendientes de verificación.'
-      : tab === 'actualizacion'
-        ? 'Cambios que detecta la API en la Coppermind en inglés, agrupados por tipo de trabajo.'
-        : 'Tu artículo actual y el siguiente por asignar de cada uno de tus universos.'
+  const { titulo, subtitulo } = TAB_TEXTO[tab] ?? TAB_TEXTO.traduccion
 
   const datos = estado.tab === tab ? estado.datos : null
   const cambios = estado.tab === tab ? estado.cambios : null

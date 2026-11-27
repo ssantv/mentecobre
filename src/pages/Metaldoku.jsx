@@ -344,7 +344,6 @@ export default function Metaldoku() {
         <div className="metaldoku-gameover">
           <div className="metaldoku-dialog">
             <h2>Has completado el Metaldoku</h2>
-            <p>Has completado el Metaldoku</p>
             <p>
               Tiempo: <b>{formatTime()}</b>
             </p>

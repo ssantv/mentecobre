@@ -19,7 +19,6 @@ export default function CopperNewsShell({ children }) {
             </span>
             Volver a la mentecobre
           </Link>
-          
           <p className="coppernews-brand">CopperNews</p>
           <p className="coppernews-slogan">Mantente Investido</p>
         </div>

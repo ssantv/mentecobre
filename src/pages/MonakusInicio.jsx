@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
-import MonakusShell from "../components/MonakusShell";
-import { MONAKUS } from "../data/monakus";
-import "./Monakus.css";
+import { Link } from 'react-router-dom'
+import MonakusShell from '../components/MonakusShell'
+import { MONAKUS } from '../data/monakus'
+import './Monakus.css'
 
 export default function MonakusInicio() {
-  const { inicio } = MONAKUS;
+  const { inicio } = MONAKUS
 
   return (
     <MonakusShell>
@@ -22,7 +22,7 @@ export default function MonakusInicio() {
             <div className="mn-inicio-fila">
               <img
                 className="mn-hero-img"
-                style={{ alignSelf: "center" }}
+                style={{ alignSelf: 'center' }}
                 src={inicio.hero}
                 alt="Profesor Monakus"
                 loading="eager"
@@ -73,5 +73,5 @@ export default function MonakusInicio() {
         </section>
       </main>
     </MonakusShell>
-  );
+  )
 }

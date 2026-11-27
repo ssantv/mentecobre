@@ -1,21 +1,21 @@
-import { useState } from "react";
-import { anuncio, canciones } from "../data/canciones";
+import { useState } from 'react'
+import { anuncio, canciones } from '../data/canciones'
 
 export default function Desolancicos() {
   const [activa, setActiva] = useState({
-    tipo: "cancion",
+    tipo: 'cancion',
     numero: canciones[0].numero,
-  });
-  const [letraAbierta, setLetraAbierta] = useState(false);
+  })
+  const [letraAbierta, setLetraAbierta] = useState(false)
 
   const seleccionada =
-    activa.tipo === "anuncio"
+    activa.tipo === 'anuncio'
       ? { numero: 0, titulo: anuncio.titulo, video: anuncio.video, letra: null }
-      : canciones.find((c) => c.numero === activa.numero);
+      : canciones.find((c) => c.numero === activa.numero)
 
-  const esAnuncio = activa.tipo === "anuncio";
+  const esAnuncio = activa.tipo === 'anuncio'
   const claseNumero =
-    "deso-card-num" + (esAnuncio ? " deso-card-num-anuncio" : "");
+    'deso-card-num' + (esAnuncio ? ' deso-card-num-anuncio' : '')
 
   return (
     <div>
@@ -42,8 +42,8 @@ export default function Desolancicos() {
       <div className="deso-layout">
         <aside className="deso-side">
           <button
-            className={`deso-side-item glass-panel${esAnuncio ? " activa" : ""}`}
-            onClick={() => setActiva({ tipo: "anuncio" })}
+            className={`deso-side-item glass-panel${esAnuncio ? ' activa' : ''}`}
+            onClick={() => setActiva({ tipo: 'anuncio' })}
           >
             <span className={`deso-card-num deso-card-num-anuncio`}>
               <span className="material-symbols-outlined">campaign</span>
@@ -55,9 +55,9 @@ export default function Desolancicos() {
             <button
               key={c.numero}
               className={`deso-side-item glass-panel${
-                !esAnuncio && activa.numero === c.numero ? " activa" : ""
+                !esAnuncio && activa.numero === c.numero ? ' activa' : ''
               }`}
-              onClick={() => setActiva({ tipo: "cancion", numero: c.numero })}
+              onClick={() => setActiva({ tipo: 'cancion', numero: c.numero })}
             >
               <span className="deso-card-num">{c.numero}</span>
               <span className="deso-card-titulo">{c.titulo}</span>
@@ -131,5 +131,5 @@ export default function Desolancicos() {
         </div>
       )}
     </div>
-  );
+  )
 }

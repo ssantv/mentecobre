@@ -1,10 +1,10 @@
-import { Link, useLocation } from "react-router-dom";
-import { GRUPOS } from "../data/ayuda";
+import { Link, useLocation } from 'react-router-dom'
+import { GRUPOS } from '../data/ayuda'
 
 export default function AyudaGrupo() {
-  const { pathname } = useLocation();
-  const slug = pathname.split("/").filter(Boolean).pop() || "";
-  const grupo = GRUPOS[slug];
+  const { pathname } = useLocation()
+  const slug = pathname.split('/').filter(Boolean).pop() || ''
+  const grupo = GRUPOS[slug]
 
   if (!grupo) {
     return (
@@ -20,7 +20,7 @@ export default function AyudaGrupo() {
           Volver a Ayuda
         </Link>
       </div>
-    );
+    )
   }
 
   return (
@@ -52,5 +52,5 @@ export default function AyudaGrupo() {
         </Link>
       </div>
     </div>
-  );
+  )
 }

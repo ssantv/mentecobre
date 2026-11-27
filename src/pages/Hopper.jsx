@@ -534,8 +534,7 @@ export default function Hopper() {
             state.optimalPath = path
           })
           .catch((e) => console.error('Error al calcular la ruta óptima:', e))
-      } catch (e) {
-        console.error('Error al iniciar el juego:', e)
+      } catch {
         alert('Error al iniciar el juego. Por favor, intenta de nuevo.')
         setLoading(false)
       }
@@ -580,8 +579,7 @@ export default function Hopper() {
           })
           setPhase('victory')
         }
-      } catch (e) {
-        console.error('Error al navegar al artículo:', e)
+      } catch {
         alert('Error al cargar el artículo. Por favor, intenta de nuevo.')
       }
       setArticleLoading(false)
@@ -604,8 +602,7 @@ export default function Hopper() {
       }
       state.hintsUsed++
       setHintsTotal(state.hintsUsed + state.secondaryHintsUsed)
-    } catch (e) {
-      console.error('Error al mostrar la pista:', e)
+    } catch {
       alert('Error al mostrar la pista. Por favor, intenta de nuevo.')
     }
   }, [])
@@ -627,8 +624,7 @@ export default function Hopper() {
       )
       state.secondaryHintsUsed++
       setHintsTotal(state.hintsUsed + state.secondaryHintsUsed)
-    } catch (e) {
-      console.error('Error al mostrar la pista secundaria:', e)
+    } catch {
       alert('Error al mostrar la pista secundaria. Por favor, intenta de nuevo.')
     }
   }, [])
