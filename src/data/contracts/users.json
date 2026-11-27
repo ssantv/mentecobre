@@ -2,7 +2,7 @@
   {
     "id": 1,
     "username": "traductor",
-    "first_name": "Traductora",
+    "first_name": "Kokerlii",
     "last_name": "",
     "email": "traductora@mentecobre.dev",
     "groups": [
@@ -16,7 +16,7 @@
     ],
     "status": "activo",
     "status_changed_at": null,
-    "copper_username": "Traductora",
+    "copper_username": "Kokerlii",
     "last_copper_update": "2026-11-10",
     "date_joined": "2021-03-15",
     "is_active": true,
@@ -29,7 +29,7 @@
   {
     "id": 10,
     "username": "revisor",
-    "first_name": "Revisor",
+    "first_name": "Sak",
     "last_name": "",
     "email": "revisor@mentecobre.dev",
     "groups": [
@@ -42,7 +42,7 @@
     ],
     "status": "activo",
     "status_changed_at": null,
-    "copper_username": "Revisor",
+    "copper_username": "Sak",
     "last_copper_update": "2026-10-01",
     "date_joined": "2022-08-02",
     "is_active": true,
@@ -55,7 +55,7 @@
   {
     "id": 3,
     "username": "admin",
-    "first_name": "Admin",
+    "first_name": "Cotónica",
     "last_name": "",
     "email": "admin@mentecobre.dev",
     "groups": [
@@ -69,7 +69,7 @@
     ],
     "status": "activo",
     "status_changed_at": null,
-    "copper_username": "Admin",
+    "copper_username": "Cotónica",
     "last_copper_update": "2026-07-20",
     "date_joined": "2021-01-10",
     "is_active": true,

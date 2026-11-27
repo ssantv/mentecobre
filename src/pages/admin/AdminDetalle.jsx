@@ -13,8 +13,6 @@ const EJEMPLOS_CAMPO = {
   nombre: 'Scadrial',
   titleEn: 'Investiture',
   titleEs: 'Investidura',
-  universeId: '5',
-  universe: '5',
   urlEn: 'https://coppermind.net/wiki/Investiture',
   urlEs: 'https://es.coppermind.net/wiki/Investidura',
   articulo: 'Elantris',
@@ -28,13 +26,6 @@ const EJEMPLOS_CAMPO = {
   contexto: 'Armaduras esquirladas',
   enUrl: 'https://coppermind.net/wiki/Special:FilePath/Shardplate.jpeg',
   tipo: 'imagen_con_texto',
-  estado: 'nuevo',
-  type: 'LIB',
-  priority: '2',
-  status: 'activo',
-  rol: 'colaborador',
-  imageId: '71',
-  creado_en: '2026-09-01',
 }
 
 function opcionesDe(campo, extras) {
